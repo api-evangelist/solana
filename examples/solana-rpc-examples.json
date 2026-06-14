@@ -1,0 +1,621 @@
+{
+  "title": "Solana JSON-RPC API Examples",
+  "description": "Request/response examples for all major Solana RPC methods grouped by category.",
+  "version": "2.0",
+  "baseUrls": {
+    "mainnet": "https://api.mainnet.solana.com",
+    "devnet": "https://api.devnet.solana.com",
+    "testnet": "https://api.testnet.solana.com"
+  },
+  "examples": {
+    "accounts": [
+      {
+        "name": "getAccountInfo",
+        "description": "Get full account info for a given public key",
+        "docs": "https://solana.com/docs/rpc/http/getaccountinfo",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getAccountInfo",
+            "params": [
+              "vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg",
+              {"encoding": "base58"}
+            ]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": {
+                "data": ["", "base58"],
+                "executable": false,
+                "lamports": 88849814690250,
+                "owner": "11111111111111111111111111111111",
+                "rentEpoch": 18446744073709551615,
+                "space": 0
+              }
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getBalance",
+        "description": "Get the lamport balance of an account",
+        "docs": "https://solana.com/docs/rpc/http/getbalance",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getBalance",
+            "params": ["83astBRguLMdt2h5U1Tpdq5tjFoJ6noeGwaY3mDLVcri"]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": 5000000000
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getMinimumBalanceForRentExemption",
+        "description": "Get the minimum lamports required for rent exemption for a given data size",
+        "docs": "https://solana.com/docs/rpc/http/getminimumbalanceforrentexemption",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getMinimumBalanceForRentExemption",
+            "params": [50]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": 1238880,
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getMultipleAccounts",
+        "description": "Get account info for multiple public keys in one request",
+        "docs": "https://solana.com/docs/rpc/http/getmultipleaccounts",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getMultipleAccounts",
+            "params": [
+              [
+                "vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg",
+                "4fYNw3dojWmQ4dXtSGE9epjRGy9pFSx62YypT7avPYvA"
+              ],
+              {"encoding": "base58"}
+            ]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": [
+                {
+                  "data": ["", "base58"],
+                  "executable": false,
+                  "lamports": 88849814690250,
+                  "owner": "11111111111111111111111111111111",
+                  "rentEpoch": 18446744073709551615
+                },
+                {
+                  "data": ["", "base58"],
+                  "executable": false,
+                  "lamports": 1000000,
+                  "owner": "11111111111111111111111111111111",
+                  "rentEpoch": 18446744073709551615
+                }
+              ]
+            },
+            "id": 1
+          }
+        }
+      }
+    ],
+    "tokens": [
+      {
+        "name": "getTokenAccountBalance",
+        "description": "Get the SPL Token balance for a token account",
+        "docs": "https://solana.com/docs/rpc/http/gettokenaccountbalance",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getTokenAccountBalance",
+            "params": ["7fUAJdStEuGbc3sM84cKRL6yYaaSstyLSU4ve5oovLS7"]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": {
+                "amount": "9864",
+                "decimals": 2,
+                "uiAmount": 98.64,
+                "uiAmountString": "98.64"
+              }
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getTokenSupply",
+        "description": "Get the total supply of an SPL Token mint",
+        "docs": "https://solana.com/docs/rpc/http/gettokensupply",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getTokenSupply",
+            "params": ["3wyAj7Rt1TWVPZVteFJPLa26JmLvdb1CAKEFZm3NY75E"]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": {
+                "amount": "100000000000000",
+                "decimals": 6,
+                "uiAmount": 100000000.0,
+                "uiAmountString": "100000000"
+              }
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getTokenAccountsByOwner",
+        "description": "Get all SPL Token accounts owned by a wallet address",
+        "docs": "https://solana.com/docs/rpc/http/gettokenaccountsbyowner",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getTokenAccountsByOwner",
+            "params": [
+              "4Qkev8aNZcqFNSRkXnKKPZo2hEMUzCjCJvzE3YHWoGg",
+              {"programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"},
+              {"encoding": "jsonParsed"}
+            ]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": [
+                {
+                  "account": {
+                    "data": {
+                      "parsed": {
+                        "info": {
+                          "isNative": false,
+                          "mint": "3wyAj7Rt1TWVPZVteFJPLa26JmLvdb1CAKEFZm3NY75E",
+                          "owner": "4Qkev8aNZcqFNSRkXnKKPZo2hEMUzCjCJvzE3YHWoGg",
+                          "state": "initialized",
+                          "tokenAmount": {
+                            "amount": "419",
+                            "decimals": 2,
+                            "uiAmount": 4.19,
+                            "uiAmountString": "4.19"
+                          }
+                        },
+                        "type": "account"
+                      },
+                      "program": "spl-token",
+                      "space": 165
+                    },
+                    "executable": false,
+                    "lamports": 2039280,
+                    "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+                    "rentEpoch": 18446744073709551615
+                  },
+                  "pubkey": "7fUAJdStEuGbc3sM84cKRL6yYaaSstyLSU4ve5oovLS7"
+                }
+              ]
+            },
+            "id": 1
+          }
+        }
+      }
+    ],
+    "transactions": [
+      {
+        "name": "getLatestBlockhash",
+        "description": "Get the latest blockhash required for building a transaction",
+        "docs": "https://solana.com/docs/rpc/http/getlatestblockhash",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getLatestBlockhash",
+            "params": [{"commitment": "processed"}]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": {
+                "blockhash": "J7rBdtiSetEfpFike1CT9hXP3icWT9QKe8BKA7qJt6eZ",
+                "lastValidBlockHeight": 282295809
+              }
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getSignaturesForAddress",
+        "description": "Get recent transaction signatures for an address",
+        "docs": "https://solana.com/docs/rpc/http/getsignaturesforaddress",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getSignaturesForAddress",
+            "params": [
+              "Vote111111111111111111111111111111111111111p8bN",
+              {"limit": 3}
+            ]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": [
+              {
+                "blockTime": 1725564921,
+                "confirmationStatus": "finalized",
+                "err": null,
+                "memo": null,
+                "signature": "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW",
+                "slot": 341197000
+              },
+              {
+                "blockTime": 1725564919,
+                "confirmationStatus": "finalized",
+                "err": null,
+                "memo": null,
+                "signature": "5j7s6NiJS3JAkvgkoc18WVAsiSaci2pxB2A6ueCJP4tprA2TFg9wSyTLeYouxPBJEMzJinENTkpA52YStRW5Dia7",
+                "slot": 341196999
+              }
+            ],
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getRecentPrioritizationFees",
+        "description": "Get recent prioritization fees for optimizing transaction landing",
+        "docs": "https://solana.com/docs/rpc/http/getrecentprioritizationfees",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getRecentPrioritizationFees",
+            "params": [
+              ["CxELquR1gPP8wHe33gZ4QxqGB3sZ9RSwsJ2KshVewkFY"]
+            ]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": [
+              {"prioritizationFee": 0, "slot": 348125},
+              {"prioritizationFee": 1000, "slot": 348126},
+              {"prioritizationFee": 500, "slot": 348127}
+            ],
+            "id": 1
+          }
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "name": "getBlockHeight",
+        "description": "Get the current block height of the node",
+        "docs": "https://solana.com/docs/rpc/http/getblockheight",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getBlockHeight",
+            "params": [{"commitment": "confirmed"}]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": 1233,
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getSlot",
+        "description": "Get the current slot",
+        "docs": "https://solana.com/docs/rpc/http/getslot",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getSlot",
+            "params": []
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": 341197053,
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getRecentPerformanceSamples",
+        "description": "Get recent TPS and performance data",
+        "docs": "https://solana.com/docs/rpc/http/getrecentperformancesamples",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getRecentPerformanceSamples",
+            "params": [2]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": [
+              {
+                "numNonVoteTransactions": 2290,
+                "numSlots": 126,
+                "numTransactions": 126974,
+                "samplePeriodSecs": 60,
+                "slot": 341197050
+              },
+              {
+                "numNonVoteTransactions": 2194,
+                "numSlots": 125,
+                "numTransactions": 122324,
+                "samplePeriodSecs": 60,
+                "slot": 341196924
+              }
+            ],
+            "id": 1
+          }
+        }
+      }
+    ],
+    "cluster": [
+      {
+        "name": "getHealth",
+        "description": "Check whether the node is healthy and in sync with the cluster",
+        "docs": "https://solana.com/docs/rpc/http/gethealth",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getHealth",
+            "params": []
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": "ok",
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getEpochInfo",
+        "description": "Get current epoch info including slot and block height",
+        "docs": "https://solana.com/docs/rpc/http/getepochinfo",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getEpochInfo",
+            "params": []
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "absoluteSlot": 166598,
+              "blockHeight": 166500,
+              "epoch": 27,
+              "slotIndex": 2790,
+              "slotsInEpoch": 8192,
+              "transactionCount": 22661093
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getVersion",
+        "description": "Get the current software version running on the node",
+        "docs": "https://solana.com/docs/rpc/http/getversion",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getVersion",
+            "params": []
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "feature-set": 2891131721,
+              "solana-core": "2.0.15"
+            },
+            "id": 1
+          }
+        }
+      }
+    ],
+    "economics": [
+      {
+        "name": "getInflationGovernor",
+        "description": "Get current inflation parameters",
+        "docs": "https://solana.com/docs/rpc/http/getinflationgovernor",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getInflationGovernor",
+            "params": []
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "foundation": 0.05,
+              "foundationTerm": 7.0,
+              "initial": 0.08,
+              "taper": 0.15,
+              "terminal": 0.015
+            },
+            "id": 1
+          }
+        }
+      },
+      {
+        "name": "getSupply",
+        "description": "Get current circulating and total SOL supply",
+        "docs": "https://solana.com/docs/rpc/http/getsupply",
+        "request": {
+          "method": "POST",
+          "url": "https://api.mainnet.solana.com",
+          "headers": {"Content-Type": "application/json"},
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "getSupply",
+            "params": [{"excludeNonCirculatingAccountsList": false}]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "result": {
+              "context": {"apiVersion": "2.0.15", "slot": 341197053},
+              "value": {
+                "circulating": 593432524264729568,
+                "nonCirculating": 1000000000000000000,
+                "nonCirculatingAccounts": [
+                  "SysvarC1ock11111111111111111111111111111111"
+                ],
+                "total": 1593432524264729568
+              }
+            },
+            "id": 1
+          }
+        }
+      }
+    ]
+  }
+}

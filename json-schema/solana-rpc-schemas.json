@@ -1,0 +1,573 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/solana/json-schema/solana-rpc-schemas.json",
+  "title": "Solana JSON-RPC API Schemas",
+  "description": "JSON Schema definitions for the Solana JSON-RPC 2.0 API covering accounts, tokens, transactions, blocks, cluster, and economics methods.",
+  "$defs": {
+    "JsonRpcRequest": {
+      "$id": "#JsonRpcRequest",
+      "type": "object",
+      "title": "JSON-RPC 2.0 Request",
+      "description": "A JSON-RPC 2.0 request envelope for Solana RPC methods.",
+      "required": ["jsonrpc", "id", "method"],
+      "properties": {
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0",
+          "description": "JSON-RPC protocol version, must be '2.0'"
+        },
+        "id": {
+          "oneOf": [
+            {"type": "integer"},
+            {"type": "string"},
+            {"type": "null"}
+          ],
+          "description": "Client-provided identifier echoed in the response"
+        },
+        "method": {
+          "type": "string",
+          "description": "The Solana RPC method name to invoke",
+          "enum": [
+            "getAccountInfo",
+            "getBalance",
+            "getLargestAccounts",
+            "getMinimumBalanceForRentExemption",
+            "getMultipleAccounts",
+            "getProgramAccounts",
+            "getTokenAccountBalance",
+            "getTokenAccountsByDelegate",
+            "getTokenAccountsByOwner",
+            "getTokenLargestAccounts",
+            "getTokenSupply",
+            "sendTransaction",
+            "simulateTransaction",
+            "getTransaction",
+            "getSignaturesForAddress",
+            "getSignatureStatuses",
+            "getFeeForMessage",
+            "getLatestBlockhash",
+            "isBlockhashValid",
+            "getRecentPrioritizationFees",
+            "getTransactionCount",
+            "requestAirdrop",
+            "getBlock",
+            "getBlockCommitment",
+            "getBlockHeight",
+            "getBlockProduction",
+            "getBlocks",
+            "getBlocksWithLimit",
+            "getBlockTime",
+            "getFirstAvailableBlock",
+            "getRecentPerformanceSamples",
+            "minimumLedgerSlot",
+            "getClusterNodes",
+            "getEpochInfo",
+            "getEpochSchedule",
+            "getGenesisHash",
+            "getHealth",
+            "getHighestSnapshotSlot",
+            "getIdentity",
+            "getLeaderSchedule",
+            "getMaxRetransmitSlot",
+            "getMaxShredInsertSlot",
+            "getSlot",
+            "getSlotLeader",
+            "getSlotLeaders",
+            "getVersion",
+            "getVoteAccounts",
+            "getInflationGovernor",
+            "getInflationRate",
+            "getInflationReward",
+            "getStakeMinimumDelegation",
+            "getSupply"
+          ]
+        },
+        "params": {
+          "type": "array",
+          "description": "Method-specific parameters",
+          "items": {}
+        }
+      },
+      "additionalProperties": false
+    },
+    "JsonRpcResponse": {
+      "$id": "#JsonRpcResponse",
+      "type": "object",
+      "title": "JSON-RPC 2.0 Response",
+      "description": "A JSON-RPC 2.0 response envelope. Either 'result' or 'error' will be present, not both.",
+      "required": ["jsonrpc", "id"],
+      "properties": {
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "oneOf": [
+            {"type": "integer"},
+            {"type": "string"},
+            {"type": "null"}
+          ]
+        },
+        "result": {
+          "description": "The result of the method call (present on success)"
+        },
+        "error": {
+          "$ref": "#/$defs/JsonRpcError"
+        }
+      }
+    },
+    "JsonRpcError": {
+      "$id": "#JsonRpcError",
+      "type": "object",
+      "title": "JSON-RPC Error",
+      "description": "Error object returned when a JSON-RPC request fails.",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "Error code. Common codes: -32700 (Parse error), -32600 (Invalid Request), -32601 (Method not found), -32602 (Invalid params), -32603 (Internal error)"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error description"
+        },
+        "data": {
+          "description": "Additional error information specific to the error"
+        }
+      }
+    },
+    "Commitment": {
+      "$id": "#Commitment",
+      "type": "string",
+      "title": "Commitment Level",
+      "description": "The level of commitment desired for the query. Higher commitment means more certainty but may be slower.",
+      "enum": ["finalized", "confirmed", "processed"],
+      "x-descriptions": {
+        "finalized": "The node will query the most recent block confirmed by supermajority of the cluster as having reached maximum lockout",
+        "confirmed": "The node will query the most recent block that has been voted on by supermajority of the cluster",
+        "processed": "The node will query its most recent block (may not be part of the cluster)"
+      }
+    },
+    "Encoding": {
+      "$id": "#Encoding",
+      "type": "string",
+      "title": "Account Data Encoding",
+      "description": "Encoding format for account data fields.",
+      "enum": ["base58", "base64", "base64+zstd", "jsonParsed"]
+    },
+    "PublicKey": {
+      "$id": "#PublicKey",
+      "type": "string",
+      "title": "Solana Public Key",
+      "description": "A base58-encoded 32-byte Solana public key (address).",
+      "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
+      "examples": [
+        "vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg",
+        "83astBRguLMdt2h5U1Tpdq5tjFoJ6noeGwaY3mDLVcri"
+      ]
+    },
+    "TransactionSignature": {
+      "$id": "#TransactionSignature",
+      "type": "string",
+      "title": "Transaction Signature",
+      "description": "A base58-encoded 64-byte Ed25519 transaction signature.",
+      "pattern": "^[1-9A-HJ-NP-Za-km-z]{86,88}$",
+      "examples": [
+        "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW"
+      ]
+    },
+    "Blockhash": {
+      "$id": "#Blockhash",
+      "type": "string",
+      "title": "Blockhash",
+      "description": "A base58-encoded SHA-256 hash of a recent block used as a transaction nonce.",
+      "pattern": "^[1-9A-HJ-NP-Za-km-z]{43,44}$"
+    },
+    "Lamports": {
+      "$id": "#Lamports",
+      "type": "integer",
+      "title": "Lamports",
+      "description": "An amount of SOL denominated in lamports. 1 SOL = 1,000,000,000 lamports.",
+      "minimum": 0,
+      "examples": [1000000000]
+    },
+    "Slot": {
+      "$id": "#Slot",
+      "type": "integer",
+      "title": "Slot",
+      "description": "A slot number in the Solana ledger. Slots are discrete time periods approximately 400ms apart.",
+      "minimum": 0
+    },
+    "Epoch": {
+      "$id": "#Epoch",
+      "type": "integer",
+      "title": "Epoch",
+      "description": "An epoch number representing a fixed period of approximately 2 days of slots.",
+      "minimum": 0
+    },
+    "UnixTimestamp": {
+      "$id": "#UnixTimestamp",
+      "type": "integer",
+      "title": "Unix Timestamp",
+      "description": "A Unix timestamp in seconds since the Unix epoch (January 1, 1970 UTC).",
+      "examples": [1625247600]
+    },
+    "RpcContext": {
+      "$id": "#RpcContext",
+      "type": "object",
+      "title": "RPC Context",
+      "description": "Contextual metadata included in many Solana RPC responses.",
+      "required": ["slot"],
+      "properties": {
+        "slot": {
+          "$ref": "#/$defs/Slot",
+          "description": "The slot at which the operation was evaluated"
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "The node's API version string"
+        }
+      }
+    },
+    "AccountInfo": {
+      "$id": "#AccountInfo",
+      "type": "object",
+      "title": "Account Info",
+      "description": "Account state and metadata for a Solana account.",
+      "required": ["lamports", "owner", "executable", "rentEpoch"],
+      "properties": {
+        "lamports": {
+          "$ref": "#/$defs/Lamports",
+          "description": "Number of lamports assigned to this account"
+        },
+        "owner": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "The program that owns this account"
+        },
+        "data": {
+          "description": "Account data - either a two-element array [data, encoding] or a parsed object",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {"type": "string"},
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {"type": "object"},
+            {"type": "string"}
+          ]
+        },
+        "executable": {
+          "type": "boolean",
+          "description": "Whether this account contains a compiled program (is strictly read-only)"
+        },
+        "rentEpoch": {
+          "$ref": "#/$defs/Epoch",
+          "description": "The epoch at which this account will next owe rent"
+        },
+        "space": {
+          "type": "integer",
+          "description": "The data size of the account in bytes"
+        }
+      }
+    },
+    "TokenAmount": {
+      "$id": "#TokenAmount",
+      "type": "object",
+      "title": "Token Amount",
+      "description": "SPL Token amount with both raw and UI representations.",
+      "required": ["amount", "decimals", "uiAmountString"],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Raw token amount as a string (no decimal adjustment)",
+          "pattern": "^[0-9]+$"
+        },
+        "decimals": {
+          "type": "integer",
+          "description": "Number of decimal places configured for the token mint",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "uiAmount": {
+          "type": ["number", "null"],
+          "description": "Token amount as a float using mint-prescribed decimals (DEPRECATED, may be null)"
+        },
+        "uiAmountString": {
+          "type": "string",
+          "description": "Token amount as a string using mint-prescribed decimals (preferred)"
+        }
+      }
+    },
+    "TransactionMeta": {
+      "$id": "#TransactionMeta",
+      "type": "object",
+      "title": "Transaction Metadata",
+      "description": "Metadata about a processed transaction.",
+      "properties": {
+        "err": {
+          "description": "Error if transaction failed, null if it succeeded"
+        },
+        "fee": {
+          "$ref": "#/$defs/Lamports",
+          "description": "Fee in lamports charged for this transaction"
+        },
+        "preBalances": {
+          "type": "array",
+          "description": "Account balances before the transaction was processed",
+          "items": {"$ref": "#/$defs/Lamports"}
+        },
+        "postBalances": {
+          "type": "array",
+          "description": "Account balances after the transaction was processed",
+          "items": {"$ref": "#/$defs/Lamports"}
+        },
+        "innerInstructions": {
+          "type": ["array", "null"],
+          "description": "List of inner instructions emitted during transaction processing"
+        },
+        "preTokenBalances": {
+          "type": ["array", "null"],
+          "description": "Token balances of all token accounts before the transaction was processed",
+          "items": {"$ref": "#/$defs/TransactionTokenBalance"}
+        },
+        "postTokenBalances": {
+          "type": ["array", "null"],
+          "description": "Token balances of all token accounts after the transaction was processed",
+          "items": {"$ref": "#/$defs/TransactionTokenBalance"}
+        },
+        "logMessages": {
+          "type": ["array", "null"],
+          "description": "Log messages from transaction instruction execution",
+          "items": {"type": "string"}
+        },
+        "computeUnitsConsumed": {
+          "type": "integer",
+          "description": "Total number of compute units consumed during transaction processing"
+        },
+        "loadedAddresses": {
+          "type": "object",
+          "description": "Addresses loaded from address lookup tables"
+        },
+        "returnData": {
+          "type": ["object", "null"],
+          "description": "Return data set during transaction processing by the last instruction"
+        }
+      }
+    },
+    "TransactionTokenBalance": {
+      "$id": "#TransactionTokenBalance",
+      "type": "object",
+      "title": "Transaction Token Balance",
+      "description": "Token balance snapshot associated with a transaction.",
+      "properties": {
+        "accountIndex": {
+          "type": "integer",
+          "description": "Index of the account in the transaction's account list"
+        },
+        "mint": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "Public key of the token mint"
+        },
+        "owner": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "Public key of the token account owner"
+        },
+        "programId": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "Public key of the token program that owns the account"
+        },
+        "uiTokenAmount": {
+          "$ref": "#/$defs/TokenAmount"
+        }
+      }
+    },
+    "SignatureStatus": {
+      "$id": "#SignatureStatus",
+      "type": "object",
+      "title": "Signature Status",
+      "description": "Confirmation status of a transaction signature.",
+      "properties": {
+        "slot": {
+          "$ref": "#/$defs/Slot",
+          "description": "The slot the transaction was processed in"
+        },
+        "confirmations": {
+          "type": ["integer", "null"],
+          "description": "Number of blocks since signature confirmation; null if the block is rooted"
+        },
+        "err": {
+          "description": "Error if transaction failed, null if it succeeded"
+        },
+        "confirmationStatus": {
+          "$ref": "#/$defs/Commitment",
+          "description": "The transaction's cluster confirmation status"
+        }
+      }
+    },
+    "VoteAccount": {
+      "$id": "#VoteAccount",
+      "type": "object",
+      "title": "Vote Account",
+      "description": "Information about a validator's voting account and stake.",
+      "required": ["votePubkey", "nodePubkey", "activatedStake", "epochVoteAccount", "commission"],
+      "properties": {
+        "votePubkey": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "Vote account address"
+        },
+        "nodePubkey": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "Validator identity address"
+        },
+        "activatedStake": {
+          "$ref": "#/$defs/Lamports",
+          "description": "Stake delegated to this vote account, in lamports"
+        },
+        "epochVoteAccount": {
+          "type": "boolean",
+          "description": "Whether the vote account is staked for this epoch"
+        },
+        "commission": {
+          "type": "integer",
+          "description": "Percentage (0-100) of rewards payout owed to the vote account",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "lastVote": {
+          "$ref": "#/$defs/Slot",
+          "description": "Most recent slot voted on by this vote account"
+        },
+        "epochCredits": {
+          "type": "array",
+          "description": "History of epoch credits: [epoch, credits, previousCredits]",
+          "items": {
+            "type": "array",
+            "items": {"type": "integer"},
+            "minItems": 3,
+            "maxItems": 3
+          }
+        },
+        "rootSlot": {
+          "oneOf": [
+            {"$ref": "#/$defs/Slot"},
+            {"type": "null"}
+          ],
+          "description": "Current root slot for this vote account"
+        }
+      }
+    },
+    "ClusterNode": {
+      "$id": "#ClusterNode",
+      "type": "object",
+      "title": "Cluster Node",
+      "description": "Information about a node participating in the Solana cluster.",
+      "required": ["pubkey"],
+      "properties": {
+        "pubkey": {
+          "$ref": "#/$defs/PublicKey",
+          "description": "Node public key"
+        },
+        "gossip": {
+          "type": ["string", "null"],
+          "description": "Gossip network address (host:port)"
+        },
+        "tpu": {
+          "type": ["string", "null"],
+          "description": "TPU network address for submitting transactions (host:port)"
+        },
+        "rpc": {
+          "type": ["string", "null"],
+          "description": "JSON-RPC network address (host:port or null if not enabled)"
+        },
+        "version": {
+          "type": ["string", "null"],
+          "description": "Software version of the node"
+        },
+        "featureSet": {
+          "type": ["integer", "null"],
+          "description": "Unique identifier of the node's feature set"
+        },
+        "shredVersion": {
+          "type": ["integer", "null"],
+          "description": "The shred version the node has been configured to use"
+        }
+      }
+    },
+    "EpochInfo": {
+      "$id": "#EpochInfo",
+      "type": "object",
+      "title": "Epoch Info",
+      "description": "Information about the current epoch and slot.",
+      "required": ["absoluteSlot", "blockHeight", "epoch", "slotIndex", "slotsInEpoch"],
+      "properties": {
+        "absoluteSlot": {
+          "$ref": "#/$defs/Slot",
+          "description": "Current slot (absolute)"
+        },
+        "blockHeight": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current block height"
+        },
+        "epoch": {
+          "$ref": "#/$defs/Epoch",
+          "description": "Current epoch"
+        },
+        "slotIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current slot index within the current epoch"
+        },
+        "slotsInEpoch": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of slots in the current epoch"
+        },
+        "transactionCount": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Total number of transactions processed without error since genesis"
+        }
+      }
+    },
+    "InflationGovernor": {
+      "$id": "#InflationGovernor",
+      "type": "object",
+      "title": "Inflation Governor",
+      "description": "Inflation schedule parameters for the Solana network.",
+      "required": ["initial", "terminal", "taper", "foundation", "foundationTerm"],
+      "properties": {
+        "initial": {
+          "type": "number",
+          "description": "Initial inflation percentage from time 0",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "terminal": {
+          "type": "number",
+          "description": "Terminal inflation percentage",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "taper": {
+          "type": "number",
+          "description": "Rate per year at which inflation is lowered until terminal",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "foundation": {
+          "type": "number",
+          "description": "Percentage of total inflation allocated to the foundation",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "foundationTerm": {
+          "type": "number",
+          "description": "Duration of foundation pool inflation in years",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

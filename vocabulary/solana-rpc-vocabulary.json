@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/solana/vocabulary/solana-rpc-vocabulary.json",
+  "title": "Solana RPC API Vocabulary",
+  "description": "Domain vocabulary for the Solana JSON-RPC API covering blockchain, consensus, account model, token, and staking concepts.",
+  "terms": [
+    {
+      "term": "Lamport",
+      "definition": "The smallest unit of SOL cryptocurrency, named after Leslie Lamport. 1 SOL = 1,000,000,000 (one billion) lamports. All balances and fees on Solana are expressed in lamports.",
+      "category": "Currency",
+      "seeAlso": ["SOL", "Rent"]
+    },
+    {
+      "term": "SOL",
+      "definition": "The native cryptocurrency of the Solana blockchain. Staked by validators to participate in consensus, used to pay transaction fees, and used to pay rent for on-chain storage.",
+      "category": "Currency",
+      "seeAlso": ["Lamport", "Staking"]
+    },
+    {
+      "term": "Account",
+      "definition": "The fundamental data storage unit on Solana. Every piece of data on the blockchain lives in an account. Accounts have an owner program, a lamport balance, and arbitrary data. Accounts are addressed by their public key.",
+      "category": "Account Model",
+      "seeAlso": ["PublicKey", "Owner", "Rent", "Executable"]
+    },
+    {
+      "term": "PublicKey",
+      "definition": "A 32-byte Ed25519 public key that serves as an account's unique address on the Solana blockchain. Typically represented as a base58-encoded string of 32–44 characters.",
+      "category": "Cryptography",
+      "seeAlso": ["Account", "Keypair"]
+    },
+    {
+      "term": "Keypair",
+      "definition": "An Ed25519 public/private key pair used to sign transactions and control accounts. The public key is the account address; the private key is used to authorize transactions.",
+      "category": "Cryptography",
+      "seeAlso": ["PublicKey", "Signature"]
+    },
+    {
+      "term": "Signature",
+      "definition": "A 64-byte Ed25519 digital signature created by signing a transaction message with a private key. Also used as a unique transaction identifier (transaction ID). Base58-encoded as 87-88 characters.",
+      "category": "Cryptography",
+      "seeAlso": ["Transaction", "PublicKey"]
+    },
+    {
+      "term": "Owner",
+      "definition": "The program that owns an account and has permission to modify its data. Only the owner program can debit lamports from or modify the data of an account. System accounts are owned by the System Program.",
+      "category": "Account Model",
+      "seeAlso": ["Program", "Account"]
+    },
+    {
+      "term": "Program",
+      "definition": "An executable account on Solana that contains compiled BPF (Berkeley Packet Filter) bytecode. Programs are stateless and operate on accounts passed to them during instruction execution.",
+      "category": "Programming Model",
+      "seeAlso": ["Instruction", "Account", "Executable"]
+    },
+    {
+      "term": "Instruction",
+      "definition": "The smallest unit of execution on Solana. An instruction specifies a program to invoke, a list of accounts it may read/write, and input data passed to the program.",
+      "category": "Programming Model",
+      "seeAlso": ["Transaction", "Program"]
+    },
+    {
+      "term": "Transaction",
+      "definition": "An atomic unit of execution on Solana consisting of one or more instructions, a recent blockhash, and signatures from all required signers. Transactions either fully succeed or fully fail.",
+      "category": "Transaction Model",
+      "seeAlso": ["Instruction", "Blockhash", "Signature", "Fee"]
+    },
+    {
+      "term": "Slot",
+      "definition": "A discrete time period (~400ms) during which one validator (the leader) produces a block. The slot number is a monotonically increasing integer that identifies a position in the ledger timeline.",
+      "category": "Consensus",
+      "seeAlso": ["Block", "Epoch", "Leader"]
+    },
+    {
+      "term": "Block",
+      "definition": "A collection of transactions produced by the slot leader in a given slot. A confirmed block has been voted on by a supermajority of stake-weighted validators.",
+      "category": "Consensus",
+      "seeAlso": ["Slot", "Blockhash", "Transaction"]
+    },
+    {
+      "term": "Blockhash",
+      "definition": "A SHA-256 hash of a recent block's state, used as a transaction nonce to prevent replay attacks. Transactions must reference a recent blockhash (within ~150 slots / ~60 seconds) to be accepted.",
+      "category": "Transaction Model",
+      "seeAlso": ["Block", "Transaction", "LastValidBlockHeight"]
+    },
+    {
+      "term": "Epoch",
+      "definition": "A fixed number of slots (~432,000 slots, approximately 2 days) that forms the scheduling unit for staking rewards, leader schedule computation, and inflation distribution.",
+      "category": "Consensus",
+      "seeAlso": ["Slot", "LeaderSchedule", "Staking", "Inflation"]
+    },
+    {
+      "term": "Commitment",
+      "definition": "The level of certainty that a transaction or account state is final. Three levels: 'processed' (seen by the node), 'confirmed' (voted on by supermajority), 'finalized' (maximum lockout achieved — irreversible).",
+      "category": "Consensus",
+      "validValues": ["finalized", "confirmed", "processed"],
+      "seeAlso": ["Block", "Slot"]
+    },
+    {
+      "term": "Rent",
+      "definition": "A per-byte-per-epoch fee charged to accounts for occupying on-chain storage. Accounts with sufficient lamports (rent-exempt minimum) are exempt from rent and persist indefinitely. Below the minimum, accounts may be reclaimed.",
+      "category": "Account Model",
+      "seeAlso": ["RentExempt", "Lamport", "Account"]
+    },
+    {
+      "term": "RentExempt",
+      "definition": "The state of an account that holds enough lamports to cover two years of rent, making it exempt from rent collection and ensuring it persists on-chain. New accounts should always be created rent-exempt.",
+      "category": "Account Model",
+      "seeAlso": ["Rent", "Lamport", "getMinimumBalanceForRentExemption"]
+    },
+    {
+      "term": "Executable",
+      "definition": "A boolean flag on an account indicating it contains an on-chain program. Executable accounts are immutable (data cannot be changed) and can be invoked via instructions.",
+      "category": "Programming Model",
+      "seeAlso": ["Program", "Account"]
+    },
+    {
+      "term": "Leader",
+      "definition": "The validator designated to produce blocks in a given slot. The leader schedule determines which validator is the leader for each slot in an epoch.",
+      "category": "Consensus",
+      "seeAlso": ["Validator", "LeaderSchedule", "Slot"]
+    },
+    {
+      "term": "Validator",
+      "definition": "A network participant that processes transactions, votes on blocks, and maintains a copy of the ledger. Validators stake SOL to participate in consensus and earn inflation rewards.",
+      "category": "Consensus",
+      "seeAlso": ["VoteAccount", "Staking", "Leader"]
+    },
+    {
+      "term": "VoteAccount",
+      "definition": "A special account used by validators to submit their votes on blocks. Vote accounts track a validator's staking history, commission rate, and epoch credits used to distribute staking rewards.",
+      "category": "Consensus",
+      "seeAlso": ["Validator", "Staking", "Commission"]
+    },
+    {
+      "term": "Staking",
+      "definition": "The process of delegating SOL to a validator's vote account to participate in Solana's Proof-of-Stake consensus. Stakers earn a portion of inflation rewards based on their delegated stake.",
+      "category": "Economics",
+      "seeAlso": ["VoteAccount", "Delegation", "Inflation", "Commission"]
+    },
+    {
+      "term": "Delegation",
+      "definition": "The act of assigning stake (SOL) to a particular validator's vote account. Delegating stake helps secure the network and earns the delegator a share of the validator's inflation rewards.",
+      "category": "Economics",
+      "seeAlso": ["Staking", "VoteAccount", "StakeAccount"]
+    },
+    {
+      "term": "Commission",
+      "definition": "The percentage of staking rewards that a validator keeps before distributing the remainder to delegators. Expressed as an integer 0–100.",
+      "category": "Economics",
+      "seeAlso": ["VoteAccount", "Staking", "Inflation"]
+    },
+    {
+      "term": "Inflation",
+      "definition": "The scheduled issuance of new SOL distributed to validators and stakers as rewards. Solana's inflation rate decreases over time from an initial rate toward a long-term terminal rate.",
+      "category": "Economics",
+      "seeAlso": ["InflationGovernor", "Staking", "SOL"]
+    },
+    {
+      "term": "InflationGovernor",
+      "definition": "The set of parameters (initial, terminal, taper, foundation, foundationTerm) that control the inflation schedule of the Solana network.",
+      "category": "Economics",
+      "seeAlso": ["Inflation", "Foundation"]
+    },
+    {
+      "term": "SPLToken",
+      "definition": "The Solana Program Library's token standard, analogous to ERC-20 on Ethereum. SPL Token defines fungible and non-fungible tokens on Solana via the Token Program (TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA).",
+      "category": "Tokens",
+      "seeAlso": ["Mint", "TokenAccount", "Decimals"]
+    },
+    {
+      "term": "Mint",
+      "definition": "A special account that defines an SPL Token type and holds its metadata (total supply, decimal precision, mint authority, freeze authority). Each unique token has exactly one mint account.",
+      "category": "Tokens",
+      "seeAlso": ["SPLToken", "TokenAccount", "MintAuthority"]
+    },
+    {
+      "term": "TokenAccount",
+      "definition": "An account that holds a balance of a specific SPL Token. Each token account is associated with exactly one mint and one owner. Token accounts are created via the Associated Token Account program.",
+      "category": "Tokens",
+      "seeAlso": ["SPLToken", "Mint", "AssociatedTokenAccount"]
+    },
+    {
+      "term": "Decimals",
+      "definition": "The number of decimal places for an SPL Token. Defines the smallest representable unit. For example, decimals=6 means 1,000,000 raw units = 1 token (like USDC).",
+      "category": "Tokens",
+      "seeAlso": ["SPLToken", "Mint", "TokenAmount"]
+    },
+    {
+      "term": "AssociatedTokenAccount",
+      "definition": "A deterministically derived token account address for a given wallet+mint combination. Simplifies token management by ensuring each wallet has one canonical token account per mint.",
+      "category": "Tokens",
+      "seeAlso": ["TokenAccount", "Mint"]
+    },
+    {
+      "term": "JSON-RPC",
+      "definition": "The remote procedure call protocol used by Solana. The Solana RPC API uses JSON-RPC 2.0 over HTTP POST. All requests are sent to a single endpoint with the method and params in the request body.",
+      "category": "Protocol",
+      "seeAlso": ["HTTPEndpoint", "WebSocket"]
+    },
+    {
+      "term": "WebSocket",
+      "definition": "A persistent bidirectional connection protocol used by Solana for real-time event subscriptions. WebSocket connections allow clients to subscribe to account changes, transaction logs, slot updates, and other blockchain events.",
+      "category": "Protocol",
+      "seeAlso": ["JSON-RPC", "Subscription"]
+    },
+    {
+      "term": "Subscription",
+      "definition": "A persistent notification stream over WebSocket where the server pushes updates to the client when subscribed events occur. Solana supports account, program, logs, signature, block, slot, and vote subscriptions.",
+      "category": "Protocol",
+      "seeAlso": ["WebSocket"]
+    },
+    {
+      "term": "Cluster",
+      "definition": "A collection of validators that collectively maintain a single ledger. Solana operates three public clusters: Mainnet (production), Devnet (testing with free SOL), and Testnet (validator staging).",
+      "category": "Network",
+      "validValues": ["mainnet", "devnet", "testnet"],
+      "seeAlso": ["Validator", "Ledger"]
+    },
+    {
+      "term": "LeaderSchedule",
+      "definition": "A pre-computed mapping of slots to validator public keys that determines which validator is the leader for each slot in an epoch. Computed at the start of each epoch.",
+      "category": "Consensus",
+      "seeAlso": ["Leader", "Epoch", "Slot"]
+    },
+    {
+      "term": "PriorityFee",
+      "definition": "An optional per-compute-unit fee added to a transaction to increase its priority for inclusion in a block. Paid in lamports above the base fee. Used to improve transaction landing during periods of high congestion.",
+      "category": "Transaction Model",
+      "seeAlso": ["ComputeUnits", "Fee", "Transaction"]
+    },
+    {
+      "term": "ComputeUnits",
+      "definition": "A measure of computational resources consumed by a transaction's instructions. Each transaction has a compute budget limit. Programs can request additional compute units via the Compute Budget program.",
+      "category": "Programming Model",
+      "seeAlso": ["PriorityFee", "Program", "Transaction"]
+    },
+    {
+      "term": "Airdrop",
+      "definition": "A distribution of free SOL to a wallet address on Devnet or Testnet for development and testing purposes. Requested via the requestAirdrop RPC method and not available on Mainnet.",
+      "category": "Development",
+      "seeAlso": ["Devnet", "Testnet", "SOL"]
+    },
+    {
+      "term": "Shred",
+      "definition": "The smallest data unit broadcast by validators to propagate blocks across the network. Blocks are broken into shreds for efficient transmission using erasure codes for fault tolerance.",
+      "category": "Consensus",
+      "seeAlso": ["Block", "Validator"]
+    },
+    {
+      "term": "GenesisHash",
+      "definition": "The SHA-256 hash of the genesis block (block 0) of a Solana cluster. Used to uniquely identify and differentiate between Mainnet, Devnet, and Testnet clusters.",
+      "category": "Network",
+      "seeAlso": ["Cluster", "Block"]
+    },
+    {
+      "term": "Snapshot",
+      "definition": "A serialized copy of the ledger state at a particular slot, used by validators to bootstrap quickly without replaying the entire transaction history from genesis.",
+      "category": "Network",
+      "seeAlso": ["Slot", "Ledger", "Validator"]
+    }
+  ]
+}

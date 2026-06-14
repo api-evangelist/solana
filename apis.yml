@@ -34,6 +34,8 @@ apis:
         type: Documentation
       - url: https://solana.com/docs/rpc/http/getaccountinfo
         type: APIReference
+      - url: openapi/solana-rpc-api-openapi.yml
+        type: OpenAPI
     description: >-
       Account-oriented JSON-RPC methods for the Solana blockchain. Provides getAccountInfo to return
       account state and metadata for one address, getBalance for lamport balances, getLargestAccounts for
@@ -226,6 +228,16 @@ common:
     url: plans/solana-plans.yml
   - type: FinOps
     url: finops/solana-finops.yml
+  - type: OpenAPI
+    url: openapi/solana-rpc-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/solana-rpc-schemas.json
+  - type: Examples
+    url: examples/solana-rpc-examples.json
+  - type: Vocabulary
+    url: vocabulary/solana-rpc-vocabulary.json
+  - type: JSONLDContext
+    url: json-ld/solana-rpc-context.jsonld
   - type: UseCases
     data:
       - name: DeFi Application Backend

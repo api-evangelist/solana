@@ -1,0 +1,285 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "sol": "https://solana.com/ontology/rpc#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+
+    "title": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "version": "schema:version",
+
+    "SolanaRpcApi": "sol:SolanaRpcApi",
+    "SolanaCluster": "sol:SolanaCluster",
+    "SolanaAccount": "sol:SolanaAccount",
+    "SolanaTransaction": "sol:SolanaTransaction",
+    "SolanaBlock": "sol:SolanaBlock",
+    "SplToken": "sol:SplToken",
+    "TokenAccount": "sol:TokenAccount",
+    "TokenMint": "sol:TokenMint",
+    "VoteAccount": "sol:VoteAccount",
+    "StakeAccount": "sol:StakeAccount",
+    "ClusterNode": "sol:ClusterNode",
+    "JsonRpcRequest": "sol:JsonRpcRequest",
+    "JsonRpcResponse": "sol:JsonRpcResponse",
+
+    "publicKey": {
+      "@id": "sol:publicKey",
+      "@type": "xsd:string"
+    },
+    "lamports": {
+      "@id": "sol:lamports",
+      "@type": "xsd:integer"
+    },
+    "slot": {
+      "@id": "sol:slot",
+      "@type": "xsd:integer"
+    },
+    "epoch": {
+      "@id": "sol:epoch",
+      "@type": "xsd:integer"
+    },
+    "blockhash": {
+      "@id": "sol:blockhash",
+      "@type": "xsd:string"
+    },
+    "signature": {
+      "@id": "sol:signature",
+      "@type": "xsd:string"
+    },
+    "commitment": {
+      "@id": "sol:commitment",
+      "@type": "xsd:string"
+    },
+    "encoding": {
+      "@id": "sol:encoding",
+      "@type": "xsd:string"
+    },
+    "executable": {
+      "@id": "sol:executable",
+      "@type": "xsd:boolean"
+    },
+    "owner": {
+      "@id": "sol:owner",
+      "@type": "xsd:string"
+    },
+    "rentEpoch": {
+      "@id": "sol:rentEpoch",
+      "@type": "xsd:integer"
+    },
+    "data": {
+      "@id": "sol:data"
+    },
+    "decimals": {
+      "@id": "sol:decimals",
+      "@type": "xsd:integer"
+    },
+    "amount": {
+      "@id": "sol:amount",
+      "@type": "xsd:string"
+    },
+    "uiAmount": {
+      "@id": "sol:uiAmount",
+      "@type": "xsd:decimal"
+    },
+    "uiAmountString": {
+      "@id": "sol:uiAmountString",
+      "@type": "xsd:string"
+    },
+    "mint": {
+      "@id": "sol:mint",
+      "@type": "xsd:string"
+    },
+    "totalSupply": {
+      "@id": "sol:totalSupply",
+      "@type": "xsd:integer"
+    },
+    "circulatingSupply": {
+      "@id": "sol:circulatingSupply",
+      "@type": "xsd:integer"
+    },
+    "nonCirculatingSupply": {
+      "@id": "sol:nonCirculatingSupply",
+      "@type": "xsd:integer"
+    },
+    "blockHeight": {
+      "@id": "sol:blockHeight",
+      "@type": "xsd:integer"
+    },
+    "blockTime": {
+      "@id": "sol:blockTime",
+      "@type": "xsd:integer"
+    },
+    "parentSlot": {
+      "@id": "sol:parentSlot",
+      "@type": "xsd:integer"
+    },
+    "previousBlockhash": {
+      "@id": "sol:previousBlockhash",
+      "@type": "xsd:string"
+    },
+    "fee": {
+      "@id": "sol:fee",
+      "@type": "xsd:integer"
+    },
+    "slotsInEpoch": {
+      "@id": "sol:slotsInEpoch",
+      "@type": "xsd:integer"
+    },
+    "slotIndex": {
+      "@id": "sol:slotIndex",
+      "@type": "xsd:integer"
+    },
+    "transactionCount": {
+      "@id": "sol:transactionCount",
+      "@type": "xsd:integer"
+    },
+    "activatedStake": {
+      "@id": "sol:activatedStake",
+      "@type": "xsd:integer"
+    },
+    "commission": {
+      "@id": "sol:commission",
+      "@type": "xsd:integer"
+    },
+    "lastVote": {
+      "@id": "sol:lastVote",
+      "@type": "xsd:integer"
+    },
+    "votePubkey": {
+      "@id": "sol:votePubkey",
+      "@type": "xsd:string"
+    },
+    "nodePubkey": {
+      "@id": "sol:nodePubkey",
+      "@type": "xsd:string"
+    },
+    "epochVoteAccount": {
+      "@id": "sol:epochVoteAccount",
+      "@type": "xsd:boolean"
+    },
+    "prioritizationFee": {
+      "@id": "sol:prioritizationFee",
+      "@type": "xsd:integer"
+    },
+    "numTransactions": {
+      "@id": "sol:numTransactions",
+      "@type": "xsd:integer"
+    },
+    "numSlots": {
+      "@id": "sol:numSlots",
+      "@type": "xsd:integer"
+    },
+    "samplePeriodSecs": {
+      "@id": "sol:samplePeriodSecs",
+      "@type": "xsd:integer"
+    },
+    "featureSet": {
+      "@id": "sol:featureSet",
+      "@type": "xsd:integer"
+    },
+    "shredVersion": {
+      "@id": "sol:shredVersion",
+      "@type": "xsd:integer"
+    },
+    "gossip": {
+      "@id": "sol:gossip",
+      "@type": "xsd:string"
+    },
+    "tpu": {
+      "@id": "sol:tpu",
+      "@type": "xsd:string"
+    },
+    "rpc": {
+      "@id": "sol:rpc",
+      "@type": "xsd:string"
+    },
+    "initial": {
+      "@id": "sol:inflationInitial",
+      "@type": "xsd:decimal"
+    },
+    "terminal": {
+      "@id": "sol:inflationTerminal",
+      "@type": "xsd:decimal"
+    },
+    "taper": {
+      "@id": "sol:inflationTaper",
+      "@type": "xsd:decimal"
+    },
+    "foundation": {
+      "@id": "sol:inflationFoundation",
+      "@type": "xsd:decimal"
+    },
+    "foundationTerm": {
+      "@id": "sol:inflationFoundationTerm",
+      "@type": "xsd:decimal"
+    },
+    "lastValidBlockHeight": {
+      "@id": "sol:lastValidBlockHeight",
+      "@type": "xsd:integer"
+    },
+    "confirmations": {
+      "@id": "sol:confirmations",
+      "@type": "xsd:integer"
+    },
+    "confirmationStatus": {
+      "@id": "sol:confirmationStatus",
+      "@type": "xsd:string"
+    },
+    "identity": {
+      "@id": "sol:identity",
+      "@type": "xsd:string"
+    },
+    "baseURL": {
+      "@id": "schema:url"
+    },
+    "mainnet": {
+      "@id": "sol:mainnetCluster"
+    },
+    "devnet": {
+      "@id": "sol:devnetCluster"
+    },
+    "testnet": {
+      "@id": "sol:testnetCluster"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://api-evangelist.github.io/solana/",
+      "@type": "SolanaRpcApi",
+      "title": "Solana JSON-RPC API",
+      "description": "Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state.",
+      "version": "2.0",
+      "url": "https://solana.com/docs/rpc",
+      "schema:sameAs": [
+        "https://github.com/solana-labs/solana",
+        "https://github.com/solana-foundation"
+      ]
+    },
+    {
+      "@id": "sol:mainnetCluster",
+      "@type": "SolanaCluster",
+      "title": "Solana Mainnet",
+      "description": "Production Solana cluster for real transactions and value.",
+      "url": "https://api.mainnet.solana.com"
+    },
+    {
+      "@id": "sol:devnetCluster",
+      "@type": "SolanaCluster",
+      "title": "Solana Devnet",
+      "description": "Development cluster with free SOL airdrops for testing.",
+      "url": "https://api.devnet.solana.com"
+    },
+    {
+      "@id": "sol:testnetCluster",
+      "@type": "SolanaCluster",
+      "title": "Solana Testnet",
+      "description": "Staging cluster for validator and core protocol testing.",
+      "url": "https://api.testnet.solana.com"
+    }
+  ]
+}
