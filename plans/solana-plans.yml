@@ -1,0 +1,125 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Solana
+providerId: solana
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: true
+tags:
+  - Blockchain
+  - Cryptocurrency
+  - Web3
+  - RPC
+description: >-
+  Solana's public RPC endpoints are free to use with no authentication required, but are shared
+  infrastructure subject to rate limits and not recommended for production applications. For production
+  use, developers are expected to run their own validator/RPC node or subscribe to a third-party RPC
+  provider (Helius, QuickNode, Alchemy, Syndica, etc.) which offer their own pricing tiers. The Solana
+  Developer Platform (platform.solana.com) is a separate enterprise REST API for token issuance and
+  payment orchestration requiring direct contact for access.
+sources:
+  - https://solana.com/docs/rpc
+  - https://solana.com/docs/references/clusters
+  - https://platform.solana.com/
+plans:
+  - id: solana-public-free
+    name: Public Free Tier
+    type: free
+    description: >-
+      Free shared public RPC endpoints for Mainnet, Devnet, and Testnet. No API key required.
+      Subject to rate limits; not intended for production traffic. Useful for prototypes, testing,
+      and early development.
+    entries:
+      - label: Requests per 10 seconds per IP
+        name: requests_per_10s
+        type: rate-limit
+        metric: request
+        limit: 100
+        timeFrame: 10s
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Requests per 10 seconds per single RPC
+        name: requests_per_10s_single_rpc
+        type: rate-limit
+        metric: request
+        limit: 40
+        timeFrame: 10s
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Concurrent connections per IP
+        name: concurrent_connections
+        type: rate-limit
+        metric: connection
+        limit: 40
+        timeFrame: concurrent
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Mainnet endpoint (https://api.mainnet.solana.com)
+      - name: Devnet endpoint (https://api.devnet.solana.com)
+      - name: Testnet endpoint (https://api.testnet.solana.com)
+      - name: All 60+ HTTP JSON-RPC methods
+      - name: WebSocket subscription methods
+      - name: No API key required
+      - name: Shared infrastructure, no SLA
+  - id: solana-self-hosted
+    name: Self-Hosted RPC Node
+    type: enterprise
+    description: >-
+      Operate your own Solana validator or RPC node for dedicated, high-throughput access with no
+      third-party rate limits. Requires significant infrastructure investment. Recommended for
+      production applications with high transaction volumes.
+    entries:
+      - label: Infrastructure cost
+        name: infra_cost
+        type: subscription
+        metric: infrastructure
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: contact provider
+        userMultiplied: false
+    elements:
+      - name: Unlimited requests (hardware constrained)
+      - name: Full ledger history (archive node optional)
+      - name: No external rate limits
+      - name: WebSocket subscriptions with no concurrency caps
+      - name: Configurable commitment levels
+      - name: Local development at http://localhost:8899
+  - id: solana-developer-platform
+    name: Solana Developer Platform (Enterprise)
+    type: enterprise
+    description: >-
+      The Solana Developer Platform (SDP) at platform.solana.com provides enterprise REST APIs for
+      stablecoin issuance, cross-border payment orchestration, and real-world asset tokenization.
+      This is pre-mainnet enterprise software requiring direct engagement with the Solana Foundation.
+    entries:
+      - label: Enterprise contract
+        name: enterprise_contract
+        type: subscription
+        metric: contract
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: contact sales
+        userMultiplied: false
+    elements:
+      - name: Token issuance APIs
+      - name: Payment orchestration APIs
+      - name: Wallet management APIs
+      - name: Compliance verification
+      - name: API key authentication
+      - name: Dedicated infrastructure
+      - name: Enterprise SLA
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

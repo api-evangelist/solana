@@ -1,0 +1,99 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Solana
+providerId: solana
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: true
+tags:
+  - Blockchain
+  - Cryptocurrency
+  - Web3
+  - RPC
+  - Rate Limiting
+description: >-
+  Rate limits for Solana's public shared RPC endpoints across Mainnet, Devnet, and Testnet clusters.
+  These limits apply per IP address and are enforced by the public API nodes operated by the Solana
+  Foundation. Limits can change without notice and are not subject to an SLA. Production applications
+  should use a dedicated private RPC provider or self-hosted node to avoid these constraints.
+sources:
+  - https://solana.com/docs/references/clusters
+  - https://solana.com/docs/rpc
+  - https://instantnodes.io/articles/solana-rpc-api-rate-limits-and-adjustments
+responseCodes:
+  throttled: 429
+  blocked: 403
+limits:
+  - name: Requests per 10 seconds per IP
+    scope: ip
+    metric: requests_per_10s
+    limit: 100
+    timeFrame: 10s
+    notes: >-
+      Maximum total requests allowed per IP address across all RPC methods in a 10-second window
+      on any single public cluster endpoint. Shared across all methods and connections from the IP.
+  - name: Requests per 10 seconds per single RPC method
+    scope: ip
+    metric: requests_per_10s_single_rpc
+    limit: 40
+    timeFrame: 10s
+    notes: >-
+      Maximum requests for any single RPC method (e.g., getAccountInfo) per IP in a 10-second window.
+      Applies in addition to the overall 100/10s per-IP limit.
+  - name: Maximum concurrent WebSocket connections per IP
+    scope: ip
+    metric: concurrent_connections
+    limit: 40
+    timeFrame: concurrent
+    notes: >-
+      Maximum number of simultaneous WebSocket connections from a single IP address. Exceeding this
+      may cause connection refusals.
+  - name: WebSocket connection rate per 10 seconds per IP
+    scope: ip
+    metric: connection_rate_per_10s
+    limit: 40
+    timeFrame: 10s
+    notes: >-
+      Rate at which new WebSocket connections can be established from a single IP in a 10-second window.
+  - name: Data transfer per 30 seconds
+    scope: ip
+    metric: data_transfer_per_30s
+    limit: 100
+    timeFrame: 30s
+    unit: MB
+    notes: >-
+      Maximum data transfer of 100 MB per IP in any 30-second period. Heavy data consumers such as
+      getProgramAccounts with large accounts should use filters and data slicing to stay within this limit.
+policies:
+  - name: Back off on 429
+    description: >-
+      When a 429 Too Many Requests response is received, the client should stop sending requests,
+      wait, and retry with exponential backoff with jitter. Solana public endpoints do not return a
+      Retry-After header.
+  - name: IP block on 403
+    description: >-
+      A 403 Forbidden response indicates the IP has been blocked, typically due to sustained abuse or
+      sustained rate-limit violations. This may be temporary or permanent. Contact the Solana Foundation
+      or switch to a private RPC provider.
+  - name: Use data slicing for large accounts
+    description: >-
+      When calling getProgramAccounts or getAccountInfo on accounts with large data buffers, use the
+      dataSlice parameter to fetch only the bytes you need. This reduces data transfer and keeps
+      responses within the 100 MB/30s data limit.
+  - name: Use filters to reduce result sets
+    description: >-
+      getProgramAccounts supports memcmp and dataSize filters to reduce the number of accounts returned.
+      Apply the narrowest filters possible to avoid large result sets that stress bandwidth limits.
+  - name: WebSocket preferred for subscriptions
+    description: >-
+      Use WebSocket subscriptions (accountSubscribe, logsSubscribe) instead of polling HTTP endpoints
+      in a tight loop. Subscriptions are more efficient and reduce total request count against rate limits.
+  - name: Production use requires private RPC
+    description: >-
+      Public RPC endpoints are not intended for production applications. Applications serving real users
+      should use dedicated private RPC nodes or a commercial provider such as Helius, QuickNode, Alchemy,
+      or Syndica to obtain higher limits, uptime SLAs, and support.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
