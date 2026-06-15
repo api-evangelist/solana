@@ -1,0 +1,14 @@
+{
+  "repo": "solana",
+  "feeds": [
+    {
+      "source": "https://solanacompass.com/learn/Changelog",
+      "feed_url": "https://solanacompass.com/feed.xml",
+      "title": "",
+      "saved": 37,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 37,
+  "fetched": "2026-06-14T20:42:17Z"
+}
