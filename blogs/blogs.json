@@ -2,13 +2,27 @@
   "repo": "solana",
   "feeds": [
     {
+      "source": "https://solanacompass.com/feed.xml",
+      "feed_url": "https://solanacompass.com/feed.xml",
+      "title": "",
+      "saved": 50,
+      "method": "feed"
+    },
+    {
+      "source": "https://solana.com/news/rss.xml",
+      "feed_url": "https://solana.com/news/rss.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://solanacompass.com/learn/Changelog",
       "feed_url": "https://solanacompass.com/feed.xml",
       "title": "",
-      "saved": 37,
+      "saved": 0,
       "method": "discovered"
     }
   ],
-  "post_count": 37,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 89,
+  "fetched": "2026-06-27T12:03:07Z"
 }

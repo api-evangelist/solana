@@ -186,19 +186,19 @@ common:
   - type: Authentication
     url: https://solana.com/docs/rpc
     title: Public endpoints require no API key; private RPC providers require API keys
-  - type: SDK
+  - type: SDKs
     url: https://solana.com/docs/clients/official/javascript
     title: Official JavaScript/TypeScript SDKs
-  - type: SDK
+  - type: SDKs
     url: https://www.npmjs.com/package/@solana/kit
     title: "@solana/kit (Recommended TypeScript SDK)"
-  - type: SDK
+  - type: SDKs
     url: https://www.npmjs.com/package/@solana/web3.js
     title: "@solana/web3.js (Legacy TypeScript SDK)"
-  - type: SDK
+  - type: SDKs
     url: https://www.npmjs.com/package/@solana/client
     title: "@solana/client (Headless Runtime)"
-  - type: SDK
+  - type: SDKs
     url: https://www.npmjs.com/package/@solana/react-hooks
     title: "@solana/react-hooks (React Integration)"
   - type: GitHubOrganization
