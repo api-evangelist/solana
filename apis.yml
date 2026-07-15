@@ -172,6 +172,8 @@ apis:
       unsubscribe method. WebSocket connections are available at ws://localhost:8900 for local
       development and wss://api.mainnet.solana.com for production.
 common:
+  - type: AgenticAccess
+    url: agentic-access/solana-agentic-access.yml
   - type: DomainSecurity
     url: security/solana-domain-security.yml
   - type: Website
