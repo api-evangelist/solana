@@ -1,0 +1,40 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/solana-rpc-api-openapi.yml
+docs: https://solana.com/docs/rpc
+description: >-
+  Cross-cutting standards conformance for the Solana JSON-RPC API, derived from the OpenAPI
+  and the RPC documentation. Solana is a JSON-RPC 2.0 API over HTTP POST and WebSocket; it is
+  not a REST/OAuth/OIDC surface, so most web-API standards do not apply.
+standards:
+  - id: json-rpc-2.0
+    conforms: true
+    evidence: All methods use the JSON-RPC 2.0 request/response envelope over HTTP POST.
+  - id: websocket-subscriptions
+    conforms: true
+    evidence: Real-time subscription methods (accountSubscribe, logsSubscribe, ...) over wss.
+  - id: oauth2
+    conforms: false
+    evidence: No securitySchemes; public endpoints are unauthenticated.
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use the JSON-RPC 2.0 error object, not application/problem+json.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: No /.well-known/security.txt published on solana.com or the RPC hosts.
+  - id: json-api
+    conforms: false
+  - id: fhir-r4
+    conforms: false
+  - id: scim-2.0
+    conforms: false
+  - id: odata
+    conforms: false
+  - id: pagination
+    conforms: true
+    evidence: getSignaturesForAddress supports before/until/limit cursor-style pagination.
+  - id: idempotency
+    conforms: false
+    evidence: No idempotency-key header; reads are naturally idempotent, sendTransaction dedupes by signature.

@@ -1,0 +1,58 @@
+generated: '2026-06-20'
+method: searched
+source: https://solana.com/docs/intro/installation
+docs: https://docs.anza.xyz/cli/
+description: >-
+  Solana ships a first-party command-line tool suite (maintained by Anza) for interacting with
+  clusters, managing keypairs, transferring SOL, and deploying/interacting with on-chain
+  programs. The CLI talks to the same JSON-RPC surface documented in openapi/. The binaries are
+  catalogued as packages; this artifact captures the command surface.
+binaries:
+  - solana            # main CLI: query cluster, transfer, stake, program interaction
+  - solana-keygen     # keypair generation and recovery
+  - solana-test-validator  # local single-node cluster for testing
+install:
+  shell: "curl --proto '=https' --tlsv1.2 -sSfL https://solana-install.solana.workers.dev | bash"
+  verify: solana --version
+  notes: The installer also sets up Rust, the Solana CLI, and the Anchor framework.
+config:
+  set_cluster: solana config set --url <mainnet-beta|devnet|testnet|localhost|URL>
+  show: solana config get
+command_groups:
+  - group: config
+    description: View and set CLI configuration (RPC URL, keypair, commitment).
+    commands: [config get, config set]
+  - group: keys
+    description: Keypair and address management.
+    commands: [solana-keygen new, solana-keygen pubkey, address]
+  - group: wallet
+    description: Balance and transfers.
+    commands: [balance, transfer, pay, airdrop]
+  - group: accounts
+    description: Inspect accounts and program data.
+    commands: [account, program show, largest-accounts]
+  - group: transactions
+    description: Confirm and inspect transactions.
+    commands: [confirm, transaction-history, decode-transaction, resolve-signer]
+  - group: stake
+    description: Staking operations.
+    commands: [create-stake-account, delegate-stake, deactivate-stake, stake-account, withdraw-stake]
+  - group: vote
+    description: Validator vote account operations.
+    commands: [vote-account, create-vote-account, vote-authorize-voter]
+  - group: cluster
+    description: Query cluster/network state.
+    commands: [cluster-version, epoch-info, slot, block, block-height, block-time, leader-schedule, validators, gossip, ping, catchup]
+  - group: economics
+    description: Supply, inflation, and rent.
+    commands: [supply, inflation, rent, fees]
+  - group: program
+    description: Deploy and manage on-chain programs.
+    commands: [program deploy, program show, program close, program dump]
+key_flows:
+  - name: fund-a-devnet-account
+    steps: [solana config set --url devnet, solana-keygen new, solana airdrop 2, solana balance]
+  - name: transfer-sol
+    steps: [solana transfer <RECIPIENT> <AMOUNT> --allow-unfunded-recipient]
+  - name: local-testing
+    steps: [solana-test-validator, solana config set --url localhost, solana airdrop 100]

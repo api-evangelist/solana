@@ -17,7 +17,7 @@ description: >-
   and simulating transactions. Three public clusters are available — Mainnet, Devnet, and Testnet —
   with dedicated API nodes for each environment.
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
   - aid: solana:solana-rpc-accounts-api
@@ -190,6 +190,8 @@ common:
   - type: Authentication
     url: https://solana.com/docs/rpc
     title: Public endpoints require no API key; private RPC providers require API keys
+  - type: Authentication
+    url: authentication/solana-authentication.yml
   - type: SDKs
     url: https://solana.com/docs/clients/official/javascript
     title: Official JavaScript/TypeScript SDKs
@@ -234,6 +236,35 @@ common:
     url: finops/solana-finops.yml
   - type: OpenAPI
     url: openapi/solana-rpc-api-openapi.yml
+  - type: Overlay
+    url: overlays/solana-rpc-api-overlay.yaml
+  - type: Packages
+    url: packages/solana-packages.yml
+  - type: WellKnown
+    url: well-known/solana-well-known.yml
+  - type: MCPServer
+    url: mcp/solana-mcp.yml
+  - type: LLMsTxt
+    url: llms/solana-llms.txt
+  - type: LLMsTxt
+    url: llms/solana-llms-full.txt
+    title: llms-full.txt (inline docs corpus)
+  - type: Conformance
+    url: conformance/solana-conformance.yml
+  - type: ErrorCatalog
+    url: errors/solana-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/solana-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/solana-changelog.yml
+  - type: Conventions
+    url: conventions/solana-conventions.yml
+  - type: DataModel
+    url: data-model/solana-data-model.yml
+  - type: Sandbox
+    url: sandbox/solana-sandbox.yml
+  - type: CLI
+    url: cli/solana-cli.yml
   - type: JSONSchema
     url: json-schema/solana-rpc-schemas.json
   - type: Examples

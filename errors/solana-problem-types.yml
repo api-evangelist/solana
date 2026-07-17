@@ -1,0 +1,86 @@
+generated: '2026-06-20'
+method: searched
+format: json-rpc-2.0
+source: https://www.quicknode.com/docs/solana/error-references
+docs: https://solana.com/docs/rpc
+description: >-
+  Solana returns errors in the JSON-RPC 2.0 error object (not HTTP status bodies): a top-level
+  "error" object with a numeric "code" and "message". Standard JSON-RPC codes (-32700..-32603)
+  cover protocol errors; Solana defines a range of custom server error codes (-32001..-32016)
+  for RPC-specific conditions. The OpenAPI defines only 200 JSON-RPC envelopes, so this catalog
+  is searched from the Solana RPC error reference rather than derived from responses[].
+envelope:
+  shape: '{ "jsonrpc": "2.0", "error": { "code": <int>, "message": <string>, "data": <object?> }, "id": <int|string> }'
+  transport_status: >-
+    Public shared endpoints may also return HTTP 429 (rate limited) and HTTP 403 (traffic blocked)
+    at the transport layer, independent of the JSON-RPC error object.
+problems:
+  - code: -32700
+    title: Parse error
+    meaning: Invalid JSON was received by the server.
+    category: json-rpc-standard
+  - code: -32600
+    title: Invalid request
+    meaning: The JSON sent is not a valid JSON-RPC 2.0 request object.
+    category: json-rpc-standard
+  - code: -32601
+    title: Method not found
+    meaning: The requested RPC method does not exist or is not available.
+    category: json-rpc-standard
+  - code: -32602
+    title: Invalid params
+    meaning: Invalid method parameters (wrong type, count, or value).
+    category: json-rpc-standard
+  - code: -32603
+    title: Internal error
+    meaning: Internal JSON-RPC error on the node.
+    category: json-rpc-standard
+  - code: -32002
+    title: Transaction simulation failed / preflight failure
+    meaning: >-
+      Preflight simulation of a submitted transaction failed (e.g. blockhash not found, program
+      error). The data field typically carries logs and the inner instruction error.
+    category: solana-custom
+    remediation: Inspect error.data logs; refresh the blockhash and rebuild the transaction.
+  - code: -32003
+    title: Transaction signature verification failure
+    meaning: One or more signatures on the transaction failed verification.
+    category: solana-custom
+  - code: -32004
+    title: Block not available for slot
+    meaning: The requested block for the given slot is not available on this node.
+    category: solana-custom
+  - code: -32005
+    title: Node is unhealthy
+    meaning: The node is behind the cluster tip by a number of slots and is reporting unhealthy.
+    category: solana-custom
+    remediation: Retry with backoff or use a different RPC endpoint.
+  - code: -32007
+    title: Slot skipped
+    meaning: The requested slot was skipped, or missing due to a snapshot jump, and is not part of the ledger.
+    category: solana-custom
+  - code: -32009
+    title: Slot skipped (long-term storage)
+    meaning: The slot was skipped or missing in long-term (Bigtable) storage.
+    category: solana-custom
+  - code: -32010
+    title: Account excluded from secondary index
+    meaning: The key was excluded from account secondary indexes on this node.
+    category: solana-custom
+  - code: -32013
+    title: Transaction signature length mismatch
+    meaning: The transaction signature length does not match the required length.
+    category: solana-custom
+  - code: -32014
+    title: Block status not yet available
+    meaning: The status of the requested block is not yet available.
+    category: solana-custom
+  - code: -32015
+    title: Transaction version not supported
+    meaning: The client requested a transaction version this node does not support (set maxSupportedTransactionVersion).
+    category: solana-custom
+    remediation: Pass maxSupportedTransactionVersion in the request config.
+  - code: -32016
+    title: Minimum context slot not reached
+    meaning: The node has not yet reached the minContextSlot requested by the client.
+    category: solana-custom

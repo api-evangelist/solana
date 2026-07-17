@@ -1,0 +1,29 @@
+generated: '2026-06-20'
+method: searched
+source: https://solana.com/docs/rpc
+description: >-
+  Versioning, release, and status posture for the Solana JSON-RPC API. The RPC interface is
+  versioned as JSON-RPC 2.0; the underlying validator software (Agave, formerly solana-labs)
+  ships on a numbered release train, and getVersion returns both the software version and the
+  feature-set hash. There is no per-method URI/date versioning and no formal deprecation-header
+  (RFC 8594 Sunset/Deprecation) policy on the public RPC.
+versioning:
+  scheme: json-rpc-2.0
+  api_version: '2.0'
+  software: Agave validator (release train, e.g. v2.x / v4.x)
+  runtime_probe: getVersion returns solana-core version and feature-set id
+  docs: https://solana.com/docs/rpc
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: >-
+    Individual RPC methods and params have been deprecated over time via release notes and the
+    changelog rather than machine-readable Sunset/Deprecation headers. Transaction versioning is
+    negotiated per-request via maxSupportedTransactionVersion.
+sla:
+  url: null
+  uptime_target: null
+  notes: Public endpoints carry no SLA; SLAs are offered by commercial RPC providers.
+status_page: https://status.solana.com/
+changelog: https://solanacompass.com/learn/Changelog
+deprecated_operations: []

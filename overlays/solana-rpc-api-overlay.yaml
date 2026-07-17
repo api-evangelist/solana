@@ -1,0 +1,35 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Solana JSON-RPC API
+  version: 1.0.0
+extends: openapi/solana-rpc-api-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: solana
+      x-apievangelist-protocol: json-rpc-2.0
+      x-apievangelist-artifacts:
+        packages: packages/solana-packages.yml
+        errors: errors/solana-problem-types.yml
+        conventions: conventions/solana-conventions.yml
+        lifecycle: lifecycle/solana-lifecycle.yml
+        authentication: authentication/solana-authentication.yml
+        data_model: data-model/solana-data-model.yml
+        sandbox: sandbox/solana-sandbox.yml
+        cli: cli/solana-cli.yml
+        mcp: mcp/solana-mcp.yml
+  - target: $.info
+    update:
+      x-apievangelist-note: >-
+        Public RPC endpoints (api.mainnet-beta / api.devnet / api.testnet) require no API key
+        but are shared, rate-limited infrastructure not intended for production. Errors are
+        returned in the JSON-RPC 2.0 error object, not HTTP status bodies.
+  - target: $.servers
+    update:
+      x-apievangelist-clusters:
+        - name: mainnet-beta
+          purpose: production
+        - name: devnet
+          purpose: development (free airdrops)
+        - name: testnet
+          purpose: validator/network testing

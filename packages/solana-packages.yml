@@ -1,0 +1,55 @@
+generated: '2026-06-20'
+method: searched
+source: https://solana.com/docs/clients
+description: >-
+  First-party and widely-used community client libraries for interacting with the Solana
+  JSON-RPC API and building transactions. Official SDKs are maintained by Anza / the Solana
+  Foundation; Python libraries are community-maintained but recommended in the official docs.
+packages:
+  - language: javascript
+    registry: npm
+    name: "@solana/kit"
+    url: https://www.npmjs.com/package/@solana/kit
+    install: npm install @solana/kit
+    repository: https://github.com/anza-xyz/kit
+    official: true
+    notes: Recommended modern TypeScript SDK (formerly web3.js 2.x), maintained by Anza.
+  - language: javascript
+    registry: npm
+    name: "@solana/web3.js"
+    url: https://www.npmjs.com/package/@solana/web3.js
+    install: npm install @solana/web3.js
+    repository: https://github.com/solana-foundation/solana-web3.js
+    official: true
+    notes: Legacy 1.x TypeScript/JavaScript SDK; superseded by @solana/kit.
+  - language: rust
+    registry: crates.io
+    name: solana-sdk
+    url: https://crates.io/crates/solana-sdk
+    install: cargo add solana-sdk
+    repository: https://github.com/anza-xyz/solana-sdk
+    official: true
+    notes: Core Rust SDK (keypairs, transactions, instructions) used by on-chain programs and the Agave validator.
+  - language: rust
+    registry: crates.io
+    name: solana-client
+    url: https://crates.io/crates/solana-client
+    install: cargo add solana-client
+    official: true
+    notes: Rust RPC client (RpcClient) for talking to Solana JSON-RPC nodes.
+  - language: python
+    registry: pypi
+    name: solana
+    url: https://pypi.org/project/solana/
+    install: pip install solana
+    repository: https://github.com/michaelhly/solana-py
+    official: false
+    notes: solana-py, the community Python library recommended in Solana docs; builds transactions and calls the JSON-RPC API.
+  - language: python
+    registry: pypi
+    name: solders
+    url: https://pypi.org/project/solders/
+    install: pip install solders
+    repository: https://github.com/kevinheavey/solders
+    official: false
+    notes: High-performance Python toolkit (Rust bindings) used under the hood by solana-py.

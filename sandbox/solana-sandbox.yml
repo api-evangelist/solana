@@ -1,0 +1,40 @@
+generated: '2026-06-20'
+method: searched
+source: https://solana.com/docs/rpc
+docs: https://solana.com/docs/intro/quick-start
+description: >-
+  Solana's test/live separation is by cluster, not by key prefix. Three public clusters run the
+  same RPC surface; Devnet and Testnet are the non-production environments and dispense free SOL
+  via the requestAirdrop RPC method (and the `solana airdrop` CLI) so developers can fund test
+  accounts. There are no test "cards" or hosted test tokens — funding is real (valueless) SOL on
+  a test ledger. Never treat Devnet/Testnet tokens as having value.
+clusters:
+  - name: mainnet-beta
+    purpose: production
+    rpc: https://api.mainnet-beta.solana.com
+    airdrop: false
+  - name: devnet
+    purpose: application development
+    rpc: https://api.devnet.solana.com
+    ws: wss://api.devnet.solana.com
+    airdrop: true
+    notes: Free SOL via requestAirdrop; state may be reset; rate-limited faucet.
+  - name: testnet
+    purpose: validator / network stress testing
+    rpc: https://api.testnet.solana.com
+    ws: wss://api.testnet.solana.com
+    airdrop: true
+faucet:
+  rpc_method: requestAirdrop
+  operation: openapi/solana-rpc-api-openapi.yml#requestAirdrop
+  cli: solana airdrop 2
+  web_faucet: https://faucet.solana.com/
+  limits: Airdrop amounts and frequency are capped; large test funding uses the web faucet.
+local:
+  tool: solana-test-validator
+  description: Runs a full single-node cluster locally for deterministic, resettable testing.
+  default_rpc: http://127.0.0.1:8899
+  default_ws: ws://127.0.0.1:8900
+notes:
+  - No secret test values to store; all faucet SOL is valueless test currency.
+  - Set the active cluster with `solana config set --url devnet` (or a full RPC URL).

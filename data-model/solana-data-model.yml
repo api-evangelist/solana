@@ -1,0 +1,80 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/solana-rpc-api-openapi.yml
+docs: https://solana.com/docs/rpc
+description: >-
+  Entity-relationship graph derived from the Solana JSON-RPC method surface and its response
+  schemas. Solana is not a REST resource API, so entities are the on-chain domain objects the
+  RPC methods read/write (accounts, transactions, blocks, tokens, cluster state) and the
+  relationships are the reference fields that link them (pubkeys, signatures, slots, mints).
+entities:
+  - name: Account
+    key: pubkey (base-58, 32 bytes)
+    read_via: [getAccountInfo, getMultipleAccounts, getBalance, getProgramAccounts, getLargestAccounts]
+    fields: [lamports, owner, data, executable, rentEpoch]
+    relationships:
+      - belongs_to: Program
+        via: owner
+      - has_many: Transaction
+        via: signatures for address (getSignaturesForAddress)
+  - name: Program
+    key: pubkey
+    read_via: [getProgramAccounts]
+    relationships:
+      - has_many: Account
+        via: owner
+  - name: TokenAccount
+    key: pubkey
+    read_via: [getTokenAccountBalance, getTokenAccountsByOwner, getTokenAccountsByDelegate, getTokenLargestAccounts]
+    fields: [mint, owner, amount, delegate, state]
+    relationships:
+      - belongs_to: Mint
+        via: mint
+      - belongs_to: Account
+        via: owner
+  - name: Mint
+    key: pubkey
+    read_via: [getTokenSupply, getTokenLargestAccounts]
+    relationships:
+      - has_many: TokenAccount
+        via: mint
+  - name: Transaction
+    key: signature (base-58)
+    read_via: [getTransaction, getSignatureStatuses, getSignaturesForAddress]
+    write_via: [sendTransaction, simulateTransaction]
+    fields: [slot, blockTime, meta, transaction.message, recentBlockhash]
+    relationships:
+      - belongs_to: Block
+        via: slot
+      - references: Blockhash
+        via: recentBlockhash
+  - name: Block
+    key: slot
+    read_via: [getBlock, getBlocks, getBlocksWithLimit, getBlockTime, getBlockCommitment, getBlockHeight, getBlockProduction]
+    fields: [blockhash, previousBlockhash, parentSlot, transactions, blockTime]
+    relationships:
+      - has_many: Transaction
+        via: transactions
+      - belongs_to: Epoch
+        via: slot -> epoch (getEpochSchedule)
+  - name: Blockhash
+    key: blockhash
+    read_via: [getLatestBlockhash, isBlockhashValid, getFeeForMessage]
+  - name: Epoch
+    key: epoch
+    read_via: [getEpochInfo, getEpochSchedule, getInflationReward]
+    relationships:
+      - has_many: Block
+        via: slots in epoch
+  - name: ClusterNode
+    key: pubkey
+    read_via: [getClusterNodes, getIdentity]
+  - name: VoteAccount
+    key: votePubkey
+    read_via: [getVoteAccounts, getLeaderSchedule, getSlotLeader, getSlotLeaders]
+    relationships:
+      - belongs_to: ClusterNode
+        via: nodePubkey
+  - name: Supply
+    key: null
+    read_via: [getSupply, getInflationGovernor, getInflationRate, getStakeMinimumDelegation]

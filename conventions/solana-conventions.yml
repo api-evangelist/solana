@@ -1,0 +1,52 @@
+generated: '2026-06-20'
+method: searched
+source: https://solana.com/docs/rpc
+description: >-
+  Cross-cutting request/response semantics for the Solana JSON-RPC 2.0 API, captured from the
+  RPC docs and derived from the OpenAPI. Solana is a JSON-RPC (not REST) surface: every call is
+  an HTTP POST to the cluster root with a { jsonrpc, id, method, params } body.
+protocol:
+  style: json-rpc-2.0
+  transport: [https-post, websocket]
+  endpoint: single root URL per cluster; method selected by the "method" field
+  request_envelope: '{ "jsonrpc": "2.0", "id": <int|string>, "method": <string>, "params": [ ... ] }'
+  response_envelope: '{ "jsonrpc": "2.0", "id": <int|string>, "result": <any> } | { ..., "error": { code, message, data } }'
+authentication:
+  style: none-on-public-endpoints
+  ref: authentication/solana-authentication.yml
+commitment_levels:
+  description: Optional per-request read consistency, passed in the config object as "commitment".
+  values:
+    - processed  # newest, can be rolled back
+    - confirmed  # voted on by supermajority of stake
+    - finalized  # maximum lockout, strongest confirmation
+context_slot:
+  description: >-
+    Many read methods return an RpcResponse with a "context.slot" indicating the slot the data
+    was read at; requests can pin freshness with "minContextSlot".
+pagination:
+  style: cursor
+  applies_to: [getSignaturesForAddress]
+  params: { before: signature, until: signature, limit: 'default 1000, max 1000' }
+  notes: Most methods return full result sets; only signature history is cursor-paginated.
+encoding:
+  description: Account/transaction data encodings selected per request via the "encoding" param.
+  values: [base58, base64, "base64+zstd", jsonParsed]
+  data_slice: Account data can be windowed via dataSlice { offset, length }.
+filtering:
+  applies_to: [getProgramAccounts, getTokenAccountsByOwner]
+  mechanisms: [dataSize filter, memcmp filter]
+idempotency:
+  header: null
+  notes: Reads are idempotent; sendTransaction is deduplicated by transaction signature/blockhash.
+request_tracing:
+  request_id: The client-supplied JSON-RPC "id" is echoed in the response for correlation.
+versioning:
+  ref: lifecycle/solana-lifecycle.yml
+  transaction_version: Negotiated per request via maxSupportedTransactionVersion.
+errors:
+  ref: errors/solana-problem-types.yml
+  envelope: JSON-RPC 2.0 error object with numeric code + message (+ optional data logs).
+rate_limits:
+  ref: rate-limits/solana-rpc-rate-limits.yml
+  signaling: Public endpoints return HTTP 429 when rate limited and 403 when blocked.

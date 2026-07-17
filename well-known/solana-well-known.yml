@@ -1,0 +1,26 @@
+generated: '2026-06-20'
+method: searched
+source: live probes of solana.com and the RPC API hosts
+description: >-
+  Probe of the /.well-known/ discovery surface for the Solana website and public RPC hosts.
+  The RPC API nodes accept only HTTP POST JSON-RPC (GET /.well-known/* returns 405), and the
+  documentation site returns 404 for the standard discovery documents. No discovery documents
+  were published; statuses recorded as honest negative data.
+hosts:
+  - host: https://solana.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://api.mainnet.solana.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 405
+        note: RPC node accepts POST JSON-RPC only.

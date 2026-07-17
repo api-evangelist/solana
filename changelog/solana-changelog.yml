@@ -1,0 +1,32 @@
+generated: '2026-06-20'
+method: searched
+source: https://solana.com/news
+docs: https://solanacompass.com/learn/Changelog
+description: >-
+  Solana publishes a recurring "Solana Changelog" (weekly-ish engineering roundup) on
+  solana.com/news covering the validator clients (Agave, Firedancer), the RPC surface, SDKs
+  (Solana Kit), and protocol work (Alpenglow). The changelog is narrative/dated rather than a
+  strict semver API changelog; the RPC interface itself is versioned as JSON-RPC 2.0 and the
+  Agave validator ships on a numbered release train. Recent entries below are the window
+  captured in this repo's blogs/ pull.
+scheme: dated-engineering-roundup
+current_api_version: '2.0'
+current_validator: Agave v4.1.0
+feed: https://solana.com/news/rss.xml
+entries:
+  - date: '2026-07-09'
+    title: 'Solana Changelog: July 9, 2026'
+    url: https://solana.com/news/solana-changelog-july-9-2026
+    highlights:
+      - New releases across Agave, Firedancer, Superbank, Solana Go, and LiteSVM.
+      - Validator, RPC, and tooling updates.
+    breaking: false
+  - date: '2026-07-02'
+    title: 'Solana Changelog: Agave v4.1.0, RPC 2.0, and Alpenglow'
+    url: https://solana.com/news/solana-changelog-agave-v4-1-0-rpc-2-0-and-alpenglow
+    highlights:
+      - Agave v4.1.0 released.
+      - Solana Kit v7.0.0 released.
+      - New Cloudbreak RPC methods.
+      - Alpenglow feature-flag readiness work.
+    breaking: false

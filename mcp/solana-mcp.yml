@@ -1,0 +1,58 @@
+generated: '2026-06-20'
+method: searched
+status: candidate
+source: https://github.com/solana-foundation/solana-dev-mcp
+description: >-
+  The Solana Foundation publishes solana-dev-mcp, an official reference/demo Model Context
+  Protocol server (stdio transport) that exposes core Solana RPC methods as tools for LLM
+  clients such as Claude Desktop. It is a demonstration/foundation to extend rather than a
+  hosted production endpoint, so it is recorded as a candidate. The derived tools[] below
+  enumerate the full RPC surface from openapi/solana-rpc-api-openapi.yml that a Solana MCP
+  server would map (the foundation demo currently ships getBalance, getAccountInfo,
+  getTransaction).
+server:
+  name: solana-dev-mcp
+  transport: stdio
+  repository: https://github.com/solana-foundation/solana-dev-mcp
+  official: true
+  published_tools:
+    - getBalance
+    - getAccountInfo
+    - getTransaction
+tools:
+  - name: get_account_info
+    description: Return all information associated with the account of a provided public key.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getAccountInfo
+  - name: get_balance
+    description: Return the lamport balance of an account.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getBalance
+  - name: get_token_account_balance
+    description: Return the SPL Token balance of a token account.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getTokenAccountBalance
+  - name: get_token_accounts_by_owner
+    description: Return SPL Token accounts owned by an address.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getTokenAccountsByOwner
+  - name: get_transaction
+    description: Fetch a confirmed transaction by signature.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getTransaction
+  - name: get_signatures_for_address
+    description: List transaction signatures for an address.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getSignaturesForAddress
+  - name: send_transaction
+    description: Submit a signed transaction to the network.
+    source_operation: openapi/solana-rpc-api-openapi.yml#sendTransaction
+  - name: simulate_transaction
+    description: Simulate a transaction without broadcasting it.
+    source_operation: openapi/solana-rpc-api-openapi.yml#simulateTransaction
+  - name: get_latest_blockhash
+    description: Retrieve the most recent blockhash.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getLatestBlockhash
+  - name: get_block
+    description: Retrieve a confirmed block at a given slot.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getBlock
+  - name: get_epoch_info
+    description: Return information about the current epoch.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getEpochInfo
+  - name: get_supply
+    description: Return information about the current supply of lamports.
+    source_operation: openapi/solana-rpc-api-openapi.yml#getSupply
