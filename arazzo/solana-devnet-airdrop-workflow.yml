@@ -1,0 +1,143 @@
+arazzo: 1.0.1
+info:
+  title: Solana Request a Devnet Airdrop and Confirm Funding
+  summary: Check node health, record a balance, request an airdrop, confirm it, and verify the balance moved.
+  description: >-
+    The standard way to fund a development wallet. The workflow confirms the RPC
+    node is healthy, records the starting lamport balance, requests an airdrop,
+    polls the airdrop signature until it is confirmed, and re-reads the balance
+    so the caller can prove the funds actually landed rather than trusting the
+    signature alone. requestAirdrop is only served by the Devnet and Testnet
+    clusters, so this flow must be run against a non-Mainnet server. Every step
+    spells out its JSON-RPC request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: devnet-airdrop
+  summary: Fund a Devnet or Testnet address with SOL and verify the balance change.
+  description: >-
+    Guards on node health, then airdrops lamports to an address and confirms the
+    resulting balance increase.
+  inputs:
+    type: object
+    required:
+    - address
+    properties:
+      address:
+        type: string
+        description: Base58-encoded public key to fund.
+      lamports:
+        type: integer
+        description: Lamports to airdrop (1 SOL = 1,000,000,000 lamports).
+        default: 1000000000
+  steps:
+  - stepId: checkHealth
+    description: >-
+      Confirm the RPC node is caught up with the cluster before spending an
+      airdrop request against a node that would reject or stall it.
+    operationId: getHealth
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getHealth
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result == 'ok'
+      type: jsonpath
+    outputs:
+      health: $response.body#/result
+  - stepId: balanceBefore
+    description: >-
+      Record the lamport balance before the airdrop so the increase can be
+      verified afterwards.
+    operationId: getBalance
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBalance
+        params:
+        - $inputs.address
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      lamportsBefore: $response.body#/result/value
+  - stepId: requestAirdrop
+    description: >-
+      Ask the Devnet or Testnet faucet to credit the address with the requested
+      lamports. Returns the airdrop transaction signature.
+    operationId: requestAirdrop
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: requestAirdrop
+        params:
+        - $inputs.address
+        - $inputs.lamports
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      signature: $response.body#/result
+  - stepId: confirmAirdrop
+    description: >-
+      Poll the airdrop signature until the cluster confirms it, retrying while
+      the transaction works its way through the slots.
+    operationId: getSignatureStatuses
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSignatureStatuses
+        params:
+        - - $steps.requestAirdrop.outputs.signature
+        - searchTransactionHistory: true
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value[0].confirmationStatus == 'confirmed'
+      type: jsonpath
+    outputs:
+      confirmationStatus: $response.body#/result/value/0/confirmationStatus
+      confirmedSlot: $response.body#/result/value/0/slot
+    onFailure:
+    - name: pollUntilConfirmed
+      type: retry
+      retryAfter: 2
+      retryLimit: 30
+  - stepId: balanceAfter
+    description: >-
+      Re-read the balance to prove the airdropped lamports actually landed in
+      the account.
+    operationId: getBalance
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBalance
+        params:
+        - $inputs.address
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      lamportsAfter: $response.body#/result/value
+  outputs:
+    signature: $steps.requestAirdrop.outputs.signature
+    lamportsBefore: $steps.balanceBefore.outputs.lamportsBefore
+    lamportsAfter: $steps.balanceAfter.outputs.lamportsAfter
+    confirmationStatus: $steps.confirmAirdrop.outputs.confirmationStatus

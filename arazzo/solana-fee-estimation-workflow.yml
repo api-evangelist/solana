@@ -1,0 +1,134 @@
+arazzo: 1.0.1
+info:
+  title: Solana Estimate Transaction Fees and Priority Fees
+  summary: Fetch a blockhash, price a message, sample recent priority fees, and re-check blockhash validity.
+  description: >-
+    The pre-flight budgeting path a wallet or bot runs before submitting. The
+    workflow fetches a recent blockhash, prices the caller's encoded message
+    with getFeeForMessage, samples the prioritization fees recently paid for the
+    accounts the transaction will lock so a compute-unit price can be chosen,
+    and then re-checks that the blockhash is still valid before the transaction
+    is signed and sent. The final validity check matters because blockhashes
+    expire after roughly 150 slots, and a fee quote against an expired blockhash
+    returns null. Every step spells out its JSON-RPC request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: fee-estimation
+  summary: Price a transaction message and sample the priority fee market.
+  description: >-
+    Produces a base fee quote, a recent prioritization-fee sample, and a
+    freshness check on the blockhash the quote was made against.
+  inputs:
+    type: object
+    required:
+    - encodedMessage
+    properties:
+      encodedMessage:
+        type: string
+        description: >-
+          The base64-encoded transaction message (not a full signed
+          transaction) to be priced.
+      writableAccounts:
+        type: array
+        description: >-
+          Base58-encoded account addresses the transaction will write-lock, used
+          to sample the relevant priority fee market.
+        items:
+          type: string
+  steps:
+  - stepId: fetchBlockhash
+    description: >-
+      Fetch a recent blockhash and the last block height at which it remains
+      valid. The fee quote is only meaningful while this blockhash lives.
+    operationId: getLatestBlockhash
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getLatestBlockhash
+        params:
+        - commitment: confirmed
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value.blockhash
+      type: jsonpath
+    outputs:
+      blockhash: $response.body#/result/value/blockhash
+      lastValidBlockHeight: $response.body#/result/value/lastValidBlockHeight
+  - stepId: priceMessage
+    description: >-
+      Ask the cluster what base fee it would charge for the supplied message.
+      A null value means the blockhash inside the message has already expired.
+    operationId: getFeeForMessage
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getFeeForMessage
+        params:
+        - $inputs.encodedMessage
+        - commitment: confirmed
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      baseFeeLamports: $response.body#/result/value
+      pricedAtSlot: $response.body#/result/context/slot
+  - stepId: samplePriorityFees
+    description: >-
+      Sample the prioritization fees recently paid by transactions touching the
+      same write-locked accounts, so a competitive compute-unit price can be
+      set rather than guessed.
+    operationId: getRecentPrioritizationFees
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getRecentPrioritizationFees
+        params:
+        - $inputs.writableAccounts
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      fees: $response.body#/result
+      mostRecentFee: $response.body#/result/0/prioritizationFee
+      mostRecentSlot: $response.body#/result/0/slot
+  - stepId: verifyBlockhashStillValid
+    description: >-
+      Confirm the blockhash fetched at the start has not expired while the fees
+      were being sampled. If it has, the caller must restart with a fresh
+      blockhash before signing.
+    operationId: isBlockhashValid
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: isBlockhashValid
+        params:
+        - $steps.fetchBlockhash.outputs.blockhash
+        - commitment: processed
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value == true
+      type: jsonpath
+    outputs:
+      stillValid: $response.body#/result/value
+  outputs:
+    blockhash: $steps.fetchBlockhash.outputs.blockhash
+    lastValidBlockHeight: $steps.fetchBlockhash.outputs.lastValidBlockHeight
+    baseFeeLamports: $steps.priceMessage.outputs.baseFeeLamports
+    recentPriorityFee: $steps.samplePriorityFees.outputs.mostRecentFee
+    blockhashStillValid: $steps.verifyBlockhashStillValid.outputs.stillValid

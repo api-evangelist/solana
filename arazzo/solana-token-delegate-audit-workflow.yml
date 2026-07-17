@@ -1,0 +1,122 @@
+arazzo: 1.0.1
+info:
+  title: Solana Audit Token Accounts Delegated to an Address
+  summary: List the token accounts a delegate can spend from, resolve one balance, and inspect the account.
+  description: >-
+    The security review behind revoking stale token approvals. An SPL Token
+    account owner can delegate spending authority over some of their balance to
+    another address, and those delegations persist until explicitly revoked.
+    The workflow lists every token account that names the supplied address as
+    its delegate, resolves the balance of the first such account so the exposure
+    is quantified rather than merely listed, and inspects that token account in
+    parsed form to reveal the mint and the real owner behind it. Every step
+    spells out its JSON-RPC request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: token-delegate-audit
+  summary: Enumerate and quantify what a delegate address is authorized to spend.
+  description: >-
+    Finds the token accounts delegated to an address and measures the balance
+    behind the first one.
+  inputs:
+    type: object
+    required:
+    - delegateAddress
+    properties:
+      delegateAddress:
+        type: string
+        description: >-
+          Base58-encoded public key holding delegated spend authority over token
+          accounts.
+      tokenProgramId:
+        type: string
+        description: The token program that owns the token accounts.
+        default: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+  steps:
+  - stepId: delegatedAccounts
+    description: >-
+      List every SPL Token account that names this address as its delegate,
+      parsed so the delegated amount is readable alongside the mint.
+    operationId: getTokenAccountsByDelegate
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTokenAccountsByDelegate
+        params:
+        - $inputs.delegateAddress
+        - programId: $inputs.tokenProgramId
+        - encoding: jsonParsed
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      accounts: $response.body#/result/value
+      firstAccount: $response.body#/result/value/0/pubkey
+      slot: $response.body#/result/context/slot
+    onSuccess:
+    - name: hasDelegations
+      type: goto
+      stepId: delegatedBalance
+      criteria:
+      - context: $response.body
+        condition: $.result.value.length > 0
+        type: jsonpath
+  - stepId: delegatedBalance
+    description: >-
+      Resolve the balance sitting in the first delegated token account, turning
+      the delegation into a concrete exposure figure.
+    operationId: getTokenAccountBalance
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTokenAccountBalance
+        params:
+        - $steps.delegatedAccounts.outputs.firstAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      amount: $response.body#/result/value/amount
+      decimals: $response.body#/result/value/decimals
+      uiAmountString: $response.body#/result/value/uiAmountString
+  - stepId: inspectDelegatedAccount
+    description: >-
+      Inspect the delegated token account in parsed form to surface the mint and
+      the account's true owner, so a revoke can be routed to the right wallet.
+    operationId: getAccountInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getAccountInfo
+        params:
+        - $steps.delegatedAccounts.outputs.firstAccount
+        - encoding: jsonParsed
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      data: $response.body#/result/value/data
+      ownerProgram: $response.body#/result/value/owner
+      lamports: $response.body#/result/value/lamports
+  outputs:
+    delegatedAccounts: $steps.delegatedAccounts.outputs.accounts
+    firstDelegatedAmount: $steps.delegatedBalance.outputs.uiAmountString
+    firstDelegatedAccountData: $steps.inspectDelegatedAccount.outputs.data
+    auditedAtSlot: $steps.delegatedAccounts.outputs.slot

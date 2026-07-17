@@ -1,0 +1,124 @@
+arazzo: 1.0.1
+info:
+  title: Solana Scan a Program's Owned Accounts
+  summary: Verify an address is an executable program, list the accounts it owns, and batch-read the first of them.
+  description: >-
+    The discovery path for anyone indexing a Solana program's on-chain state.
+    The workflow first reads the supplied address and confirms it is actually an
+    executable program rather than a data account, then lists every account
+    owned by that program in parsed form, and finally batch-reads the leading
+    owned accounts in a single getMultipleAccounts call rather than one request
+    per account. getProgramAccounts is one of the heaviest methods on the RPC
+    surface and many public endpoints restrict or rate-limit it, which is
+    exactly why the executable check comes first. Every step spells out its
+    JSON-RPC request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: program-accounts-scan
+  summary: Confirm a program address and enumerate the accounts it owns.
+  description: >-
+    Guards on the executable flag before running an expensive program-account
+    scan, then batch-reads the results.
+  inputs:
+    type: object
+    required:
+    - programId
+    properties:
+      programId:
+        type: string
+        description: Base58-encoded public key of the program to scan.
+  steps:
+  - stepId: verifyProgram
+    description: >-
+      Read the address and confirm the executable flag is set. Running a
+      program-account scan against a non-program address wastes an expensive
+      call and returns nothing useful.
+    operationId: getAccountInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getAccountInfo
+        params:
+        - $inputs.programId
+        - encoding: base64
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value.executable == true
+      type: jsonpath
+    outputs:
+      executable: $response.body#/result/value/executable
+      owner: $response.body#/result/value/owner
+      lamports: $response.body#/result/value/lamports
+    onFailure:
+    - name: abortWhenNotAProgram
+      type: end
+  - stepId: listOwnedAccounts
+    description: >-
+      List every account owned by the program, parsed so the account state is
+      readable without decoding the raw data blob.
+    operationId: getProgramAccounts
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getProgramAccounts
+        params:
+        - $inputs.programId
+        - encoding: jsonParsed
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      accounts: $response.body#/result
+      firstPubkey: $response.body#/result/0/pubkey
+      secondPubkey: $response.body#/result/1/pubkey
+    onSuccess:
+    - name: hasOwnedAccounts
+      type: goto
+      stepId: batchReadAccounts
+      criteria:
+      - context: $response.body
+        condition: $.result.length > 0
+        type: jsonpath
+  - stepId: batchReadAccounts
+    description: >-
+      Re-read the leading owned accounts in a single batched call, the pattern
+      that keeps an indexer inside its rate limit instead of issuing one request
+      per account.
+    operationId: getMultipleAccounts
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getMultipleAccounts
+        params:
+        - - $steps.listOwnedAccounts.outputs.firstPubkey
+          - $steps.listOwnedAccounts.outputs.secondPubkey
+        - encoding: base64
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      accounts: $response.body#/result/value
+      slot: $response.body#/result/context/slot
+      firstAccountLamports: $response.body#/result/value/0/lamports
+      firstAccountSpace: $response.body#/result/value/0/space
+  outputs:
+    programOwner: $steps.verifyProgram.outputs.owner
+    ownedAccounts: $steps.listOwnedAccounts.outputs.accounts
+    batchedAccounts: $steps.batchReadAccounts.outputs.accounts
+    scannedAtSlot: $steps.batchReadAccounts.outputs.slot

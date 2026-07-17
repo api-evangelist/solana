@@ -1,0 +1,132 @@
+arazzo: 1.0.1
+info:
+  title: Solana Inspect a Confirmed Block at the Current Slot
+  summary: Resolve the current slot, fetch its block, and read the block's timestamp and commitment.
+  description: >-
+    The block explorer read path. The workflow resolves the slot the node has
+    most recently confirmed, fetches the full block at that slot including its
+    transactions and rewards, reads the block's estimated production time as a
+    Unix timestamp, and reads how much cluster stake has voted on the slot,
+    which is what makes a block irreversible. Solana slots can be skipped, so
+    getBlock may legitimately return no block for a given slot. Every step
+    spells out its JSON-RPC request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: block-inspection
+  summary: Fetch and characterize the block at the node's current confirmed slot.
+  description: >-
+    Walks from the current slot to a full block, its production time, and its
+    commitment level.
+  inputs:
+    type: object
+    properties:
+      transactionDetails:
+        type: string
+        description: How much transaction detail to include in the block.
+        enum:
+        - full
+        - accounts
+        - signatures
+        - none
+        default: full
+      maxSupportedTransactionVersion:
+        type: integer
+        description: >-
+          Maximum transaction version to return. Required to avoid an error when
+          the block contains versioned transactions.
+        default: 0
+  steps:
+  - stepId: currentSlot
+    description: >-
+      Resolve the slot the node has most recently processed, used as the target
+      for the block read.
+    operationId: getSlot
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSlot
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      slot: $response.body#/result
+  - stepId: fetchBlock
+    description: >-
+      Fetch the confirmed block at the resolved slot with full transaction
+      detail, its parent linkage, and the rewards paid to the block producer.
+    operationId: getBlock
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlock
+        params:
+        - $steps.currentSlot.outputs.slot
+        - encoding: json
+          transactionDetails: $inputs.transactionDetails
+          maxSupportedTransactionVersion: $inputs.maxSupportedTransactionVersion
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.blockhash
+      type: jsonpath
+    outputs:
+      blockhash: $response.body#/result/blockhash
+      previousBlockhash: $response.body#/result/previousBlockhash
+      parentSlot: $response.body#/result/parentSlot
+      blockHeight: $response.body#/result/blockHeight
+      transactions: $response.body#/result/transactions
+      rewards: $response.body#/result/rewards
+  - stepId: blockTime
+    description: >-
+      Read the estimated production time of the block as a Unix timestamp, which
+      is how on-chain slots get mapped onto wall-clock time.
+    operationId: getBlockTime
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlockTime
+        params:
+        - $steps.currentSlot.outputs.slot
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      blockTime: $response.body#/result
+  - stepId: blockCommitment
+    description: >-
+      Read how much stake has voted on the slot and the cluster's total active
+      stake, the ratio that determines whether the block can still be rolled
+      back.
+    operationId: getBlockCommitment
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlockCommitment
+        params:
+        - $steps.currentSlot.outputs.slot
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      commitment: $response.body#/result/commitment
+      totalStake: $response.body#/result/totalStake
+  outputs:
+    slot: $steps.currentSlot.outputs.slot
+    blockhash: $steps.fetchBlock.outputs.blockhash
+    blockHeight: $steps.fetchBlock.outputs.blockHeight
+    blockTime: $steps.blockTime.outputs.blockTime
+    totalStake: $steps.blockCommitment.outputs.totalStake

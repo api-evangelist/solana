@@ -1,0 +1,178 @@
+arazzo: 1.0.1
+info:
+  title: Solana Submit a Transaction and Confirm It
+  summary: Fetch a blockhash, simulate a signed transaction, send it, poll to finality, and read it back.
+  description: >-
+    The canonical Solana write path. The workflow fetches a recent blockhash and
+    its last valid block height, dry-runs the signed transaction with
+    simulateTransaction so a failing transaction never costs a fee, submits it
+    with sendTransaction, polls getSignatureStatuses until the cluster reports
+    finality, and finally reads the confirmed transaction back with
+    getTransaction. Transaction construction and signing happen client-side with
+    an SDK and are not part of the JSON-RPC surface, so the already-signed,
+    encoded transaction is supplied as an input, built against the blockhash the
+    first step returns. Every step spells out its JSON-RPC request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: send-transaction-lifecycle
+  summary: Simulate, submit, and confirm a signed Solana transaction end to end.
+  description: >-
+    Takes a signed, encoded transaction and carries it through the full submit
+    lifecycle, aborting before submission if the simulation reports an error.
+  inputs:
+    type: object
+    required:
+    - signedTransaction
+    properties:
+      signedTransaction:
+        type: string
+        description: >-
+          The signed transaction, already encoded (base64 or base58) by the
+          client SDK, built against the blockhash returned by fetchBlockhash.
+      encoding:
+        type: string
+        description: Encoding of the supplied signed transaction.
+        enum:
+        - base58
+        - base64
+        default: base64
+  steps:
+  - stepId: fetchBlockhash
+    description: >-
+      Fetch a recent blockhash and the last block height at which it stays
+      valid. The client signs the transaction against this blockhash, and the
+      expiry height bounds how long confirmation polling is worth attempting.
+    operationId: getLatestBlockhash
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getLatestBlockhash
+        params:
+        - commitment: finalized
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value.blockhash
+      type: jsonpath
+    outputs:
+      blockhash: $response.body#/result/value/blockhash
+      lastValidBlockHeight: $response.body#/result/value/lastValidBlockHeight
+  - stepId: simulate
+    description: >-
+      Dry-run the signed transaction against the current bank without
+      broadcasting it. Signature verification is enabled, and the step only
+      succeeds when the simulated result carries no error, so a transaction that
+      would fail on-chain is never submitted.
+    operationId: simulateTransaction
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: simulateTransaction
+        params:
+        - $inputs.signedTransaction
+        - sigVerify: true
+          commitment: finalized
+          encoding: $inputs.encoding
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value.err == null
+      type: jsonpath
+    outputs:
+      logs: $response.body#/result/value/logs
+      unitsConsumed: $response.body#/result/value/unitsConsumed
+      simulationError: $response.body#/result/value/err
+    onFailure:
+    - name: abortOnSimulationError
+      type: end
+  - stepId: submit
+    description: >-
+      Relay the signed transaction to the cluster as-is. The node returns the
+      base58 transaction signature, which is the handle used to track
+      confirmation.
+    operationId: sendTransaction
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: sendTransaction
+        params:
+        - $inputs.signedTransaction
+        - encoding: $inputs.encoding
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      signature: $response.body#/result
+  - stepId: confirm
+    description: >-
+      Poll the signature status until the cluster reports it finalized. The step
+      retries on a short interval because a freshly submitted transaction takes
+      several slots to reach finality.
+    operationId: getSignatureStatuses
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSignatureStatuses
+        params:
+        - - $steps.submit.outputs.signature
+        - searchTransactionHistory: true
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value[0].confirmationStatus == 'finalized'
+      type: jsonpath
+    outputs:
+      confirmationStatus: $response.body#/result/value/0/confirmationStatus
+      confirmedSlot: $response.body#/result/value/0/slot
+      transactionError: $response.body#/result/value/0/err
+    onFailure:
+    - name: pollUntilFinalized
+      type: retry
+      retryAfter: 2
+      retryLimit: 30
+  - stepId: fetchTransaction
+    description: >-
+      Read the finalized transaction back in parsed form to capture the slot it
+      landed in, the fee actually charged, and the on-chain log messages.
+    operationId: getTransaction
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTransaction
+        params:
+        - $steps.submit.outputs.signature
+        - encoding: jsonParsed
+          commitment: finalized
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.slot
+      type: jsonpath
+    outputs:
+      slot: $response.body#/result/slot
+      blockTime: $response.body#/result/blockTime
+      fee: $response.body#/result/meta/fee
+      logMessages: $response.body#/result/meta/logMessages
+  outputs:
+    signature: $steps.submit.outputs.signature
+    confirmationStatus: $steps.confirm.outputs.confirmationStatus
+    slot: $steps.fetchTransaction.outputs.slot
+    fee: $steps.fetchTransaction.outputs.fee

@@ -1,0 +1,111 @@
+arazzo: 1.0.1
+info:
+  title: Solana Snapshot a Wallet's SOL and SPL Token Holdings
+  summary: Read a wallet's lamport balance, enumerate its SPL Token accounts, and price one token account.
+  description: >-
+    The read path every Solana wallet and portfolio view runs. The workflow
+    reads the native SOL balance for an address, enumerates every SPL Token
+    account owned by that address under the SPL Token program in parsed form,
+    and then resolves the precise balance of the first token account with
+    getTokenAccountBalance, which returns raw amount, decimals, and a
+    display-ready string. Every step spells out its JSON-RPC request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: wallet-portfolio
+  summary: Build a holdings snapshot for a single wallet address.
+  description: >-
+    Combines the native lamport balance with the wallet's SPL Token accounts and
+    a resolved balance for one of them.
+  inputs:
+    type: object
+    required:
+    - ownerAddress
+    properties:
+      ownerAddress:
+        type: string
+        description: Base58-encoded wallet public key that owns the accounts.
+      tokenProgramId:
+        type: string
+        description: The token program that owns the token accounts.
+        default: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+  steps:
+  - stepId: nativeBalance
+    description: >-
+      Read the wallet's native SOL balance in lamports.
+    operationId: getBalance
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBalance
+        params:
+        - $inputs.ownerAddress
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      lamports: $response.body#/result/value
+      slot: $response.body#/result/context/slot
+  - stepId: tokenAccounts
+    description: >-
+      Enumerate every SPL Token account owned by the wallet, parsed so mint and
+      amount are readable without decoding account data by hand.
+    operationId: getTokenAccountsByOwner
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTokenAccountsByOwner
+        params:
+        - $inputs.ownerAddress
+        - programId: $inputs.tokenProgramId
+        - encoding: jsonParsed
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      accounts: $response.body#/result/value
+      firstTokenAccount: $response.body#/result/value/0/pubkey
+    onSuccess:
+    - name: hasTokenAccounts
+      type: goto
+      stepId: tokenAccountBalance
+      criteria:
+      - context: $response.body
+        condition: $.result.value.length > 0
+        type: jsonpath
+  - stepId: tokenAccountBalance
+    description: >-
+      Resolve the balance of the wallet's first token account, returning the raw
+      amount alongside the mint's decimals and a display-ready string.
+    operationId: getTokenAccountBalance
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTokenAccountBalance
+        params:
+        - $steps.tokenAccounts.outputs.firstTokenAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      amount: $response.body#/result/value/amount
+      decimals: $response.body#/result/value/decimals
+      uiAmountString: $response.body#/result/value/uiAmountString
+  outputs:
+    lamports: $steps.nativeBalance.outputs.lamports
+    tokenAccounts: $steps.tokenAccounts.outputs.accounts
+    firstTokenAccountAmount: $steps.tokenAccountBalance.outputs.uiAmountString

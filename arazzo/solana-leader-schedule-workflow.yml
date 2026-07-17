@@ -1,0 +1,144 @@
+arazzo: 1.0.1
+info:
+  title: Solana Resolve the Current Epoch's Leader Schedule
+  summary: Read epoch position and schedule, fetch the leader schedule, and identify the current and upcoming leaders.
+  description: >-
+    The routing path a latency-sensitive client uses to send a transaction
+    straight to the validator that is about to produce blocks. The workflow
+    reads where the cluster sits inside the current epoch, reads the epoch
+    schedule that governs how slots map onto epochs, fetches the leader schedule
+    for the current epoch, identifies the validator leading right now, and lists
+    the leaders for the slots immediately ahead. Every step spells out its
+    JSON-RPC request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: leader-schedule
+  summary: Resolve who leads now and who leads next in the current epoch.
+  description: >-
+    Walks from epoch position to the concrete validators producing the current
+    and upcoming slots.
+  inputs:
+    type: object
+    properties:
+      upcomingLeaderCount:
+        type: integer
+        description: How many upcoming slot leaders to list, starting at the current slot.
+        default: 10
+  steps:
+  - stepId: epochInfo
+    description: >-
+      Read the current epoch, the absolute slot, and the position inside the
+      epoch, which anchors every schedule lookup that follows.
+    operationId: getEpochInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getEpochInfo
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      epoch: $response.body#/result/epoch
+      absoluteSlot: $response.body#/result/absoluteSlot
+      slotIndex: $response.body#/result/slotIndex
+      slotsInEpoch: $response.body#/result/slotsInEpoch
+  - stepId: epochSchedule
+    description: >-
+      Read the schedule that maps slots onto epochs, including the warmup period
+      and the offset at which a leader schedule is published ahead of its epoch.
+    operationId: getEpochSchedule
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getEpochSchedule
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      slotsPerEpoch: $response.body#/result/slotsPerEpoch
+      leaderScheduleSlotOffset: $response.body#/result/leaderScheduleSlotOffset
+      warmup: $response.body#/result/warmup
+      firstNormalEpoch: $response.body#/result/firstNormalEpoch
+      firstNormalSlot: $response.body#/result/firstNormalSlot
+  - stepId: leaderSchedule
+    description: >-
+      Fetch the leader schedule for the current epoch, keyed by validator
+      identity with the slot indices each one is assigned.
+    operationId: getLeaderSchedule
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getLeaderSchedule
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      schedule: $response.body#/result
+  - stepId: currentLeader
+    description: >-
+      Identify the validator leading the current slot, the node a client would
+      forward a transaction to right now.
+    operationId: getSlotLeader
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSlotLeader
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      leader: $response.body#/result
+  - stepId: upcomingLeaders
+    description: >-
+      List the leaders for the slots immediately ahead of the current one, which
+      is what lets a client pre-connect to the next producer instead of the
+      current one.
+    operationId: getSlotLeaders
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSlotLeaders
+        params:
+        - $steps.epochInfo.outputs.absoluteSlot
+        - $inputs.upcomingLeaderCount
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      leaders: $response.body#/result
+      nextLeader: $response.body#/result/0
+  outputs:
+    epoch: $steps.epochInfo.outputs.epoch
+    slotsPerEpoch: $steps.epochSchedule.outputs.slotsPerEpoch
+    leaderSchedule: $steps.leaderSchedule.outputs.schedule
+    currentLeader: $steps.currentLeader.outputs.leader
+    upcomingLeaders: $steps.upcomingLeaders.outputs.leaders

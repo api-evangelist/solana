@@ -1,0 +1,152 @@
+arazzo: 1.0.1
+info:
+  title: Solana Discover the Available Ledger Range and Backfill Blocks
+  summary: Find the node's earliest available block and minimum retained slot, then walk a page of blocks.
+  description: >-
+    The bootstrap sequence every Solana indexer runs before backfilling. An RPC
+    node only retains part of the ledger, so the workflow first establishes the
+    floor from two directions — the lowest slot with an available block and the
+    lowest slot the node still keeps in its ledger — then lists a bounded page
+    of confirmed slots from that floor, lists the slots inside an explicit
+    range, and fetches the first available block itself in signature-only form
+    to keep the payload small. Asking for blocks below this floor is the most
+    common cause of a failed backfill. Every step spells out its JSON-RPC
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: ledger-backfill-range
+  summary: Establish the retained ledger window and page confirmed slots from its floor.
+  description: >-
+    Resolves what history a node actually holds, then walks the first page of
+    blocks inside that window.
+  inputs:
+    type: object
+    properties:
+      pageLimit:
+        type: integer
+        description: How many confirmed slots to return when paging from the floor.
+        default: 10
+      rangeSpan:
+        type: integer
+        description: >-
+          How many slots past the floor to bound the explicit start/end slot
+          listing with.
+        default: 100
+  steps:
+  - stepId: firstAvailableBlock
+    description: >-
+      Find the lowest slot for which the node can still serve a confirmed block.
+      This is the true floor for any backfill against this endpoint.
+    operationId: getFirstAvailableBlock
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getFirstAvailableBlock
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstSlot: $response.body#/result
+  - stepId: minimumLedgerSlot
+    description: >-
+      Read the lowest slot the node still retains in its ledger. This can differ
+      from the first available block, and the higher of the two is the safe
+      starting point.
+    operationId: minimumLedgerSlot
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: minimumLedgerSlot
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      minimumSlot: $response.body#/result
+  - stepId: pageSlotsFromFloor
+    description: >-
+      List a bounded page of confirmed slots starting at the floor. Using a
+      limit rather than an open-ended range is what keeps a backfill from
+      requesting more than the node will return.
+    operationId: getBlocksWithLimit
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlocksWithLimit
+        params:
+        - $steps.firstAvailableBlock.outputs.firstSlot
+        - $inputs.pageLimit
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      slots: $response.body#/result
+      firstPagedSlot: $response.body#/result/0
+  - stepId: listSlotsInRange
+    description: >-
+      List the confirmed slots between an explicit start and end slot. Skipped
+      slots simply do not appear, which is how an indexer learns which slots
+      produced no block.
+    operationId: getBlocks
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlocks
+        params:
+        - $steps.firstAvailableBlock.outputs.firstSlot
+        - $inputs.rangeSpan
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      slotsInRange: $response.body#/result
+  - stepId: fetchFloorBlock
+    description: >-
+      Fetch the block at the first paged slot with signatures only, the cheapest
+      form that still proves the block is retrievable before a full backfill is
+      launched against it.
+    operationId: getBlock
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlock
+        params:
+        - $steps.pageSlotsFromFloor.outputs.firstPagedSlot
+        - encoding: json
+          transactionDetails: signatures
+          maxSupportedTransactionVersion: 0
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.blockhash
+      type: jsonpath
+    outputs:
+      blockhash: $response.body#/result/blockhash
+      parentSlot: $response.body#/result/parentSlot
+      blockHeight: $response.body#/result/blockHeight
+      signatures: $response.body#/result/signatures
+      blockTime: $response.body#/result/blockTime
+  outputs:
+    firstAvailableSlot: $steps.firstAvailableBlock.outputs.firstSlot
+    minimumLedgerSlot: $steps.minimumLedgerSlot.outputs.minimumSlot
+    pagedSlots: $steps.pageSlotsFromFloor.outputs.slots
+    slotsInRange: $steps.listSlotsInRange.outputs.slotsInRange
+    floorBlockSignatures: $steps.fetchFloorBlock.outputs.signatures

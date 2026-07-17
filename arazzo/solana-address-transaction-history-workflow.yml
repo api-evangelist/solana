@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Solana Page an Address's Transaction History
+  summary: List an address's recent transaction signatures and expand the newest one into full detail.
+  description: >-
+    The read path behind every Solana block explorer and wallet activity feed.
+    The workflow lists confirmed signatures for an address backwards in time
+    from the most recent confirmed block, then expands the newest signature into
+    a fully parsed transaction with its fee, balance deltas, and log messages.
+    The signature list carries a `before` cursor, so the caller can page deeper
+    by re-running the flow with the last signature of the previous page. Every
+    step spells out its JSON-RPC request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: address-transaction-history
+  summary: Fetch a page of an address's signatures and detail the newest transaction.
+  description: >-
+    Lists recent signatures involving an address and resolves the most recent
+    one into a full transaction record.
+  inputs:
+    type: object
+    required:
+    - address
+    properties:
+      address:
+        type: string
+        description: Base58-encoded account address to list activity for.
+      limit:
+        type: integer
+        description: Maximum number of signatures to return (1-1000).
+        default: 10
+  steps:
+  - stepId: listSignatures
+    description: >-
+      List confirmed transaction signatures involving the address, newest first,
+      capped at the requested page size.
+    operationId: getSignaturesForAddress
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSignaturesForAddress
+        params:
+        - $inputs.address
+        - limit: $inputs.limit
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      signatures: $response.body#/result
+      newestSignature: $response.body#/result/0/signature
+      newestSlot: $response.body#/result/0/slot
+    onSuccess:
+    - name: hasActivity
+      type: goto
+      stepId: detailNewest
+      criteria:
+      - context: $response.body
+        condition: $.result.length > 0
+        type: jsonpath
+  - stepId: detailNewest
+    description: >-
+      Expand the newest signature into a parsed transaction, capturing the slot,
+      block time, fee charged, and the balances before and after execution.
+    operationId: getTransaction
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTransaction
+        params:
+        - $steps.listSignatures.outputs.newestSignature
+        - encoding: jsonParsed
+          commitment: finalized
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.slot
+      type: jsonpath
+    outputs:
+      slot: $response.body#/result/slot
+      blockTime: $response.body#/result/blockTime
+      fee: $response.body#/result/meta/fee
+      preBalances: $response.body#/result/meta/preBalances
+      postBalances: $response.body#/result/meta/postBalances
+      logMessages: $response.body#/result/meta/logMessages
+  outputs:
+    signatures: $steps.listSignatures.outputs.signatures
+    newestSignature: $steps.listSignatures.outputs.newestSignature
+    newestFee: $steps.detailNewest.outputs.fee
+    newestBlockTime: $steps.detailNewest.outputs.blockTime

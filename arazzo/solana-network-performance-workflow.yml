@@ -1,0 +1,126 @@
+arazzo: 1.0.1
+info:
+  title: Solana Sample Network Performance and Block Production
+  summary: Pull recent performance samples, the running transaction count, block production, and the node list.
+  description: >-
+    The throughput and liveness read behind network dashboards. The workflow
+    pulls recent performance samples, each covering a sample window with its
+    transaction and slot counts so a transactions-per-second figure can be
+    computed rather than guessed, reads the cluster's running transaction count,
+    reads block production per validator identity across the current slot range
+    to expose validators that are being assigned slots but not producing, and
+    lists the cluster's nodes with their gossip and RPC endpoints and software
+    versions. Every step spells out its JSON-RPC request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: network-performance
+  summary: Assemble a throughput, block-production, and node-inventory snapshot.
+  description: >-
+    Samples network performance and pairs it with block production and the node
+    inventory behind it.
+  inputs:
+    type: object
+    properties:
+      sampleLimit:
+        type: integer
+        description: >-
+          Number of recent performance samples to return. Each sample covers a
+          fixed period of slots.
+        default: 4
+  steps:
+  - stepId: performanceSamples
+    description: >-
+      Pull recent performance samples. Dividing a sample's transaction count by
+      its period gives the network's transactions per second over that window.
+    operationId: getRecentPerformanceSamples
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getRecentPerformanceSamples
+        params:
+        - $inputs.sampleLimit
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      samples: $response.body#/result
+      latestSlot: $response.body#/result/0/slot
+      latestNumTransactions: $response.body#/result/0/numTransactions
+      latestNumNonVoteTransactions: $response.body#/result/0/numNonVoteTransactions
+      latestNumSlots: $response.body#/result/0/numSlots
+      latestSamplePeriodSecs: $response.body#/result/0/samplePeriodSecs
+  - stepId: transactionCount
+    description: >-
+      Read the cluster's running total of processed transactions, the
+      cumulative counter behind lifetime throughput figures.
+    operationId: getTransactionCount
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getTransactionCount
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      count: $response.body#/result
+  - stepId: blockProduction
+    description: >-
+      Read how many slots each validator identity was assigned versus how many
+      blocks it actually produced across the current range, which is how skipped
+      slots get attributed to a specific validator.
+    operationId: getBlockProduction
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlockProduction
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      byIdentity: $response.body#/result/value/byIdentity
+      firstSlot: $response.body#/result/value/range/firstSlot
+      lastSlot: $response.body#/result/value/range/lastSlot
+  - stepId: clusterNodes
+    description: >-
+      List the nodes participating in the cluster with their gossip, TPU, and
+      RPC endpoints plus the software version each runs, so a production gap can
+      be tied back to a reachable node.
+    operationId: getClusterNodes
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getClusterNodes
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      nodes: $response.body#/result
+      firstNodePubkey: $response.body#/result/0/pubkey
+      firstNodeVersion: $response.body#/result/0/version
+      firstNodeRpc: $response.body#/result/0/rpc
+  outputs:
+    samples: $steps.performanceSamples.outputs.samples
+    transactionCount: $steps.transactionCount.outputs.count
+    blockProductionByIdentity: $steps.blockProduction.outputs.byIdentity
+    nodes: $steps.clusterNodes.outputs.nodes

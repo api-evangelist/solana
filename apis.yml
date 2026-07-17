@@ -273,6 +273,57 @@ common:
     url: vocabulary/solana-rpc-vocabulary.json
   - type: JSONLDContext
     url: json-ld/solana-rpc-context.jsonld
+  - type: Arazzo
+    url: arazzo/solana-send-transaction-lifecycle-workflow.yml
+    name: Solana Submit a Transaction and Confirm It
+  - type: Arazzo
+    url: arazzo/solana-devnet-airdrop-workflow.yml
+    name: Solana Request a Devnet Airdrop and Confirm Funding
+  - type: Arazzo
+    url: arazzo/solana-wallet-portfolio-workflow.yml
+    name: Solana Snapshot a Wallet's SOL and SPL Token Holdings
+  - type: Arazzo
+    url: arazzo/solana-address-transaction-history-workflow.yml
+    name: Solana Page an Address's Transaction History
+  - type: Arazzo
+    url: arazzo/solana-fee-estimation-workflow.yml
+    name: Solana Estimate Transaction Fees and Priority Fees
+  - type: Arazzo
+    url: arazzo/solana-account-rent-exemption-workflow.yml
+    name: Solana Check Whether an Account Is Rent Exempt
+  - type: Arazzo
+    url: arazzo/solana-token-mint-analytics-workflow.yml
+    name: Solana Analyze an SPL Token Mint and Its Largest Holders
+  - type: Arazzo
+    url: arazzo/solana-token-delegate-audit-workflow.yml
+    name: Solana Audit Token Accounts Delegated to an Address
+  - type: Arazzo
+    url: arazzo/solana-program-accounts-scan-workflow.yml
+    name: Solana Scan a Program's Owned Accounts
+  - type: Arazzo
+    url: arazzo/solana-cluster-health-check-workflow.yml
+    name: Solana Run a Cluster Health and Readiness Check
+  - type: Arazzo
+    url: arazzo/solana-node-identity-snapshot-workflow.yml
+    name: Solana Identify a Node and Its Cluster and Snapshot State
+  - type: Arazzo
+    url: arazzo/solana-block-inspection-workflow.yml
+    name: Solana Inspect a Confirmed Block at the Current Slot
+  - type: Arazzo
+    url: arazzo/solana-ledger-backfill-range-workflow.yml
+    name: Solana Discover the Available Ledger Range and Backfill Blocks
+  - type: Arazzo
+    url: arazzo/solana-leader-schedule-workflow.yml
+    name: Solana Resolve the Current Epoch's Leader Schedule
+  - type: Arazzo
+    url: arazzo/solana-network-performance-workflow.yml
+    name: Solana Sample Network Performance and Block Production
+  - type: Arazzo
+    url: arazzo/solana-validator-rewards-workflow.yml
+    name: Solana Audit Validator Vote Accounts and Inflation Rewards
+  - type: Arazzo
+    url: arazzo/solana-network-supply-economics-workflow.yml
+    name: Solana Snapshot Network Supply and Staking Economics
   - type: UseCases
     data:
       - name: DeFi Application Backend

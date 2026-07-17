@@ -1,0 +1,149 @@
+arazzo: 1.0.1
+info:
+  title: Solana Identify a Node and Its Cluster and Snapshot State
+  summary: Read a node's identity, genesis hash, version, snapshot slots, and shred-processing high-water marks.
+  description: >-
+    The provenance check a validator operator runs against an RPC endpoint. The
+    workflow reads the node's identity public key, reads the genesis hash that
+    definitively identifies which cluster the node is on — the reliable way to
+    catch a client pointed at Devnet when it believes it is on Mainnet — records
+    the software version, reads the highest full and incremental snapshot slots
+    the node can serve to a bootstrapping validator, and reads the retransmit
+    and shred-insert high-water marks that show how far its shred processing has
+    advanced. Every step spells out its JSON-RPC request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: node-identity-snapshot
+  summary: Establish which node is being talked to, on which cluster, and what it can serve.
+  description: >-
+    Pins down node identity, cluster provenance, and snapshot availability in
+    one pass.
+  inputs:
+    type: object
+    properties: {}
+  steps:
+  - stepId: identity
+    description: >-
+      Read the node's identity public key, which is how a specific validator is
+      named everywhere else on the cluster.
+    operationId: getIdentity
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getIdentity
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.identity
+      type: jsonpath
+    outputs:
+      identity: $response.body#/result/identity
+  - stepId: genesisHash
+    description: >-
+      Read the genesis hash, the unambiguous fingerprint of which cluster this
+      node belongs to. Comparing it against an expected value is the surest
+      guard against pointing production traffic at a test cluster.
+    operationId: getGenesisHash
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getGenesisHash
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      genesisHash: $response.body#/result
+  - stepId: version
+    description: >-
+      Record the solana-core version and feature set, needed to interpret the
+      snapshot and shred values that follow.
+    operationId: getVersion
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getVersion
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      solanaCore: $response.body#/result/solana-core
+      featureSet: $response.body#/result/feature-set
+  - stepId: snapshotSlot
+    description: >-
+      Read the highest full and incremental snapshot slots the node holds, which
+      determines whether it can bootstrap another validator and from how recent
+      a point.
+    operationId: getHighestSnapshotSlot
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getHighestSnapshotSlot
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      full: $response.body#/result/full
+      incremental: $response.body#/result/incremental
+  - stepId: maxRetransmitSlot
+    description: >-
+      Read the highest slot the node has seen via its retransmit stage, an early
+      indicator of how current its shred pipeline is.
+    operationId: getMaxRetransmitSlot
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getMaxRetransmitSlot
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      slot: $response.body#/result
+  - stepId: maxShredInsertSlot
+    description: >-
+      Read the highest slot for which the node has inserted shreds. Compared
+      against the retransmit mark, it shows whether the node keeps up with the
+      shreds it receives.
+    operationId: getMaxShredInsertSlot
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getMaxShredInsertSlot
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      slot: $response.body#/result
+  outputs:
+    identity: $steps.identity.outputs.identity
+    genesisHash: $steps.genesisHash.outputs.genesisHash
+    solanaCore: $steps.version.outputs.solanaCore
+    highestFullSnapshotSlot: $steps.snapshotSlot.outputs.full
+    maxRetransmitSlot: $steps.maxRetransmitSlot.outputs.slot
+    maxShredInsertSlot: $steps.maxShredInsertSlot.outputs.slot

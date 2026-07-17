@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: Solana Check Whether an Account Is Rent Exempt
+  summary: Read an account's size and lamports, then look up the rent-exempt minimum for that size.
+  description: >-
+    Solana charges rent against accounts that do not hold a minimum balance for
+    their data size, and an account that falls below that threshold can be
+    purged. The workflow reads the account to learn how many bytes it occupies
+    and how many lamports it currently holds, then asks the cluster for the
+    minimum balance required to make an account of exactly that size rent
+    exempt, giving the caller both numbers to compare. Every step spells out its
+    JSON-RPC request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: account-rent-exemption
+  summary: Compare an account's lamport balance against the rent-exempt minimum for its size.
+  description: >-
+    Resolves an account's data size and balance, then resolves the rent-exempt
+    threshold for that size.
+  inputs:
+    type: object
+    required:
+    - address
+    properties:
+      address:
+        type: string
+        description: Base58-encoded public key of the account to inspect.
+  steps:
+  - stepId: readAccount
+    description: >-
+      Read the account to capture the lamports it holds, the program that owns
+      it, and the size of its data, which is what the rent calculation keys on.
+    operationId: getAccountInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getAccountInfo
+        params:
+        - $inputs.address
+        - encoding: base64
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      lamports: $response.body#/result/value/lamports
+      owner: $response.body#/result/value/owner
+      space: $response.body#/result/value/space
+      executable: $response.body#/result/value/executable
+      rentEpoch: $response.body#/result/value/rentEpoch
+  - stepId: rentExemptMinimum
+    description: >-
+      Look up the minimum lamport balance that makes an account of this exact
+      data size rent exempt. Comparing this against the account's lamports tells
+      the caller whether the account is safe or needs topping up.
+    operationId: getMinimumBalanceForRentExemption
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getMinimumBalanceForRentExemption
+        params:
+        - $steps.readAccount.outputs.space
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      minimumLamports: $response.body#/result/value
+  outputs:
+    lamports: $steps.readAccount.outputs.lamports
+    space: $steps.readAccount.outputs.space
+    owner: $steps.readAccount.outputs.owner
+    rentExemptMinimumLamports: $steps.rentExemptMinimum.outputs.minimumLamports

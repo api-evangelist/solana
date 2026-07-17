@@ -1,0 +1,149 @@
+arazzo: 1.0.1
+info:
+  title: Solana Snapshot Network Supply and Staking Economics
+  summary: Read total and circulating supply, profile the largest accounts, and read inflation and staking floors.
+  description: >-
+    The macro read behind economics dashboards and research reports. The
+    workflow reads the network's total, circulating, and non-circulating
+    lamport supply, profiles the twenty largest circulating accounts to show how
+    concentrated that supply is, reads the inflation governor's long-run
+    parameters and the inflation rate actually in force this epoch, and reads
+    the minimum lamports a stake account must delegate. getLargestAccounts
+    results may be cached by the node for up to two hours. Every step spells out
+    its JSON-RPC request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: network-supply-economics
+  summary: Assemble a supply, concentration, inflation, and staking snapshot.
+  description: >-
+    Reads the network-wide economic figures a dashboard or report needs in one
+    pass.
+  inputs:
+    type: object
+    properties:
+      excludeNonCirculatingAccountsList:
+        type: boolean
+        description: >-
+          Set true to omit the non-circulating account list from the supply
+          response, which makes the payload far smaller.
+        default: false
+  steps:
+  - stepId: supply
+    description: >-
+      Read the current supply of lamports across the network, split into
+      circulating and non-circulating.
+    operationId: getSupply
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSupply
+        params:
+        - excludeNonCirculatingAccountsList: $inputs.excludeNonCirculatingAccountsList
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      total: $response.body#/result/value/total
+      circulating: $response.body#/result/value/circulating
+      nonCirculating: $response.body#/result/value/nonCirculating
+      nonCirculatingAccounts: $response.body#/result/value/nonCirculatingAccounts
+  - stepId: largestCirculatingAccounts
+    description: >-
+      Profile the twenty largest accounts by lamport balance, filtered to
+      circulating supply, which is what turns a supply figure into a
+      concentration picture.
+    operationId: getLargestAccounts
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getLargestAccounts
+        params:
+        - filter: circulating
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result.value
+      type: jsonpath
+    outputs:
+      accounts: $response.body#/result/value
+      largestAddress: $response.body#/result/value/0/address
+      largestLamports: $response.body#/result/value/0/lamports
+  - stepId: inflationGovernor
+    description: >-
+      Read the long-run inflation schedule: the initial and terminal rates, the
+      taper that moves between them, and the foundation's share and term.
+    operationId: getInflationGovernor
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getInflationGovernor
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      initial: $response.body#/result/initial
+      terminal: $response.body#/result/terminal
+      taper: $response.body#/result/taper
+      foundation: $response.body#/result/foundation
+      foundationTerm: $response.body#/result/foundationTerm
+  - stepId: inflationRate
+    description: >-
+      Read the inflation actually in force for the current epoch, which is the
+      governor's schedule resolved to a point in time.
+    operationId: getInflationRate
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getInflationRate
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      total: $response.body#/result/total
+      validator: $response.body#/result/validator
+      foundation: $response.body#/result/foundation
+      epoch: $response.body#/result/epoch
+  - stepId: stakeMinimumDelegation
+    description: >-
+      Read the minimum lamports required to delegate a stake account, the floor
+      any staking product has to enforce in its UI.
+    operationId: getStakeMinimumDelegation
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getStakeMinimumDelegation
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      minimumLamports: $response.body#/result/value
+  outputs:
+    totalSupply: $steps.supply.outputs.total
+    circulatingSupply: $steps.supply.outputs.circulating
+    largestAccounts: $steps.largestCirculatingAccounts.outputs.accounts
+    currentInflationTotal: $steps.inflationRate.outputs.total
+    terminalInflation: $steps.inflationGovernor.outputs.terminal
+    stakeMinimumDelegation: $steps.stakeMinimumDelegation.outputs.minimumLamports

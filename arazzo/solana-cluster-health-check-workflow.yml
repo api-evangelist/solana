@@ -1,0 +1,139 @@
+arazzo: 1.0.1
+info:
+  title: Solana Run a Cluster Health and Readiness Check
+  summary: Probe an RPC node's health, version, current slot, epoch position, and block height.
+  description: >-
+    The readiness probe to run against an RPC endpoint before trusting it, and
+    on a schedule afterwards. The workflow asks the node whether it considers
+    itself healthy, records the software version and feature set it is running,
+    reads the slot it has processed, places that slot inside the current epoch,
+    and reads the block height. Together these answer the question a health
+    check actually needs answered: is this node up, current, and running a
+    version I expect. Every step spells out its JSON-RPC request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: cluster-health-check
+  summary: Confirm an RPC node is healthy, current, and on a known version.
+  description: >-
+    Runs the standard sequence of node-state reads used to gate traffic to an
+    RPC endpoint.
+  inputs:
+    type: object
+    properties:
+      commitment:
+        type: string
+        description: Commitment level for the slot and block height reads.
+        enum:
+        - finalized
+        - confirmed
+        - processed
+        default: confirmed
+  steps:
+  - stepId: health
+    description: >-
+      Ask the node whether it is caught up with the cluster. A healthy node
+      returns the string "ok"; a lagging node returns an error carrying how many
+      slots behind it is.
+    operationId: getHealth
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getHealth
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result == 'ok'
+      type: jsonpath
+    outputs:
+      status: $response.body#/result
+  - stepId: version
+    description: >-
+      Record the solana-core version and feature set the node runs, so clients
+      can detect a node lagging behind a cluster-wide upgrade.
+    operationId: getVersion
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getVersion
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      solanaCore: $response.body#/result/solana-core
+      featureSet: $response.body#/result/feature-set
+  - stepId: currentSlot
+    description: >-
+      Read the slot the node has reached, the primary freshness signal for an
+      RPC endpoint.
+    operationId: getSlot
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getSlot
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      slot: $response.body#/result
+  - stepId: epochInfo
+    description: >-
+      Place the current slot inside its epoch, giving the epoch number, the
+      position within it, and the running transaction count.
+    operationId: getEpochInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getEpochInfo
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      epoch: $response.body#/result/epoch
+      absoluteSlot: $response.body#/result/absoluteSlot
+      slotIndex: $response.body#/result/slotIndex
+      slotsInEpoch: $response.body#/result/slotsInEpoch
+      transactionCount: $response.body#/result/transactionCount
+  - stepId: blockHeight
+    description: >-
+      Read the current block height, which advances only with confirmed blocks
+      and is the value transaction expiry is measured against.
+    operationId: getBlockHeight
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getBlockHeight
+        params:
+        - commitment: $inputs.commitment
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      blockHeight: $response.body#/result
+  outputs:
+    health: $steps.health.outputs.status
+    solanaCore: $steps.version.outputs.solanaCore
+    slot: $steps.currentSlot.outputs.slot
+    epoch: $steps.epochInfo.outputs.epoch
+    blockHeight: $steps.blockHeight.outputs.blockHeight

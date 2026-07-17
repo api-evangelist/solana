@@ -1,0 +1,143 @@
+arazzo: 1.0.1
+info:
+  title: Solana Audit Validator Vote Accounts and Inflation Rewards
+  summary: Read the current epoch, list current and delinquent vote accounts, and resolve inflation rewards.
+  description: >-
+    The staking oversight path for anyone running or delegating to a validator.
+    The workflow reads the current epoch, lists the cluster's vote accounts
+    split into current and delinquent sets, resolves the inflation rewards paid
+    to the supplied addresses for a completed epoch, and reads the current
+    inflation rate so a reward can be judged against the network-wide baseline.
+    Rewards can only be queried for an epoch that has already finished, so the
+    epoch input should trail the current one. Every step spells out its JSON-RPC
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: solanaRpcApi
+  url: ../openapi/solana-rpc-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: validator-rewards
+  summary: Check validator vote health and the inflation rewards paid to addresses.
+  description: >-
+    Combines vote-account standing with per-address inflation rewards for a
+    completed epoch.
+  inputs:
+    type: object
+    required:
+    - addresses
+    - rewardEpoch
+    properties:
+      addresses:
+        type: array
+        description: >-
+          Base58-encoded vote or stake account addresses to resolve rewards for.
+        items:
+          type: string
+      rewardEpoch:
+        type: integer
+        description: >-
+          A completed epoch to read rewards for. Must be earlier than the
+          current epoch.
+  steps:
+  - stepId: epochInfo
+    description: >-
+      Read the current epoch so the caller can confirm the requested reward
+      epoch has actually completed.
+    operationId: getEpochInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getEpochInfo
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      currentEpoch: $response.body#/result/epoch
+      absoluteSlot: $response.body#/result/absoluteSlot
+      slotIndex: $response.body#/result/slotIndex
+      slotsInEpoch: $response.body#/result/slotsInEpoch
+  - stepId: voteAccounts
+    description: >-
+      List the cluster's vote accounts at finality, split into validators voting
+      normally and validators the cluster considers delinquent. A stake account
+      delegated to a delinquent validator stops earning.
+    operationId: getVoteAccounts
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getVoteAccounts
+        params:
+        - commitment: finalized
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      current: $response.body#/result/current
+      delinquent: $response.body#/result/delinquent
+      topCurrentVotePubkey: $response.body#/result/current/0/votePubkey
+      topCurrentActivatedStake: $response.body#/result/current/0/activatedStake
+  - stepId: inflationRewards
+    description: >-
+      Resolve the inflation rewards credited to the supplied addresses for the
+      completed epoch, including the amount, the commission the validator took,
+      and the resulting balance.
+    operationId: getInflationReward
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getInflationReward
+        params:
+        - $inputs.addresses
+        - epoch: $inputs.rewardEpoch
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      rewards: $response.body#/result
+      firstRewardAmount: $response.body#/result/0/amount
+      firstRewardEpoch: $response.body#/result/0/epoch
+      firstRewardCommission: $response.body#/result/0/commission
+      firstRewardPostBalance: $response.body#/result/0/postBalance
+  - stepId: inflationRate
+    description: >-
+      Read the network's current inflation split between validators and the
+      foundation, the baseline any individual reward should be judged against.
+    operationId: getInflationRate
+    requestBody:
+      contentType: application/json
+      payload:
+        jsonrpc: "2.0"
+        id: 1
+        method: getInflationRate
+        params: []
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.result
+      type: jsonpath
+    outputs:
+      total: $response.body#/result/total
+      validator: $response.body#/result/validator
+      foundation: $response.body#/result/foundation
+      rateEpoch: $response.body#/result/epoch
+  outputs:
+    currentEpoch: $steps.epochInfo.outputs.currentEpoch
+    currentVoteAccounts: $steps.voteAccounts.outputs.current
+    delinquentVoteAccounts: $steps.voteAccounts.outputs.delinquent
+    rewards: $steps.inflationRewards.outputs.rewards
+    validatorInflationRate: $steps.inflationRate.outputs.validator
