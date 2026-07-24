@@ -1,0 +1,396 @@
+openapi: 3.0.3
+info:
+  title: Solana JSON-RPC Accounts Economics API
+  description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
+  version: '2.0'
+  contact:
+    name: Solana Developer Resources
+    url: https://solana.com/developers
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: https://solana.com/tos
+servers:
+- url: https://api.mainnet.solana.com
+  description: Solana Mainnet
+- url: https://api.devnet.solana.com
+  description: Solana Devnet
+- url: https://api.testnet.solana.com
+  description: Solana Testnet
+tags:
+- name: Economics
+  description: Methods for querying inflation, staking, and supply information
+paths:
+  /getInflationGovernor:
+    post:
+      operationId: getInflationGovernor
+      summary: getInflationGovernor
+      description: Returns the current inflation governor.
+      tags:
+      - Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getInflationGovernor:
+                summary: Get current inflation parameters
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getInflationGovernor
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InflationGovernorResponse'
+      x-solana-method: getInflationGovernor
+      x-solana-docs: https://solana.com/docs/rpc/http/getinflationgovernor
+  /getInflationRate:
+    post:
+      operationId: getInflationRate
+      summary: getInflationRate
+      description: Returns the specific inflation values for the current epoch.
+      tags:
+      - Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getInflationRate:
+                summary: Get inflation rate for current epoch
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getInflationRate
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InflationRateResponse'
+      x-solana-method: getInflationRate
+      x-solana-docs: https://solana.com/docs/rpc/http/getinflationrate
+  /getInflationReward:
+    post:
+      operationId: getInflationReward
+      summary: getInflationReward
+      description: Returns the inflation / staking reward for a list of addresses for an epoch.
+      tags:
+      - Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getInflationReward:
+                summary: Get inflation rewards for validator addresses
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getInflationReward
+                  params:
+                  - - 6dmNQ5jwLeLk5REvio1JcMshcbvkYMwy26sJ8pbkvStu
+                    - BGsqMegLpV6n6Ve4aTEsbgxccntwnMlt34H6k28aTBza
+                  - epoch: 2
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InflationRewardResponse'
+      x-solana-method: getInflationReward
+      x-solana-docs: https://solana.com/docs/rpc/http/getinflationreward
+  /getStakeMinimumDelegation:
+    post:
+      operationId: getStakeMinimumDelegation
+      summary: getStakeMinimumDelegation
+      description: Returns the stake minimum delegation, in lamports.
+      tags:
+      - Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getStakeMinimumDelegation:
+                summary: Get minimum lamports needed to create a stake
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getStakeMinimumDelegation
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LamportsResponse'
+      x-solana-method: getStakeMinimumDelegation
+      x-solana-docs: https://solana.com/docs/rpc/http/getstakeminimumdelegation
+  /getSupply:
+    post:
+      operationId: getSupply
+      summary: getSupply
+      description: Returns information about the current supply.
+      tags:
+      - Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getSupply:
+                summary: Get current lamport supply information
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getSupply
+                  params:
+                  - excludeNonCirculatingAccountsList: false
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplyResponse'
+      x-solana-method: getSupply
+      x-solana-docs: https://solana.com/docs/rpc/http/getsupply
+components:
+  schemas:
+    InflationGovernorResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            initial:
+              type: number
+              format: double
+              description: Initial inflation percentage from time 0
+            terminal:
+              type: number
+              format: double
+              description: Terminal inflation percentage
+            taper:
+              type: number
+              format: double
+              description: Rate per year at which inflation is lowered
+            foundation:
+              type: number
+              format: double
+              description: Percentage of total inflation allocated to the foundation
+            foundationTerm:
+              type: number
+              format: double
+              description: Duration of foundation pool inflation in years
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    LamportsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: integer
+              format: int64
+              description: Lamport amount
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    SupplyResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: object
+              properties:
+                total:
+                  type: integer
+                  format: int64
+                  description: Total supply in lamports
+                circulating:
+                  type: integer
+                  format: int64
+                  description: Circulating supply in lamports
+                nonCirculating:
+                  type: integer
+                  format: int64
+                  description: Non-circulating supply in lamports
+                nonCirculatingAccounts:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of account addresses of non-circulating accounts
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    InflationRewardResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            nullable: true
+            type: object
+            properties:
+              epoch:
+                type: integer
+                format: int64
+                description: Epoch for which reward occurred
+              effectiveSlot:
+                type: integer
+                format: int64
+                description: The slot in which the rewards are effective
+              amount:
+                type: integer
+                format: int64
+                description: Reward amount in lamports
+              postBalance:
+                type: integer
+                format: int64
+                description: Post balance of the account in lamports
+              commission:
+                type: integer
+                nullable: true
+                description: Vote account commission when the reward was credited
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    InflationRateResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            total:
+              type: number
+              format: double
+              description: Total inflation
+            validator:
+              type: number
+              format: double
+              description: Inflation allocated to validators
+            foundation:
+              type: number
+              format: double
+              description: Inflation allocated to the foundation
+            epoch:
+              type: integer
+              format: int64
+              description: Epoch for which these values are valid
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+externalDocs:
+  description: Solana RPC HTTP Methods Documentation
+  url: https://solana.com/docs/rpc/http

@@ -1,0 +1,365 @@
+openapi: 3.0.3
+info:
+  title: Solana JSON-RPC Accounts Tokens API
+  description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
+  version: '2.0'
+  contact:
+    name: Solana Developer Resources
+    url: https://solana.com/developers
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: https://solana.com/tos
+servers:
+- url: https://api.mainnet.solana.com
+  description: Solana Mainnet
+- url: https://api.devnet.solana.com
+  description: Solana Devnet
+- url: https://api.testnet.solana.com
+  description: Solana Testnet
+tags:
+- name: Tokens
+  description: Methods for querying SPL Token accounts, balances, and supply
+paths:
+  /getTokenAccountBalance:
+    post:
+      operationId: getTokenAccountBalance
+      summary: getTokenAccountBalance
+      description: Returns the token balance of an SPL Token account.
+      tags:
+      - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getTokenAccountBalance:
+                summary: Get token balance for an SPL Token account
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getTokenAccountBalance
+                  params:
+                  - 7fUAJdStEuGbc3sM84cKRL6yYaaSstyLSU4ve5oovLS7
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenAmountResponse'
+      x-solana-method: getTokenAccountBalance
+      x-solana-docs: https://solana.com/docs/rpc/http/gettokenaccountbalance
+  /getTokenAccountsByDelegate:
+    post:
+      operationId: getTokenAccountsByDelegate
+      summary: getTokenAccountsByDelegate
+      description: Returns all SPL Token accounts by approved Delegate. Either a mint or programId filter is required.
+      tags:
+      - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getTokenAccountsByDelegate:
+                summary: Get token accounts by delegate address
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getTokenAccountsByDelegate
+                  params:
+                  - 4Nd1mBQtrMJVYVfKf2PX99kkXoHWdrS84XnTXFGnhrHu
+                  - programId: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+                  - encoding: jsonParsed
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenAccountsResponse'
+      x-solana-method: getTokenAccountsByDelegate
+      x-solana-docs: https://solana.com/docs/rpc/http/gettokenaccountsbydelegate
+  /getTokenAccountsByOwner:
+    post:
+      operationId: getTokenAccountsByOwner
+      summary: getTokenAccountsByOwner
+      description: Returns all SPL Token accounts by token owner. Either a mint or programId filter is required.
+      tags:
+      - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getTokenAccountsByOwner:
+                summary: Get all token accounts owned by an address
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getTokenAccountsByOwner
+                  params:
+                  - 4Qkev8aNZcqFNSRkXnKKPZo2hEMUzCjCJvzE3YHWoGg
+                  - programId: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+                  - encoding: jsonParsed
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenAccountsResponse'
+      x-solana-method: getTokenAccountsByOwner
+      x-solana-docs: https://solana.com/docs/rpc/http/gettokenaccountsbyowner
+  /getTokenLargestAccounts:
+    post:
+      operationId: getTokenLargestAccounts
+      summary: getTokenLargestAccounts
+      description: Returns the 20 largest accounts of a particular SPL Token type.
+      tags:
+      - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getTokenLargestAccounts:
+                summary: Get 20 largest token accounts for a mint
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getTokenLargestAccounts
+                  params:
+                  - 3wyAj7Rt1TWVPZVteFJPLa26JmLvdb1CAKEFZm3NY75E
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenLargestAccountsResponse'
+      x-solana-method: getTokenLargestAccounts
+      x-solana-docs: https://solana.com/docs/rpc/http/gettokenlargestaccounts
+  /getTokenSupply:
+    post:
+      operationId: getTokenSupply
+      summary: getTokenSupply
+      description: Returns the total supply of an SPL Token mint.
+      tags:
+      - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getTokenSupply:
+                summary: Get total supply of an SPL Token mint
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getTokenSupply
+                  params:
+                  - 3wyAj7Rt1TWVPZVteFJPLa26JmLvdb1CAKEFZm3NY75E
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenAmountResponse'
+      x-solana-method: getTokenSupply
+      x-solana-docs: https://solana.com/docs/rpc/http/gettokensupply
+components:
+  schemas:
+    TokenLargestAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Base58-encoded address of the token account
+                  amount:
+                    type: string
+                    description: Raw token account balance
+                  decimals:
+                    type: integer
+                    description: Number of decimal places configured for the token
+                  uiAmount:
+                    type: number
+                    nullable: true
+                  uiAmountString:
+                    type: string
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    TokenAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  pubkey:
+                    type: string
+                    description: Base58-encoded public key of the token account
+                  account:
+                    $ref: '#/components/schemas/AccountInfo'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+    TokenAmount:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Raw amount of tokens as a string
+        decimals:
+          type: integer
+          description: Number of decimal places configured for the token
+        uiAmount:
+          type: number
+          nullable: true
+          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
+        uiAmountString:
+          type: string
+          description: Token amount as a string, using mint-prescribed decimals
+    TokenAmountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              $ref: '#/components/schemas/TokenAmount'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    AccountInfo:
+      type: object
+      properties:
+        lamports:
+          type: integer
+          format: int64
+          description: Number of lamports assigned to this account
+        owner:
+          type: string
+          description: Base58-encoded public key of the program that owns this account
+        data:
+          description: Data associated with the account (encoded or parsed)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: object
+        executable:
+          type: boolean
+          description: Whether this account contains a program and is strictly read-only
+        rentEpoch:
+          type: integer
+          format: int64
+          description: The epoch at which this account will next owe rent
+        space:
+          type: integer
+          description: The data size of the account
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+externalDocs:
+  description: Solana RPC HTTP Methods Documentation
+  url: https://solana.com/docs/rpc/http

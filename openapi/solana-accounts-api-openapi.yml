@@ -1,0 +1,433 @@
+openapi: 3.0.3
+info:
+  title: Solana JSON-RPC Accounts API
+  description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
+  version: '2.0'
+  contact:
+    name: Solana Developer Resources
+    url: https://solana.com/developers
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: https://solana.com/tos
+servers:
+- url: https://api.mainnet.solana.com
+  description: Solana Mainnet
+- url: https://api.devnet.solana.com
+  description: Solana Devnet
+- url: https://api.testnet.solana.com
+  description: Solana Testnet
+tags:
+- name: Accounts
+  description: Methods for querying account state, balances, and program ownership
+paths:
+  /:
+    post:
+      operationId: getAccountInfo
+      summary: getAccountInfo
+      description: Returns all information associated with the account of provided public key. The encoding parameter controls the format of the returned account data.
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getAccountInfo:
+                summary: Get account info for a public key
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getAccountInfo
+                  params:
+                  - vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg
+                  - encoding: base58
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoResponse'
+      x-solana-method: getAccountInfo
+      x-solana-docs: https://solana.com/docs/rpc/http/getaccountinfo
+  /getBalance:
+    post:
+      operationId: getBalance
+      summary: getBalance
+      description: Returns the lamport balance of the account of provided public key.
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBalance:
+                summary: Get lamport balance for an address
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBalance
+                  params:
+                  - 83astBRguLMdt2h5U1Tpdq5tjFoJ6noeGwaY3mDLVcri
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+      x-solana-method: getBalance
+      x-solana-docs: https://solana.com/docs/rpc/http/getbalance
+  /getLargestAccounts:
+    post:
+      operationId: getLargestAccounts
+      summary: getLargestAccounts
+      description: Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours).
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getLargestAccounts:
+                summary: Get 20 largest accounts by lamport balance
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getLargestAccounts
+                  params:
+                  - filter: circulating
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LargestAccountsResponse'
+      x-solana-method: getLargestAccounts
+      x-solana-docs: https://solana.com/docs/rpc/http/getlargestaccounts
+  /getMinimumBalanceForRentExemption:
+    post:
+      operationId: getMinimumBalanceForRentExemption
+      summary: getMinimumBalanceForRentExemption
+      description: Returns minimum balance required to make account rent exempt.
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getMinimumBalanceForRentExemption:
+                summary: Get minimum lamports for rent exemption for 50 bytes
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getMinimumBalanceForRentExemption
+                  params:
+                  - 50
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LamportsResponse'
+      x-solana-method: getMinimumBalanceForRentExemption
+      x-solana-docs: https://solana.com/docs/rpc/http/getminimumbalanceforrentexemption
+  /getMultipleAccounts:
+    post:
+      operationId: getMultipleAccounts
+      summary: getMultipleAccounts
+      description: Returns the account information for a list of public keys.
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getMultipleAccounts:
+                summary: Get account info for multiple public keys
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getMultipleAccounts
+                  params:
+                  - - vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg
+                    - 4fYNw3dojWmQ4dXtSGE9epjRGy9pFSx62YypT7avPYvA
+                  - encoding: base58
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultipleAccountsResponse'
+      x-solana-method: getMultipleAccounts
+      x-solana-docs: https://solana.com/docs/rpc/http/getmultipleaccounts
+  /getProgramAccounts:
+    post:
+      operationId: getProgramAccounts
+      summary: getProgramAccounts
+      description: Returns all accounts owned by the provided program public key.
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getProgramAccounts:
+                summary: Get all accounts owned by a program
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getProgramAccounts
+                  params:
+                  - 4Nd1mBQtrMJVYVfKf2PX99kkXoHWdrS84XnTXFGnhrHu
+                  - encoding: jsonParsed
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramAccountsResponse'
+      x-solana-method: getProgramAccounts
+      x-solana-docs: https://solana.com/docs/rpc/http/getprogramaccounts
+components:
+  schemas:
+    AccountInfoResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              nullable: true
+              $ref: '#/components/schemas/AccountInfo'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    LamportsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: integer
+              format: int64
+              description: Lamport amount
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    ProgramAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              pubkey:
+                type: string
+                description: Base58-encoded public key of the account
+              account:
+                $ref: '#/components/schemas/AccountInfo'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    AccountInfo:
+      type: object
+      properties:
+        lamports:
+          type: integer
+          format: int64
+          description: Number of lamports assigned to this account
+        owner:
+          type: string
+          description: Base58-encoded public key of the program that owns this account
+        data:
+          description: Data associated with the account (encoded or parsed)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: object
+        executable:
+          type: boolean
+          description: Whether this account contains a program and is strictly read-only
+        rentEpoch:
+          type: integer
+          format: int64
+          description: The epoch at which this account will next owe rent
+        space:
+          type: integer
+          description: The data size of the account
+    LargestAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Base58-encoded address of the account
+                  lamports:
+                    type: integer
+                    format: int64
+                    description: Number of lamports in the account
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    BalanceResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: integer
+              format: int64
+              description: Balance in lamports
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    MultipleAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: array
+              items:
+                nullable: true
+                $ref: '#/components/schemas/AccountInfo'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+externalDocs:
+  description: Solana RPC HTTP Methods Documentation
+  url: https://solana.com/docs/rpc/http

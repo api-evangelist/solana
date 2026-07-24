@@ -1,0 +1,865 @@
+openapi: 3.0.3
+info:
+  title: Solana JSON-RPC Accounts Cluster API
+  description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
+  version: '2.0'
+  contact:
+    name: Solana Developer Resources
+    url: https://solana.com/developers
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: https://solana.com/tos
+servers:
+- url: https://api.mainnet.solana.com
+  description: Solana Mainnet
+- url: https://api.devnet.solana.com
+  description: Solana Devnet
+- url: https://api.testnet.solana.com
+  description: Solana Testnet
+tags:
+- name: Cluster
+  description: Methods for querying cluster nodes, validators, and network state
+paths:
+  /getClusterNodes:
+    post:
+      operationId: getClusterNodes
+      summary: getClusterNodes
+      description: Returns information about all the nodes participating in the cluster.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getClusterNodes:
+                summary: Get list of nodes in the cluster
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getClusterNodes
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterNodesResponse'
+      x-solana-method: getClusterNodes
+      x-solana-docs: https://solana.com/docs/rpc/http/getclusternodes
+  /getEpochInfo:
+    post:
+      operationId: getEpochInfo
+      summary: getEpochInfo
+      description: Returns information about the current epoch.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getEpochInfo:
+                summary: Get current epoch information
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getEpochInfo
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpochInfoResponse'
+      x-solana-method: getEpochInfo
+      x-solana-docs: https://solana.com/docs/rpc/http/getepochinfo
+  /getEpochSchedule:
+    post:
+      operationId: getEpochSchedule
+      summary: getEpochSchedule
+      description: Returns epoch schedule information from this cluster's genesis config.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getEpochSchedule:
+                summary: Get epoch schedule configuration
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getEpochSchedule
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpochScheduleResponse'
+      x-solana-method: getEpochSchedule
+      x-solana-docs: https://solana.com/docs/rpc/http/getepochschedule
+  /getGenesisHash:
+    post:
+      operationId: getGenesisHash
+      summary: getGenesisHash
+      description: Returns the genesis hash.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getGenesisHash:
+                summary: Get cluster genesis hash
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getGenesisHash
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringResponse'
+      x-solana-method: getGenesisHash
+      x-solana-docs: https://solana.com/docs/rpc/http/getgenesishash
+  /getHealth:
+    post:
+      operationId: getHealth
+      summary: getHealth
+      description: Returns the current health of the node. A healthy node is one that is within HEALTH_CHECK_SLOT_DISTANCE slots of the latest cluster confirmed slot.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getHealth:
+                summary: Check node health status
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getHealth
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+      x-solana-method: getHealth
+      x-solana-docs: https://solana.com/docs/rpc/http/gethealth
+  /getHighestSnapshotSlot:
+    post:
+      operationId: getHighestSnapshotSlot
+      summary: getHighestSnapshotSlot
+      description: Returns the highest slot information that the node has snapshots for. This will find the highest full snapshot slot, and the highest incremental snapshot slot based on the full snapshot slot, if there is one.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getHighestSnapshotSlot:
+                summary: Get highest snapshot slot
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getHighestSnapshotSlot
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotSlotResponse'
+      x-solana-method: getHighestSnapshotSlot
+      x-solana-docs: https://solana.com/docs/rpc/http/gethighestsnapshotslot
+  /getIdentity:
+    post:
+      operationId: getIdentity
+      summary: getIdentity
+      description: Returns the identity public key for the current node.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getIdentity:
+                summary: Get node identity public key
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getIdentity
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityResponse'
+      x-solana-method: getIdentity
+      x-solana-docs: https://solana.com/docs/rpc/http/getidentity
+  /getLeaderSchedule:
+    post:
+      operationId: getLeaderSchedule
+      summary: getLeaderSchedule
+      description: Returns the leader schedule for an epoch.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getLeaderSchedule:
+                summary: Get leader schedule for current epoch
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getLeaderSchedule
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderScheduleResponse'
+      x-solana-method: getLeaderSchedule
+      x-solana-docs: https://solana.com/docs/rpc/http/getleaderschedule
+  /getMaxRetransmitSlot:
+    post:
+      operationId: getMaxRetransmitSlot
+      summary: getMaxRetransmitSlot
+      description: Get the max slot seen from retransmit stage.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getMaxRetransmitSlot:
+                summary: Get max slot from retransmit stage
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getMaxRetransmitSlot
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      x-solana-method: getMaxRetransmitSlot
+      x-solana-docs: https://solana.com/docs/rpc/http/getmaxretransmitslot
+  /getMaxShredInsertSlot:
+    post:
+      operationId: getMaxShredInsertSlot
+      summary: getMaxShredInsertSlot
+      description: Get the max slot seen from after shred insert.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getMaxShredInsertSlot:
+                summary: Get max slot after shred insert
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getMaxShredInsertSlot
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      x-solana-method: getMaxShredInsertSlot
+      x-solana-docs: https://solana.com/docs/rpc/http/getmaxshredinsertslot
+  /getSlot:
+    post:
+      operationId: getSlot
+      summary: getSlot
+      description: Returns the slot that has reached the given or default commitment level.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getSlot:
+                summary: Get current slot
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getSlot
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      x-solana-method: getSlot
+      x-solana-docs: https://solana.com/docs/rpc/http/getslot
+  /getSlotLeader:
+    post:
+      operationId: getSlotLeader
+      summary: getSlotLeader
+      description: Returns the current slot leader.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getSlotLeader:
+                summary: Get current slot leader identity
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getSlotLeader
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringResponse'
+      x-solana-method: getSlotLeader
+      x-solana-docs: https://solana.com/docs/rpc/http/getslotleader
+  /getSlotLeaders:
+    post:
+      operationId: getSlotLeaders
+      summary: getSlotLeaders
+      description: Returns the slot leaders for a given slot range.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getSlotLeaders:
+                summary: Get slot leaders for a slot range
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getSlotLeaders
+                  params:
+                  - 100
+                  - 10
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringArrayResponse'
+      x-solana-method: getSlotLeaders
+      x-solana-docs: https://solana.com/docs/rpc/http/getslotleaders
+  /getVersion:
+    post:
+      operationId: getVersion
+      summary: getVersion
+      description: Returns the current Solana version running on the node.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getVersion:
+                summary: Get current node version
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getVersion
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+      x-solana-method: getVersion
+      x-solana-docs: https://solana.com/docs/rpc/http/getversion
+  /getVoteAccounts:
+    post:
+      operationId: getVoteAccounts
+      summary: getVoteAccounts
+      description: Returns the account info and associated stake for all the voting accounts in the current bank.
+      tags:
+      - Cluster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getVoteAccounts:
+                summary: Get current voting account details
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getVoteAccounts
+                  params:
+                  - commitment: finalized
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoteAccountsResponse'
+      x-solana-method: getVoteAccounts
+      x-solana-docs: https://solana.com/docs/rpc/http/getvoteaccounts
+components:
+  schemas:
+    EpochInfoResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            absoluteSlot:
+              type: integer
+              format: int64
+              description: Current slot
+            blockHeight:
+              type: integer
+              format: int64
+              description: Current block height
+            epoch:
+              type: integer
+              format: int64
+              description: Current epoch
+            slotIndex:
+              type: integer
+              format: int64
+              description: Current slot relative to the start of the current epoch
+            slotsInEpoch:
+              type: integer
+              format: int64
+              description: Number of slots in this epoch
+            transactionCount:
+              type: integer
+              format: int64
+              nullable: true
+              description: Total number of transactions processed without error since genesis
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    ClusterNodesResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              pubkey:
+                type: string
+                description: Node public key as base58-encoded string
+              gossip:
+                type: string
+                nullable: true
+                description: Gossip network address for the node
+              tpu:
+                type: string
+                nullable: true
+                description: TPU network address for the node
+              rpc:
+                type: string
+                nullable: true
+                description: JSON RPC network address for the node
+              version:
+                type: string
+                nullable: true
+                description: The software version of the node
+              featureSet:
+                type: integer
+                nullable: true
+                description: The unique identifier of the node's feature set
+              shredVersion:
+                type: integer
+                nullable: true
+                description: The shred version the node has been configured to use
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    StringArrayResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: string
+          description: Array of base58-encoded public keys
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    VoteAccount:
+      type: object
+      properties:
+        votePubkey:
+          type: string
+          description: Vote account address (base58-encoded)
+        nodePubkey:
+          type: string
+          description: Validator identity address (base58-encoded)
+        activatedStake:
+          type: integer
+          format: int64
+          description: Stake, in lamports, delegated to this vote account
+        epochVoteAccount:
+          type: boolean
+          description: Whether the vote account is staked for this epoch
+        commission:
+          type: integer
+          description: Percentage of rewards payout owed to the vote account
+        lastVote:
+          type: integer
+          format: int64
+          description: Most recent slot voted on by this vote account
+        epochCredits:
+          type: array
+          description: History of how many credits earned by the end of each epoch
+          items:
+            type: array
+            items:
+              type: integer
+              format: int64
+        rootSlot:
+          type: integer
+          format: int64
+          nullable: true
+          description: Current root slot for this vote account
+    CountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: integer
+          format: int64
+          description: Numeric count or slot value
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    IdentityResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            identity:
+              type: string
+              description: The identity public key of the current node (base58-encoded)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    HealthResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: string
+          enum:
+          - ok
+          description: Returns "ok" if node is healthy
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                numSlotsBehind:
+                  type: integer
+                  format: int64
+    LeaderScheduleResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          nullable: true
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: integer
+              format: int64
+          description: Dictionary of validator identities to arrays of leader slot indices
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    SnapshotSlotResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            full:
+              type: integer
+              format: int64
+              description: Highest full snapshot slot
+            incremental:
+              type: integer
+              format: int64
+              nullable: true
+              description: Highest incremental snapshot slot based on full
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    VersionResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            solana-core:
+              type: string
+              description: Software version of solana-core
+            feature-set:
+              type: integer
+              description: Unique identifier of the current software's feature set
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    VoteAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            current:
+              type: array
+              description: List of current voting accounts
+              items:
+                $ref: '#/components/schemas/VoteAccount'
+            delinquent:
+              type: array
+              description: List of delinquent voting accounts
+              items:
+                $ref: '#/components/schemas/VoteAccount'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    EpochScheduleResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            slotsPerEpoch:
+              type: integer
+              format: int64
+              description: Maximum number of slots in each epoch
+            leaderScheduleSlotOffset:
+              type: integer
+              format: int64
+              description: Number of slots before beginning of an epoch to calculate a leader schedule
+            warmup:
+              type: boolean
+              description: Whether epochs start short and grow
+            firstNormalEpoch:
+              type: integer
+              format: int64
+              description: First normal-length epoch, log2(slotsPerEpoch) - log2(MINIMUM_SLOTS_PER_EPOCH)
+            firstNormalSlot:
+              type: integer
+              format: int64
+              description: MINIMUM_SLOTS_PER_EPOCH * (2^(firstNormalEpoch) - 1)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+    StringResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: string
+          description: String result
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+externalDocs:
+  description: Solana RPC HTTP Methods Documentation
+  url: https://solana.com/docs/rpc/http

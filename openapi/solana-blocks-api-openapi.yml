@@ -1,0 +1,605 @@
+openapi: 3.0.3
+info:
+  title: Solana JSON-RPC Accounts Blocks API
+  description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
+  version: '2.0'
+  contact:
+    name: Solana Developer Resources
+    url: https://solana.com/developers
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: https://solana.com/tos
+servers:
+- url: https://api.mainnet.solana.com
+  description: Solana Mainnet
+- url: https://api.devnet.solana.com
+  description: Solana Devnet
+- url: https://api.testnet.solana.com
+  description: Solana Testnet
+tags:
+- name: Blocks
+  description: Methods for querying blocks, slots, and ledger information
+paths:
+  /getBlock:
+    post:
+      operationId: getBlock
+      summary: getBlock
+      description: Returns identity and transaction information about a confirmed block in the ledger.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlock:
+                summary: Get confirmed block at a given slot
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlock
+                  params:
+                  - 430
+                  - encoding: json
+                    transactionDetails: full
+                    maxSupportedTransactionVersion: 0
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockResponse'
+      x-solana-method: getBlock
+      x-solana-docs: https://solana.com/docs/rpc/http/getblock
+  /getBlockCommitment:
+    post:
+      operationId: getBlockCommitment
+      summary: getBlockCommitment
+      description: Returns commitment for particular block.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlockCommitment:
+                summary: Get commitment level for a block slot
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlockCommitment
+                  params:
+                  - 5
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockCommitmentResponse'
+      x-solana-method: getBlockCommitment
+      x-solana-docs: https://solana.com/docs/rpc/http/getblockcommitment
+  /getBlockHeight:
+    post:
+      operationId: getBlockHeight
+      summary: getBlockHeight
+      description: Returns the current block height of the node.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlockHeight:
+                summary: Get current block height
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlockHeight
+                  params:
+                  - commitment: confirmed
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      x-solana-method: getBlockHeight
+      x-solana-docs: https://solana.com/docs/rpc/http/getblockheight
+  /getBlockProduction:
+    post:
+      operationId: getBlockProduction
+      summary: getBlockProduction
+      description: Returns recent block production information from the current or previous epoch.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlockProduction:
+                summary: Get recent block production information
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlockProduction
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockProductionResponse'
+      x-solana-method: getBlockProduction
+      x-solana-docs: https://solana.com/docs/rpc/http/getblockproduction
+  /getBlocks:
+    post:
+      operationId: getBlocks
+      summary: getBlocks
+      description: Returns a list of confirmed blocks between two slots.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlocks:
+                summary: Get confirmed blocks in a slot range
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlocks
+                  params:
+                  - 5
+                  - 10
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotsListResponse'
+      x-solana-method: getBlocks
+      x-solana-docs: https://solana.com/docs/rpc/http/getblocks
+  /getBlocksWithLimit:
+    post:
+      operationId: getBlocksWithLimit
+      summary: getBlocksWithLimit
+      description: Returns a list of confirmed blocks starting at the given slot.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlocksWithLimit:
+                summary: Get a limited list of blocks starting at a slot
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlocksWithLimit
+                  params:
+                  - 5
+                  - 3
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotsListResponse'
+      x-solana-method: getBlocksWithLimit
+      x-solana-docs: https://solana.com/docs/rpc/http/getblockswithlimit
+  /getBlockTime:
+    post:
+      operationId: getBlockTime
+      summary: getBlockTime
+      description: Returns the estimated production time of a confirmed block.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getBlockTime:
+                summary: Get estimated production time for a confirmed block
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getBlockTime
+                  params:
+                  - 5
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnixTimestampResponse'
+      x-solana-method: getBlockTime
+      x-solana-docs: https://solana.com/docs/rpc/http/getblocktime
+  /getFirstAvailableBlock:
+    post:
+      operationId: getFirstAvailableBlock
+      summary: getFirstAvailableBlock
+      description: Returns the slot of the lowest confirmed block that has not been purged from the ledger.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getFirstAvailableBlock:
+                summary: Get lowest available block on the ledger
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getFirstAvailableBlock
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      x-solana-method: getFirstAvailableBlock
+      x-solana-docs: https://solana.com/docs/rpc/http/getfirstavailableblock
+  /getRecentPerformanceSamples:
+    post:
+      operationId: getRecentPerformanceSamples
+      summary: getRecentPerformanceSamples
+      description: Returns a list of recent performance samples, in reverse slot order. Performance samples are taken every 60 seconds and include the number of transactions and slots that occur in a given time window.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              getRecentPerformanceSamples:
+                summary: Get recent performance samples
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: getRecentPerformanceSamples
+                  params:
+                  - 4
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceSamplesResponse'
+      x-solana-method: getRecentPerformanceSamples
+      x-solana-docs: https://solana.com/docs/rpc/http/getrecentperformancesamples
+  /minimumLedgerSlot:
+    post:
+      operationId: minimumLedgerSlot
+      summary: minimumLedgerSlot
+      description: Returns the lowest slot that the node has information about in its ledger.
+      tags:
+      - Blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              minimumLedgerSlot:
+                summary: Get minimum slot the node retains
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: minimumLedgerSlot
+                  params: []
+      responses:
+        '200':
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      x-solana-method: minimumLedgerSlot
+      x-solana-docs: https://solana.com/docs/rpc/http/minimumledgerslot
+components:
+  schemas:
+    UnixTimestampResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: integer
+          format: int64
+          nullable: true
+          description: Estimated production time as Unix timestamp (seconds since epoch)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    SlotsListResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: List of confirmed slot numbers
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    BlockProductionResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: object
+              properties:
+                byIdentity:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                  description: Dictionary of validator identities to [numLeaderSlots, numBlocksProduced]
+                range:
+                  type: object
+                  properties:
+                    firstSlot:
+                      type: integer
+                      format: int64
+                    lastSlot:
+                      type: integer
+                      format: int64
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    CountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: integer
+          format: int64
+          description: Numeric count or slot value
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    BlockResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          nullable: true
+          type: object
+          properties:
+            blockhash:
+              type: string
+              description: Base58-encoded blockhash of this block
+            previousBlockhash:
+              type: string
+              description: Base58-encoded blockhash of the parent block
+            parentSlot:
+              type: integer
+              format: int64
+              description: The slot index of this block's parent
+            transactions:
+              type: array
+              items:
+                type: object
+            signatures:
+              type: array
+              items:
+                type: string
+            rewards:
+              type: array
+              nullable: true
+              items:
+                type: object
+                properties:
+                  pubkey:
+                    type: string
+                  lamports:
+                    type: integer
+                    format: int64
+                  postBalance:
+                    type: integer
+                    format: int64
+                  rewardType:
+                    type: string
+                    enum:
+                    - fee
+                    - rent
+                    - voting
+                    - staking
+            blockTime:
+              type: integer
+              format: int64
+              nullable: true
+            blockHeight:
+              type: integer
+              format: int64
+              nullable: true
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    PerformanceSamplesResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              slot:
+                type: integer
+                format: int64
+                description: Slot in which sample was taken at
+              numTransactions:
+                type: integer
+                format: int64
+                description: Number of transactions in sample
+              numNonVoteTransactions:
+                type: integer
+                format: int64
+                description: Number of non-vote transactions in sample
+              numSlots:
+                type: integer
+                format: int64
+                description: Number of slots in sample
+              samplePeriodSecs:
+                type: integer
+                description: Number of seconds in a sample window
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    BlockCommitmentResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            commitment:
+              type: array
+              nullable: true
+              items:
+                type: integer
+                format: int64
+              description: Commitment array or null if block is unknown
+            totalStake:
+              type: integer
+              format: int64
+              description: Total active stake in the current epoch
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+externalDocs:
+  description: Solana RPC HTTP Methods Documentation
+  url: https://solana.com/docs/rpc/http
