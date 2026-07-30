@@ -2,7 +2,20 @@ aid: solana
 url: https://raw.githubusercontent.com/api-evangelist/solana/refs/heads/main/apis.yml
 name: Solana
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: open
+  trial: false
+  try_now: true
+  public: true
+  label: Freemium · Open access
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/solana.png
 tags:
   - Blockchain
   - Cryptocurrency
@@ -20,158 +33,220 @@ created: '2026-06-13'
 modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
-  - aid: solana:solana-rpc-accounts-api
-    name: Solana RPC Accounts API
-    tags:
-      - Accounts
-      - Balances
-      - Programs
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/http/getaccountinfo
-    baseURL: https://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/http
-        type: Documentation
-      - url: https://solana.com/docs/rpc/http/getaccountinfo
-        type: APIReference
-      - url: openapi/solana-rpc-api-openapi.yml
-        type: OpenAPI
-    description: >-
-      Account-oriented JSON-RPC methods for the Solana blockchain. Provides getAccountInfo to return
-      account state and metadata for one address, getBalance for lamport balances, getLargestAccounts for
-      the 20 largest accounts by lamport balance, getMinimumBalanceForRentExemption to obtain lamports
-      needed for rent-exempt status, getMultipleAccounts to retrieve details for several addresses
-      simultaneously, and getProgramAccounts to return all accounts owned by a program with optional
-      data filters.
-  - aid: solana:solana-rpc-tokens-api
-    name: Solana RPC Tokens API
-    tags:
-      - Tokens
-      - SPL
-      - Balances
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/http/gettokenaccountbalance
-    baseURL: https://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/http
-        type: Documentation
-      - url: https://solana.com/docs/rpc/http/gettokenaccountbalance
-        type: APIReference
-    description: >-
-      SPL Token-oriented JSON-RPC methods for the Solana blockchain. Provides getTokenAccountBalance to
-      return the token balance for an SPL Token account, getTokenAccountsByDelegate to find accounts with
-      matching delegates, getTokenAccountsByOwner to return SPL Token accounts whose owner matches an
-      address, getTokenLargestAccounts to return the 20 largest token accounts for a mint, and
-      getTokenSupply to return the current total supply for an SPL Token mint.
-  - aid: solana:solana-rpc-transactions-api
-    name: Solana RPC Transactions API
-    tags:
-      - Transactions
-      - Signatures
-      - Blockhash
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/http/sendtransaction
-    baseURL: https://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/http
-        type: Documentation
-      - url: https://solana.com/docs/rpc/http/sendtransaction
-        type: APIReference
-    description: >-
-      Transaction-oriented JSON-RPC methods for the Solana blockchain. Includes sendTransaction to submit
-      a signed transaction to the network, simulateTransaction to test a transaction without broadcasting,
-      getTransaction to fetch a confirmed transaction by signature, getSignaturesForAddress to list
-      transaction signatures for an address, getSignatureStatuses to check confirmation status of multiple
-      signatures, getFeeForMessage to get the network fee for a given message, getLatestBlockhash to
-      retrieve the most recent blockhash, isBlockhashValid to test blockhash expiry,
-      getRecentPrioritizationFees for priority fee estimates, getTransactionCount for total processed
-      transaction count, and requestAirdrop for devnet/testnet SOL.
-  - aid: solana:solana-rpc-blocks-api
-    name: Solana RPC Blocks API
-    tags:
-      - Blocks
-      - Slots
-      - Ledger
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/http/getblock
-    baseURL: https://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/http
-        type: Documentation
-      - url: https://solana.com/docs/rpc/http/getblock
-        type: APIReference
-    description: >-
-      Block and slot-oriented JSON-RPC methods for the Solana blockchain. Includes getBlock to retrieve
-      a confirmed block at a given slot, getBlockCommitment for commitment level of a slot, getBlockHeight
-      for the current block height, getBlockProduction for recent block production information,
-      getBlocks to list confirmed blocks in a slot range, getBlocksWithLimit to return a limited list,
-      getBlockTime to return the estimated production time of a confirmed block,
-      getFirstAvailableBlock for the lowest available slot on the ledger, getRecentPerformanceSamples
-      for recent performance data, and minimumLedgerSlot for the minimum slot the node retains.
-  - aid: solana:solana-rpc-cluster-api
-    name: Solana RPC Cluster API
-    tags:
-      - Cluster
-      - Validators
-      - Epoch
-      - Network
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/http/getclusterNodes
-    baseURL: https://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/http
-        type: Documentation
-      - url: https://solana.com/docs/rpc/http/getclusterNodes
-        type: APIReference
-    description: >-
-      Cluster and validator-oriented JSON-RPC methods for the Solana network. Includes getClusterNodes
-      for the list of nodes in the cluster, getEpochInfo and getEpochSchedule for epoch data,
-      getGenesisHash, getHealth for node health status, getHighestSnapshotSlot, getIdentity for node
-      public key, getLeaderSchedule, getMaxRetransmitSlot, getMaxShredInsertSlot, getSlot, getSlotLeader,
-      getSlotLeaders, getVersion, and getVoteAccounts for current voting account details.
-  - aid: solana:solana-rpc-economics-api
-    name: Solana RPC Economics API
-    tags:
-      - Inflation
-      - Staking
-      - Economics
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/http/getinflationgovernor
-    baseURL: https://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/http
-        type: Documentation
-      - url: https://solana.com/docs/rpc/http/getinflationgovernor
-        type: APIReference
-    description: >-
-      Economics and staking-oriented JSON-RPC methods for the Solana blockchain. Includes
-      getInflationGovernor to retrieve current inflation parameters, getInflationRate for the specific
-      inflation values for the current epoch, getInflationReward to calculate inflation rewards for
-      validator addresses, getStakeMinimumDelegation for the minimum lamports needed to create a stake,
-      and getSupply to return information about the current supply of lamports across the network.
-  - aid: solana:solana-rpc-websocket-api
-    name: Solana RPC WebSocket Subscriptions API
-    tags:
-      - WebSocket
-      - Subscriptions
-      - Real-time
-      - Events
-      - Blockchain
-    humanURL: https://solana.com/docs/rpc/websocket
-    baseURL: wss://api.mainnet.solana.com
-    properties:
-      - url: https://solana.com/docs/rpc/websocket
-        type: Documentation
-      - url: https://solana.com/docs/rpc/websocket
-        type: APIReference
-    description: >-
-      Real-time WebSocket subscription API for the Solana blockchain. Provides event-driven notifications
-      for accounts (accountSubscribe, programSubscribe), transactions (logsSubscribe,
-      signatureSubscribe), blocks (blockSubscribe), and cluster state changes (rootSubscribe,
-      slotSubscribe, slotsUpdatesSubscribe, voteSubscribe). Each subscription has a corresponding
-      unsubscribe method. WebSocket connections are available at ws://localhost:8900 for local
-      development and wss://api.mainnet.solana.com for production.
+- aid: solana:solana-rpc-tokens-api
+  name: Solana RPC Tokens API
+  tags:
+  - Tokens
+  - SPL
+  - Balances
+  - Blockchain
+  humanURL: https://solana.com/docs/rpc/http/gettokenaccountbalance
+  baseURL: https://api.mainnet.solana.com
+  properties:
+  - url: https://solana.com/docs/rpc/http
+    type: Documentation
+  - url: https://solana.com/docs/rpc/http/gettokenaccountbalance
+    type: APIReference
+  description: >-
+    SPL Token-oriented JSON-RPC methods for the Solana blockchain. Provides getTokenAccountBalance to
+    return the token balance for an SPL Token account, getTokenAccountsByDelegate to find accounts with
+    matching delegates, getTokenAccountsByOwner to return SPL Token accounts whose owner matches an address,
+    getTokenLargestAccounts to return the 20 largest token accounts for a mint, and getTokenSupply to
+    return the current total supply for an SPL Token mint.
+- aid: solana:solana-rpc-transactions-api
+  name: Solana RPC Transactions API
+  tags:
+  - Transactions
+  - Signatures
+  - Blockhash
+  - Blockchain
+  humanURL: https://solana.com/docs/rpc/http/sendtransaction
+  baseURL: https://api.mainnet.solana.com
+  properties:
+  - url: https://solana.com/docs/rpc/http
+    type: Documentation
+  - url: https://solana.com/docs/rpc/http/sendtransaction
+    type: APIReference
+  description: >-
+    Transaction-oriented JSON-RPC methods for the Solana blockchain. Includes sendTransaction to submit
+    a signed transaction to the network, simulateTransaction to test a transaction without broadcasting,
+    getTransaction to fetch a confirmed transaction by signature, getSignaturesForAddress to list transaction
+    signatures for an address, getSignatureStatuses to check confirmation status of multiple signatures,
+    getFeeForMessage to get the network fee for a given message, getLatestBlockhash to retrieve the most
+    recent blockhash, isBlockhashValid to test blockhash expiry, getRecentPrioritizationFees for priority
+    fee estimates, getTransactionCount for total processed transaction count, and requestAirdrop for devnet/testnet
+    SOL.
+- aid: solana:solana-rpc-blocks-api
+  name: Solana RPC Blocks API
+  tags:
+  - Blocks
+  - Slots
+  - Ledger
+  - Blockchain
+  humanURL: https://solana.com/docs/rpc/http/getblock
+  baseURL: https://api.mainnet.solana.com
+  properties:
+  - url: https://solana.com/docs/rpc/http
+    type: Documentation
+  - url: https://solana.com/docs/rpc/http/getblock
+    type: APIReference
+  description: >-
+    Block and slot-oriented JSON-RPC methods for the Solana blockchain. Includes getBlock to retrieve
+    a confirmed block at a given slot, getBlockCommitment for commitment level of a slot, getBlockHeight
+    for the current block height, getBlockProduction for recent block production information, getBlocks
+    to list confirmed blocks in a slot range, getBlocksWithLimit to return a limited list, getBlockTime
+    to return the estimated production time of a confirmed block, getFirstAvailableBlock for the lowest
+    available slot on the ledger, getRecentPerformanceSamples for recent performance data, and minimumLedgerSlot
+    for the minimum slot the node retains.
+- aid: solana:solana-rpc-cluster-api
+  name: Solana RPC Cluster API
+  tags:
+  - Cluster
+  - Validators
+  - Epoch
+  - Network
+  - Blockchain
+  humanURL: https://solana.com/docs/rpc/http/getclusterNodes
+  baseURL: https://api.mainnet.solana.com
+  properties:
+  - url: https://solana.com/docs/rpc/http
+    type: Documentation
+  - url: https://solana.com/docs/rpc/http/getclusterNodes
+    type: APIReference
+  description: >-
+    Cluster and validator-oriented JSON-RPC methods for the Solana network. Includes getClusterNodes for
+    the list of nodes in the cluster, getEpochInfo and getEpochSchedule for epoch data, getGenesisHash,
+    getHealth for node health status, getHighestSnapshotSlot, getIdentity for node public key, getLeaderSchedule,
+    getMaxRetransmitSlot, getMaxShredInsertSlot, getSlot, getSlotLeader, getSlotLeaders, getVersion, and
+    getVoteAccounts for current voting account details.
+- aid: solana:solana-rpc-economics-api
+  name: Solana RPC Economics API
+  tags:
+  - Inflation
+  - Staking
+  - Economics
+  - Blockchain
+  humanURL: https://solana.com/docs/rpc/http/getinflationgovernor
+  baseURL: https://api.mainnet.solana.com
+  properties:
+  - url: https://solana.com/docs/rpc/http
+    type: Documentation
+  - url: https://solana.com/docs/rpc/http/getinflationgovernor
+    type: APIReference
+  description: >-
+    Economics and staking-oriented JSON-RPC methods for the Solana blockchain. Includes getInflationGovernor
+    to retrieve current inflation parameters, getInflationRate for the specific inflation values for the
+    current epoch, getInflationReward to calculate inflation rewards for validator addresses, getStakeMinimumDelegation
+    for the minimum lamports needed to create a stake, and getSupply to return information about the current
+    supply of lamports across the network.
+- aid: solana:solana-rpc-websocket-api
+  name: Solana RPC WebSocket Subscriptions API
+  tags:
+  - WebSocket
+  - Subscriptions
+  - Real-time
+  - Events
+  - Blockchain
+  humanURL: https://solana.com/docs/rpc/websocket
+  baseURL: wss://api.mainnet.solana.com
+  properties:
+  - url: https://solana.com/docs/rpc/websocket
+    type: Documentation
+  - url: https://solana.com/docs/rpc/websocket
+    type: APIReference
+  description: >-
+    Real-time WebSocket subscription API for the Solana blockchain. Provides event-driven notifications
+    for accounts (accountSubscribe, programSubscribe), transactions (logsSubscribe, signatureSubscribe),
+    blocks (blockSubscribe), and cluster state changes (rootSubscribe, slotSubscribe, slotsUpdatesSubscribe,
+    voteSubscribe). Each subscription has a corresponding unsubscribe method. WebSocket connections are
+    available at ws://localhost:8900 for local development and wss://api.mainnet.solana.com for production.
+- aid: solana:solana-accounts-api
+  name: Solana Accounts API
+  description: Methods for querying account state, balances, and program ownership
+  humanURL: https://solana.com/docs/rpc/http/getaccountinfo
+  baseURL: https://api.mainnet.solana.com
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/solana-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://solana.com/docs/rpc/http
+  - type: APIReference
+    url: https://solana.com/docs/rpc/http/getaccountinfo
+- aid: solana:solana-blocks-api
+  name: Solana Blocks API
+  description: Methods for querying blocks, slots, and ledger information
+  humanURL: https://solana.com/docs/rpc/http/getaccountinfo
+  baseURL: https://api.mainnet.solana.com
+  tags:
+  - Blocks
+  properties:
+  - type: OpenAPI
+    url: openapi/solana-blocks-api-openapi.yml
+  - type: Documentation
+    url: https://solana.com/docs/rpc/http
+  - type: APIReference
+    url: https://solana.com/docs/rpc/http/getaccountinfo
+- aid: solana:solana-cluster-api
+  name: Solana Cluster API
+  description: Methods for querying cluster nodes, validators, and network state
+  humanURL: https://solana.com/docs/rpc/http/getaccountinfo
+  baseURL: https://api.mainnet.solana.com
+  tags:
+  - Cluster
+  properties:
+  - type: OpenAPI
+    url: openapi/solana-cluster-api-openapi.yml
+  - type: Documentation
+    url: https://solana.com/docs/rpc/http
+  - type: APIReference
+    url: https://solana.com/docs/rpc/http/getaccountinfo
+- aid: solana:solana-economics-api
+  name: Solana Economics API
+  description: Methods for querying inflation, staking, and supply information
+  humanURL: https://solana.com/docs/rpc/http/getaccountinfo
+  baseURL: https://api.mainnet.solana.com
+  tags:
+  - Economics
+  properties:
+  - type: OpenAPI
+    url: openapi/solana-economics-api-openapi.yml
+  - type: Documentation
+    url: https://solana.com/docs/rpc/http
+  - type: APIReference
+    url: https://solana.com/docs/rpc/http/getaccountinfo
+- aid: solana:solana-tokens-api
+  name: Solana Tokens API
+  description: Methods for querying SPL Token accounts, balances, and supply
+  humanURL: https://solana.com/docs/rpc/http/getaccountinfo
+  baseURL: https://api.mainnet.solana.com
+  tags:
+  - Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/solana-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://solana.com/docs/rpc/http
+  - type: APIReference
+    url: https://solana.com/docs/rpc/http/getaccountinfo
+- aid: solana:solana-transactions-api
+  name: Solana Transactions API
+  description: Methods for sending, simulating, and querying transactions
+  humanURL: https://solana.com/docs/rpc/http/getaccountinfo
+  baseURL: https://api.mainnet.solana.com
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/solana-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://solana.com/docs/rpc/http
+  - type: APIReference
+    url: https://solana.com/docs/rpc/http/getaccountinfo
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/solana/overview
   - type: AgenticAccess
     url: agentic-access/solana-agentic-access.yml
   - type: DomainSecurity
