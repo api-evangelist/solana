@@ -1,0 +1,1595 @@
+{
+  "info": {
+    "_postman_id": "22038e66-5e4e-4e72-a352-c524dfb60616",
+    "name": "Solana JSON-RPC Accounts Cluster API",
+    "description": "Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available \u2014 Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) \u2014 with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.\n\nContact Support:\n Name: Solana Developer Resources",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:57:32.000Z",
+    "updatedAt": "2026-07-28T02:57:33.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-22038e66-5e4e-4e72-a352-c524dfb60616"
+  },
+  "item": [
+    {
+      "name": "getClusterNodes",
+      "item": [
+        {
+          "name": "getClusterNodes",
+          "id": "e17e1547-1909-47f6-b46a-b6bfa98a98e3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getClusterNodes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getClusterNodes"
+              ]
+            },
+            "description": "Returns information about all the nodes participating in the cluster."
+          },
+          "response": [
+            {
+              "id": "7774b252-bbd6-4d30-b464-2dd95b0a5e0d",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getClusterNodes",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getClusterNodes"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": [\n    {\n      \"pubkey\": \"<string>\",\n      \"gossip\": \"<string>\",\n      \"tpu\": \"<string>\",\n      \"rpc\": \"<string>\",\n      \"version\": \"<string>\",\n      \"featureSet\": \"<integer>\",\n      \"shredVersion\": \"<integer>\"\n    },\n    {\n      \"pubkey\": \"<string>\",\n      \"gossip\": \"<string>\",\n      \"tpu\": \"<string>\",\n      \"rpc\": \"<string>\",\n      \"version\": \"<string>\",\n      \"featureSet\": \"<integer>\",\n      \"shredVersion\": \"<integer>\"\n    }\n  ],\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-7774b252-bbd6-4d30-b464-2dd95b0a5e0d"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-e17e1547-1909-47f6-b46a-b6bfa98a98e3"
+        }
+      ],
+      "id": "20eaaa87-8069-4afd-b01f-10d9d998a686",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-20eaaa87-8069-4afd-b01f-10d9d998a686"
+    },
+    {
+      "name": "getEpochInfo",
+      "item": [
+        {
+          "name": "getEpochInfo",
+          "id": "457cf0fa-0af6-4909-a4bb-510702dc7bed",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getEpochInfo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getEpochInfo"
+              ]
+            },
+            "description": "Returns information about the current epoch."
+          },
+          "response": [
+            {
+              "id": "9865e855-8955-420d-b8bd-047894b92e17",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getEpochInfo",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getEpochInfo"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"absoluteSlot\": \"<long>\",\n    \"blockHeight\": \"<long>\",\n    \"epoch\": \"<long>\",\n    \"slotIndex\": \"<long>\",\n    \"slotsInEpoch\": \"<long>\",\n    \"transactionCount\": \"<long>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-9865e855-8955-420d-b8bd-047894b92e17"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-457cf0fa-0af6-4909-a4bb-510702dc7bed"
+        }
+      ],
+      "id": "ccdac032-8515-4c31-948d-cf7d8bca112c",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-ccdac032-8515-4c31-948d-cf7d8bca112c"
+    },
+    {
+      "name": "getEpochSchedule",
+      "item": [
+        {
+          "name": "getEpochSchedule",
+          "id": "8c2817cf-0795-44a6-9275-13d0e35914a7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getEpochSchedule",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getEpochSchedule"
+              ]
+            },
+            "description": "Returns epoch schedule information from this cluster's genesis config."
+          },
+          "response": [
+            {
+              "id": "598cb7a7-1696-486a-96a4-d3faeaa429d4",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getEpochSchedule",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getEpochSchedule"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"slotsPerEpoch\": \"<long>\",\n    \"leaderScheduleSlotOffset\": \"<long>\",\n    \"warmup\": \"<boolean>\",\n    \"firstNormalEpoch\": \"<long>\",\n    \"firstNormalSlot\": \"<long>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-598cb7a7-1696-486a-96a4-d3faeaa429d4"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-8c2817cf-0795-44a6-9275-13d0e35914a7"
+        }
+      ],
+      "id": "4fdd4740-103a-45ba-987e-e05c56c09a28",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-4fdd4740-103a-45ba-987e-e05c56c09a28"
+    },
+    {
+      "name": "getGenesisHash",
+      "item": [
+        {
+          "name": "getGenesisHash",
+          "id": "c5bd7530-8cbe-432f-a01b-a603d0727a49",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getGenesisHash",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getGenesisHash"
+              ]
+            },
+            "description": "Returns the genesis hash."
+          },
+          "response": [
+            {
+              "id": "77dd317e-aac4-4de5-affe-d80ec3c5c130",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getGenesisHash",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getGenesisHash"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": \"<string>\",\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-77dd317e-aac4-4de5-affe-d80ec3c5c130"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-c5bd7530-8cbe-432f-a01b-a603d0727a49"
+        }
+      ],
+      "id": "e4de26f3-fc95-44b6-bdf7-e91b00cd8b5e",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-e4de26f3-fc95-44b6-bdf7-e91b00cd8b5e"
+    },
+    {
+      "name": "getHealth",
+      "item": [
+        {
+          "name": "getHealth",
+          "id": "5b9efe92-d32c-49d2-92cd-021bd9d80dee",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getHealth",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getHealth"
+              ]
+            },
+            "description": "Returns the current health of the node. A healthy node is one that is within HEALTH_CHECK_SLOT_DISTANCE slots of the latest cluster confirmed slot."
+          },
+          "response": [
+            {
+              "id": "1be77864-9c41-444d-bf03-97ca2b66fce3",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getHealth",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getHealth"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": \"ok\",\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"numSlotsBehind\": \"<long>\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-1be77864-9c41-444d-bf03-97ca2b66fce3"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-5b9efe92-d32c-49d2-92cd-021bd9d80dee"
+        }
+      ],
+      "id": "81b24233-43cc-4eb3-b665-1824112c4fad",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-81b24233-43cc-4eb3-b665-1824112c4fad"
+    },
+    {
+      "name": "getHighestSnapshotSlot",
+      "item": [
+        {
+          "name": "getHighestSnapshotSlot",
+          "id": "b79ef352-849b-4d12-9c91-94fcf0e72d2d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getHighestSnapshotSlot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getHighestSnapshotSlot"
+              ]
+            },
+            "description": "Returns the highest slot information that the node has snapshots for. This will find the highest full snapshot slot, and the highest incremental snapshot slot based on the full snapshot slot, if there is one."
+          },
+          "response": [
+            {
+              "id": "1400bd0f-704d-47c0-98fc-c6f8e4ec6717",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getHighestSnapshotSlot",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getHighestSnapshotSlot"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"full\": \"<long>\",\n    \"incremental\": \"<long>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-1400bd0f-704d-47c0-98fc-c6f8e4ec6717"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-b79ef352-849b-4d12-9c91-94fcf0e72d2d"
+        }
+      ],
+      "id": "15c09aa6-0f12-4460-b13c-2ec18a47337b",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-15c09aa6-0f12-4460-b13c-2ec18a47337b"
+    },
+    {
+      "name": "getIdentity",
+      "item": [
+        {
+          "name": "getIdentity",
+          "id": "58f82d9b-9dff-4555-a9b1-adf3a6cf5232",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getIdentity",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getIdentity"
+              ]
+            },
+            "description": "Returns the identity public key for the current node."
+          },
+          "response": [
+            {
+              "id": "fea31052-6a47-4bff-8020-0ed1bca4336b",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getIdentity",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getIdentity"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"identity\": \"<string>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-fea31052-6a47-4bff-8020-0ed1bca4336b"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-58f82d9b-9dff-4555-a9b1-adf3a6cf5232"
+        }
+      ],
+      "id": "4e403ced-3f8b-4dd3-abad-ceb73192b65e",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-4e403ced-3f8b-4dd3-abad-ceb73192b65e"
+    },
+    {
+      "name": "getLeaderSchedule",
+      "item": [
+        {
+          "name": "getLeaderSchedule",
+          "id": "ca215603-0447-422a-a2f5-22ac59d71c04",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getLeaderSchedule",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getLeaderSchedule"
+              ]
+            },
+            "description": "Returns the leader schedule for an epoch."
+          },
+          "response": [
+            {
+              "id": "3186d80c-9914-4557-b317-45297ab5db37",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getLeaderSchedule",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getLeaderSchedule"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"labore_7\": [\n      \"<long>\",\n      \"<long>\"\n    ],\n    \"cupidatat8f4\": [\n      \"<long>\",\n      \"<long>\"\n    ]\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-3186d80c-9914-4557-b317-45297ab5db37"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-ca215603-0447-422a-a2f5-22ac59d71c04"
+        }
+      ],
+      "id": "c1b9e7c3-b1ef-4f58-b10a-e139626a809c",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-c1b9e7c3-b1ef-4f58-b10a-e139626a809c"
+    },
+    {
+      "name": "getMaxRetransmitSlot",
+      "item": [
+        {
+          "name": "getMaxRetransmitSlot",
+          "id": "2ad0a724-ec92-4db8-bccf-8f56349d6769",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getMaxRetransmitSlot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getMaxRetransmitSlot"
+              ]
+            },
+            "description": "Get the max slot seen from retransmit stage."
+          },
+          "response": [
+            {
+              "id": "f6ce80e6-2971-418b-90da-b8b29072ecf7",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getMaxRetransmitSlot",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getMaxRetransmitSlot"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": \"<long>\",\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-f6ce80e6-2971-418b-90da-b8b29072ecf7"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-2ad0a724-ec92-4db8-bccf-8f56349d6769"
+        }
+      ],
+      "id": "3270bd0d-d9db-4740-aeb7-345f94316305",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-3270bd0d-d9db-4740-aeb7-345f94316305"
+    },
+    {
+      "name": "getMaxShredInsertSlot",
+      "item": [
+        {
+          "name": "getMaxShredInsertSlot",
+          "id": "81e39f02-adc9-4e9d-aafa-541a109cd18c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getMaxShredInsertSlot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getMaxShredInsertSlot"
+              ]
+            },
+            "description": "Get the max slot seen from after shred insert."
+          },
+          "response": [
+            {
+              "id": "79a34f7a-b897-4bdb-bc5b-93d8a52722c0",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getMaxShredInsertSlot",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getMaxShredInsertSlot"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": \"<long>\",\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-79a34f7a-b897-4bdb-bc5b-93d8a52722c0"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-81e39f02-adc9-4e9d-aafa-541a109cd18c"
+        }
+      ],
+      "id": "bf399e53-9caf-45d3-bfb5-9544a9b57edb",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-bf399e53-9caf-45d3-bfb5-9544a9b57edb"
+    },
+    {
+      "name": "getSlot",
+      "item": [
+        {
+          "name": "getSlot",
+          "id": "c72ad76c-5660-4ff3-b5db-3e2f3f50a94f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getSlot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getSlot"
+              ]
+            },
+            "description": "Returns the slot that has reached the given or default commitment level."
+          },
+          "response": [
+            {
+              "id": "b6d96bef-487d-481e-bd46-f58fef9ba45a",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getSlot",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getSlot"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": \"<long>\",\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-b6d96bef-487d-481e-bd46-f58fef9ba45a"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-c72ad76c-5660-4ff3-b5db-3e2f3f50a94f"
+        }
+      ],
+      "id": "06edfc71-9ec0-49f7-ac77-e2e14b3948c0",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-06edfc71-9ec0-49f7-ac77-e2e14b3948c0"
+    },
+    {
+      "name": "getSlotLeader",
+      "item": [
+        {
+          "name": "getSlotLeader",
+          "id": "f4338555-0bc4-45a9-98ad-2ff76d8a60b9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getSlotLeader",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getSlotLeader"
+              ]
+            },
+            "description": "Returns the current slot leader."
+          },
+          "response": [
+            {
+              "id": "e9e08e1b-e307-4ff2-9ee6-6f4534482b07",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getSlotLeader",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getSlotLeader"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": \"<string>\",\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-e9e08e1b-e307-4ff2-9ee6-6f4534482b07"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-f4338555-0bc4-45a9-98ad-2ff76d8a60b9"
+        }
+      ],
+      "id": "4e538ecf-8cd0-43f4-9cf4-2ff1fec86fff",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-4e538ecf-8cd0-43f4-9cf4-2ff1fec86fff"
+    },
+    {
+      "name": "getSlotLeaders",
+      "item": [
+        {
+          "name": "getSlotLeaders",
+          "id": "b882cd29-d9c1-42c2-aedb-be01aadb3b87",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getSlotLeaders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getSlotLeaders"
+              ]
+            },
+            "description": "Returns the slot leaders for a given slot range."
+          },
+          "response": [
+            {
+              "id": "54b317c0-2ba7-4b16-9c3b-6a83f2dd5e64",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getSlotLeaders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getSlotLeaders"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-54b317c0-2ba7-4b16-9c3b-6a83f2dd5e64"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-b882cd29-d9c1-42c2-aedb-be01aadb3b87"
+        }
+      ],
+      "id": "54ba1aa6-9afa-4009-8298-79cce8647cb6",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-54ba1aa6-9afa-4009-8298-79cce8647cb6"
+    },
+    {
+      "name": "getVersion",
+      "item": [
+        {
+          "name": "getVersion",
+          "id": "25497d52-312f-4ccb-bef4-f9469ee1d613",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getVersion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getVersion"
+              ]
+            },
+            "description": "Returns the current Solana version running on the node."
+          },
+          "response": [
+            {
+              "id": "c90efa5c-0712-4dd6-bba5-bd78f216376b",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getVersion",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getVersion"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"solana-core\": \"<string>\",\n    \"feature-set\": \"<integer>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-c90efa5c-0712-4dd6-bba5-bd78f216376b"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-25497d52-312f-4ccb-bef4-f9469ee1d613"
+        }
+      ],
+      "id": "c55891bf-b5e3-489e-a4e3-b65f72866670",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-c55891bf-b5e3-489e-a4e3-b65f72866670"
+    },
+    {
+      "name": "getVoteAccounts",
+      "item": [
+        {
+          "name": "getVoteAccounts",
+          "id": "bc079bdb-be09-4123-bcb8-d07adfd4c48e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getVoteAccounts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getVoteAccounts"
+              ]
+            },
+            "description": "Returns the account info and associated stake for all the voting accounts in the current bank."
+          },
+          "response": [
+            {
+              "id": "df16a991-2ce8-4f7f-a362-39d37dbc88ad",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getVoteAccounts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getVoteAccounts"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"current\": [\n      {\n        \"votePubkey\": \"<string>\",\n        \"nodePubkey\": \"<string>\",\n        \"activatedStake\": \"<long>\",\n        \"epochVoteAccount\": \"<boolean>\",\n        \"commission\": \"<integer>\",\n        \"lastVote\": \"<long>\",\n        \"epochCredits\": [\n          [\n            \"<long>\",\n            \"<long>\"\n          ],\n          [\n            \"<long>\",\n            \"<long>\"\n          ]\n        ],\n        \"rootSlot\": \"<long>\"\n      },\n      {\n        \"votePubkey\": \"<string>\",\n        \"nodePubkey\": \"<string>\",\n        \"activatedStake\": \"<long>\",\n        \"epochVoteAccount\": \"<boolean>\",\n        \"commission\": \"<integer>\",\n        \"lastVote\": \"<long>\",\n        \"epochCredits\": [\n          [\n            \"<long>\",\n            \"<long>\"\n          ],\n          [\n            \"<long>\",\n            \"<long>\"\n          ]\n        ],\n        \"rootSlot\": \"<long>\"\n      }\n    ],\n    \"delinquent\": [\n      {\n        \"votePubkey\": \"<string>\",\n        \"nodePubkey\": \"<string>\",\n        \"activatedStake\": \"<long>\",\n        \"epochVoteAccount\": \"<boolean>\",\n        \"commission\": \"<integer>\",\n        \"lastVote\": \"<long>\",\n        \"epochCredits\": [\n          [\n            \"<long>\",\n            \"<long>\"\n          ],\n          [\n            \"<long>\",\n            \"<long>\"\n          ]\n        ],\n        \"rootSlot\": \"<long>\"\n      },\n      {\n        \"votePubkey\": \"<string>\",\n        \"nodePubkey\": \"<string>\",\n        \"activatedStake\": \"<long>\",\n        \"epochVoteAccount\": \"<boolean>\",\n        \"commission\": \"<integer>\",\n        \"lastVote\": \"<long>\",\n        \"epochCredits\": [\n          [\n            \"<long>\",\n            \"<long>\"\n          ],\n          [\n            \"<long>\",\n            \"<long>\"\n          ]\n        ],\n        \"rootSlot\": \"<long>\"\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:33.000Z",
+              "updatedAt": "2026-07-28T02:57:33.000Z",
+              "uid": "35240-df16a991-2ce8-4f7f-a362-39d37dbc88ad"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:33.000Z",
+          "updatedAt": "2026-07-28T02:57:33.000Z",
+          "uid": "35240-bc079bdb-be09-4123-bcb8-d07adfd4c48e"
+        }
+      ],
+      "id": "66ce9eca-b91a-4954-a487-41641e43fa20",
+      "createdAt": "2026-07-28T02:57:33.000Z",
+      "updatedAt": "2026-07-28T02:57:33.000Z",
+      "uid": "35240-66ce9eca-b91a-4954-a487-41641e43fa20"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.mainnet.solana.com"
+    }
+  ]
+}

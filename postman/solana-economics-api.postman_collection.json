@@ -1,0 +1,545 @@
+{
+  "info": {
+    "_postman_id": "74f06204-ecdc-4d89-b54d-67d15cb8c435",
+    "name": "Solana JSON-RPC Accounts Economics API",
+    "description": "Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available \u2014 Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) \u2014 with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.\n\nContact Support:\n Name: Solana Developer Resources",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:57:34.000Z",
+    "updatedAt": "2026-07-28T02:57:34.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-74f06204-ecdc-4d89-b54d-67d15cb8c435"
+  },
+  "item": [
+    {
+      "name": "getInflationGovernor",
+      "item": [
+        {
+          "name": "getInflationGovernor",
+          "id": "e8872fc9-4847-43cf-8639-5391528115d2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getInflationGovernor",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getInflationGovernor"
+              ]
+            },
+            "description": "Returns the current inflation governor."
+          },
+          "response": [
+            {
+              "id": "737cedea-89b1-4e53-8289-1e04cd5d5c36",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getInflationGovernor",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getInflationGovernor"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"initial\": \"<double>\",\n    \"terminal\": \"<double>\",\n    \"taper\": \"<double>\",\n    \"foundation\": \"<double>\",\n    \"foundationTerm\": \"<double>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:34.000Z",
+              "updatedAt": "2026-07-28T02:57:34.000Z",
+              "uid": "35240-737cedea-89b1-4e53-8289-1e04cd5d5c36"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:34.000Z",
+          "updatedAt": "2026-07-28T02:57:34.000Z",
+          "uid": "35240-e8872fc9-4847-43cf-8639-5391528115d2"
+        }
+      ],
+      "id": "2b2893b7-1115-4eaa-8cf5-0c7f12bd2459",
+      "createdAt": "2026-07-28T02:57:34.000Z",
+      "updatedAt": "2026-07-28T02:57:34.000Z",
+      "uid": "35240-2b2893b7-1115-4eaa-8cf5-0c7f12bd2459"
+    },
+    {
+      "name": "getInflationRate",
+      "item": [
+        {
+          "name": "getInflationRate",
+          "id": "7ab042c0-3ecf-41cc-9c38-05c54b5d59fe",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getInflationRate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getInflationRate"
+              ]
+            },
+            "description": "Returns the specific inflation values for the current epoch."
+          },
+          "response": [
+            {
+              "id": "221029be-0534-4c8f-bc74-8195d4d8eb39",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getInflationRate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getInflationRate"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"total\": \"<double>\",\n    \"validator\": \"<double>\",\n    \"foundation\": \"<double>\",\n    \"epoch\": \"<long>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:34.000Z",
+              "updatedAt": "2026-07-28T02:57:34.000Z",
+              "uid": "35240-221029be-0534-4c8f-bc74-8195d4d8eb39"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:34.000Z",
+          "updatedAt": "2026-07-28T02:57:34.000Z",
+          "uid": "35240-7ab042c0-3ecf-41cc-9c38-05c54b5d59fe"
+        }
+      ],
+      "id": "45f275e1-5029-4979-9399-7bfd7e2fd5c4",
+      "createdAt": "2026-07-28T02:57:34.000Z",
+      "updatedAt": "2026-07-28T02:57:34.000Z",
+      "uid": "35240-45f275e1-5029-4979-9399-7bfd7e2fd5c4"
+    },
+    {
+      "name": "getInflationReward",
+      "item": [
+        {
+          "name": "getInflationReward",
+          "id": "e16f8a5b-3a68-43aa-a76c-690365389951",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getInflationReward",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getInflationReward"
+              ]
+            },
+            "description": "Returns the inflation / staking reward for a list of addresses for an epoch."
+          },
+          "response": [
+            {
+              "id": "7a8d26eb-2292-4ebd-b5b6-1a03ce2698dd",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getInflationReward",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getInflationReward"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": [\n    {\n      \"epoch\": \"<long>\",\n      \"effectiveSlot\": \"<long>\",\n      \"amount\": \"<long>\",\n      \"postBalance\": \"<long>\",\n      \"commission\": \"<integer>\"\n    },\n    {\n      \"epoch\": \"<long>\",\n      \"effectiveSlot\": \"<long>\",\n      \"amount\": \"<long>\",\n      \"postBalance\": \"<long>\",\n      \"commission\": \"<integer>\"\n    }\n  ],\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:34.000Z",
+              "updatedAt": "2026-07-28T02:57:34.000Z",
+              "uid": "35240-7a8d26eb-2292-4ebd-b5b6-1a03ce2698dd"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:34.000Z",
+          "updatedAt": "2026-07-28T02:57:34.000Z",
+          "uid": "35240-e16f8a5b-3a68-43aa-a76c-690365389951"
+        }
+      ],
+      "id": "a78118d7-2473-460b-aed6-c7d75a4f69b2",
+      "createdAt": "2026-07-28T02:57:34.000Z",
+      "updatedAt": "2026-07-28T02:57:34.000Z",
+      "uid": "35240-a78118d7-2473-460b-aed6-c7d75a4f69b2"
+    },
+    {
+      "name": "getStakeMinimumDelegation",
+      "item": [
+        {
+          "name": "getStakeMinimumDelegation",
+          "id": "4193c9b8-4b00-4639-9a52-ffe1dd31aeae",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getStakeMinimumDelegation",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getStakeMinimumDelegation"
+              ]
+            },
+            "description": "Returns the stake minimum delegation, in lamports."
+          },
+          "response": [
+            {
+              "id": "c2a25f7d-b9d4-4827-a5c0-0c1b2458428f",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getStakeMinimumDelegation",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getStakeMinimumDelegation"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"context\": {\n      \"slot\": \"<long>\"\n    },\n    \"value\": \"<long>\"\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:34.000Z",
+              "updatedAt": "2026-07-28T02:57:34.000Z",
+              "uid": "35240-c2a25f7d-b9d4-4827-a5c0-0c1b2458428f"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:34.000Z",
+          "updatedAt": "2026-07-28T02:57:34.000Z",
+          "uid": "35240-4193c9b8-4b00-4639-9a52-ffe1dd31aeae"
+        }
+      ],
+      "id": "99651d9e-3bcb-42bf-bf95-9543d010335b",
+      "createdAt": "2026-07-28T02:57:34.000Z",
+      "updatedAt": "2026-07-28T02:57:34.000Z",
+      "uid": "35240-99651d9e-3bcb-42bf-bf95-9543d010335b"
+    },
+    {
+      "name": "getSupply",
+      "item": [
+        {
+          "name": "getSupply",
+          "id": "1ca6ec50-d5a9-44e0-84a8-b121dfe57660",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getSupply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getSupply"
+              ]
+            },
+            "description": "Returns information about the current supply."
+          },
+          "response": [
+            {
+              "id": "23b20f01-92ec-466f-8c47-9a13eb0fe7aa",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getSupply",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getSupply"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"result\": {\n    \"context\": {\n      \"slot\": \"<long>\"\n    },\n    \"value\": {\n      \"total\": \"<long>\",\n      \"circulating\": \"<long>\",\n      \"nonCirculating\": \"<long>\",\n      \"nonCirculatingAccounts\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"error\": {\n    \"code\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"data\": {\n      \"description\": \"Additional error data\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T02:57:34.000Z",
+              "updatedAt": "2026-07-28T02:57:34.000Z",
+              "uid": "35240-23b20f01-92ec-466f-8c47-9a13eb0fe7aa"
+            }
+          ],
+          "createdAt": "2026-07-28T02:57:34.000Z",
+          "updatedAt": "2026-07-28T02:57:34.000Z",
+          "uid": "35240-1ca6ec50-d5a9-44e0-84a8-b121dfe57660"
+        }
+      ],
+      "id": "cd041d53-3f50-4518-9377-499d074f22fd",
+      "createdAt": "2026-07-28T02:57:34.000Z",
+      "updatedAt": "2026-07-28T02:57:34.000Z",
+      "uid": "35240-cd041d53-3f50-4518-9377-499d074f22fd"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.mainnet.solana.com"
+    }
+  ]
+}

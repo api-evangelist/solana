@@ -1,0 +1,24 @@
+{
+  "provider": "solana",
+  "sources": [
+    "solana-accounts-api-openapi.yml",
+    "solana-blocks-api-openapi.yml",
+    "solana-cluster-api-openapi.yml",
+    "solana-economics-api-openapi.yml",
+    "solana-tokens-api-openapi.yml",
+    "solana-transactions-api-openapi.yml"
+  ],
+  "outputs": [
+    "solana-accounts-api-openapi.yml",
+    "solana-blocks-api-openapi.yml",
+    "solana-cluster-api-openapi.yml",
+    "solana-economics-api-openapi.yml",
+    "solana-tokens-api-openapi.yml",
+    "solana-transactions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
