@@ -245,6 +245,9 @@ apis:
   - type: APIReference
     url: https://solana.com/docs/rpc/http/getaccountinfo
 common:
+  - type: License
+    name: MIT
+    url: https://github.com/anza-xyz/kit/blob/main/LICENSE
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/solana/overview
   - type: AgenticAccess
@@ -310,7 +313,7 @@ common:
   - type: FinOps
     url: finops/solana-finops.yml
   - type: OpenAPI
-    url: openapi/solana-rpc-api-openapi.yml
+    url: openapi/_original/solana-rpc-api-openapi.yml
   - type: Overlay
     url: overlays/solana-rpc-api-overlay.yaml
   - type: Packages
