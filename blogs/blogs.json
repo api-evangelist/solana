@@ -5,14 +5,14 @@
       "source": "https://solanacompass.com/feed.xml",
       "feed_url": "https://solanacompass.com/feed.xml",
       "title": "",
-      "saved": 0,
+      "saved": 50,
       "method": "feed"
     },
     {
       "source": "https://solana.com/news/rss.xml",
       "feed_url": "https://solana.com/news/rss.xml",
       "title": "",
-      "saved": 0,
+      "saved": 4,
       "method": "feed"
     },
     {
@@ -23,6 +23,6 @@
       "method": "discovered"
     }
   ],
-  "post_count": 328,
-  "fetched": "2026-08-06T14:08:46Z"
+  "post_count": 382,
+  "fetched": "2026-08-15T12:11:08Z"
 }
