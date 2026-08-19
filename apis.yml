@@ -31,7 +31,7 @@ description: >-
   with dedicated API nodes for each environment.
 created: '2026-06-13'
 modified: '2026-06-20'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: solana:solana-rpc-tokens-api
   name: Solana RPC Tokens API
