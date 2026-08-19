@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solana JSON-RPC Accounts Tokens API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTokenAccountBalance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTokenAccountBalance",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the token balance of an SPL Token account."
+        },
+        {
+          "info": {
+            "name": "getTokenAccountsByDelegate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTokenAccountsByDelegate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all SPL Token accounts by approved Delegate. Either a mint or programId filter is required."
+        },
+        {
+          "info": {
+            "name": "getTokenAccountsByOwner",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTokenAccountsByOwner",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all SPL Token accounts by token owner. Either a mint or programId filter is required."
+        },
+        {
+          "info": {
+            "name": "getTokenLargestAccounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTokenLargestAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the 20 largest accounts of a particular SPL Token type."
+        },
+        {
+          "info": {
+            "name": "getTokenSupply",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTokenSupply",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the total supply of an SPL Token mint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

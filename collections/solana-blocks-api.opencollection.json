@@ -1,0 +1,168 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solana JSON-RPC Accounts Blocks API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Blocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getBlock",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlock",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns identity and transaction information about a confirmed block in the ledger."
+        },
+        {
+          "info": {
+            "name": "getBlockCommitment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlockCommitment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns commitment for particular block."
+        },
+        {
+          "info": {
+            "name": "getBlockHeight",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlockHeight",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current block height of the node."
+        },
+        {
+          "info": {
+            "name": "getBlockProduction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlockProduction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns recent block production information from the current or previous epoch."
+        },
+        {
+          "info": {
+            "name": "getBlocks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlocks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a list of confirmed blocks between two slots."
+        },
+        {
+          "info": {
+            "name": "getBlocksWithLimit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlocksWithLimit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a list of confirmed blocks starting at the given slot."
+        },
+        {
+          "info": {
+            "name": "getBlockTime",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBlockTime",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the estimated production time of a confirmed block."
+        },
+        {
+          "info": {
+            "name": "getFirstAvailableBlock",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getFirstAvailableBlock",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the slot of the lowest confirmed block that has not been purged from the ledger."
+        },
+        {
+          "info": {
+            "name": "getRecentPerformanceSamples",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getRecentPerformanceSamples",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a list of recent performance samples, in reverse slot order. Performance samples are taken every 60 seconds and include the number of transactions and slots that occur in a given time window."
+        },
+        {
+          "info": {
+            "name": "minimumLedgerSlot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/minimumLedgerSlot",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the lowest slot that the node has information about in its ledger."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

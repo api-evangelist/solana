@@ -1,0 +1,1033 @@
+{
+  "item": [
+    {
+      "id": "e6cfd0cd-6525-49e6-8f9f-075f2c16a9e6",
+      "name": "Transactions",
+      "description": {
+        "content": "Methods for sending, simulating, and querying transactions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a8765f60-74fc-4dc0-928b-9ecf2f943e7a",
+          "name": "sendTransaction",
+          "request": {
+            "name": "sendTransaction",
+            "description": {
+              "content": "Submits a signed transaction to the cluster for processing. This method does not alter the transaction in any way; it relays the transaction created by clients to the node as-is.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sendTransaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "13bb4526-958a-49d7-b59e-71569c80a050",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sendTransaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"sendTransaction\",\n  \"params\": [\n    \"4hXTCkRzt9WyecNzV1XPgCDfGAZzQKNxLXgynz5QDuWWPSAZBZSHptvWRL3BjCvzUXRdKvHL2b7yGrRQcWyaqsaBCncVG7BFqseSr4sQs3GT\",\n    {\n      \"encoding\": \"base58\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 8707,\n  \"result\": \"string\",\n  \"error\": {\n    \"code\": 3308,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "537aba40-ff64-4d4c-8803-b8b0f571307c",
+          "name": "simulateTransaction",
+          "request": {
+            "name": "simulateTransaction",
+            "description": {
+              "content": "Simulate sending a transaction. Returns simulated transaction results including logs and account state changes without broadcasting to the network.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "simulateTransaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3c82789a-e3f8-4b62-97f3-0ecff90aec0c",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "simulateTransaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"simulateTransaction\",\n  \"params\": [\n    \"4hXTCkRzt9WyecNzV1XPgCDfGAZzQKNxLXgynz5QDuWWPSAZBZSHptvWRL3BjCvzUXRdKvHL2b7yGrRQcWyaqsaBCncVG7BFqseSr4sQs3GT\",\n    {\n      \"sigVerify\": true,\n      \"commitment\": \"finalized\",\n      \"encoding\": \"base64\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 6131,\n  \"result\": {\n    \"context\": {\n      \"slot\": 5450\n    },\n    \"value\": {\n      \"err\": {},\n      \"logs\": [\n        \"string\",\n        \"string\"\n      ],\n      \"accounts\": [\n        {\n          \"lamports\": 6389,\n          \"owner\": \"string\",\n          \"data\": \"string\",\n          \"executable\": true,\n          \"rentEpoch\": 8432,\n          \"space\": 4820\n        },\n        {\n          \"lamports\": 8375,\n          \"owner\": \"string\",\n          \"data\": \"string\",\n          \"executable\": true,\n          \"rentEpoch\": 9098,\n          \"space\": 5730\n        }\n      ],\n      \"unitsConsumed\": 4416\n    }\n  },\n  \"error\": {\n    \"code\": 7393,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "59cf2cdd-58e3-4920-9130-e2610712b855",
+          "name": "getTransaction",
+          "request": {
+            "name": "getTransaction",
+            "description": {
+              "content": "Returns transaction details for a confirmed transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTransaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f5aaada7-5025-4068-8a7b-c3a1f29961e3",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTransaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTransaction\",\n  \"params\": [\n    \"2nBhEBYYvfaAe16UMNqRHre4YNSskvuYgx3M6E4JP1oDYvZEJHvoPzyUidNgNX5r9sTyzdqDT8yCJAKNUFGJMfmv\",\n    {\n      \"encoding\": \"jsonParsed\",\n      \"commitment\": \"finalized\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 4066,\n  \"result\": {\n    \"slot\": 5594,\n    \"transaction\": {},\n    \"blockTime\": 1672,\n    \"meta\": {\n      \"err\": {},\n      \"fee\": 8515,\n      \"preBalances\": [\n        271,\n        6761\n      ],\n      \"postBalances\": [\n        2603,\n        596\n      ],\n      \"logMessages\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  \"error\": {\n    \"code\": 3521,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df185d43-002d-403c-ab7c-3a177ae41fa4",
+          "name": "getSignaturesForAddress",
+          "request": {
+            "name": "getSignaturesForAddress",
+            "description": {
+              "content": "Returns confirmed signatures for transactions involving an address backwards in time from the provided signature or most recent confirmed block.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getSignaturesForAddress"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "04c939fa-52fe-4937-8f56-473288ca82be",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getSignaturesForAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getSignaturesForAddress\",\n  \"params\": [\n    \"Vote111111111111111111111111111111111111111p8bN\",\n    {\n      \"limit\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 7477,\n  \"result\": [\n    {\n      \"signature\": \"string\",\n      \"slot\": 5890,\n      \"err\": {},\n      \"memo\": \"string\",\n      \"blockTime\": 6330,\n      \"confirmationStatus\": \"string\"\n    },\n    {\n      \"signature\": \"string\",\n      \"slot\": 9453,\n      \"err\": {},\n      \"memo\": \"string\",\n      \"blockTime\": 519,\n      \"confirmationStatus\": \"string\"\n    }\n  ],\n  \"error\": {\n    \"code\": 5691,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "666d4949-64fb-47c5-89f7-1d7b6e47e9dd",
+          "name": "getSignatureStatuses",
+          "request": {
+            "name": "getSignatureStatuses",
+            "description": {
+              "content": "Returns the statuses of a list of signatures. Unless the searchTransactionHistory configuration parameter is included, this method only searches the recent status cache of signatures, which retains statuses for all active slots plus MAX_RECENT_BLOCKHASHES rooted slots.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getSignatureStatuses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eaa1a7b1-776e-41d7-bab2-747a78c4f7a6",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getSignatureStatuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getSignatureStatuses\",\n  \"params\": [\n    [\n      \"5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW\",\n      \"5j7s6NiJS3JAkvgkoc18WVAsiSaci2pxB2A6ueCJP4tprA2TFg9wSyTLeYouxPBJEMzJinENTkpA52YStRW5Dia7\"\n    ],\n    {\n      \"searchTransactionHistory\": true\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1117,\n  \"result\": {\n    \"context\": {\n      \"slot\": 3874\n    },\n    \"value\": [\n      {\n        \"slot\": 6525,\n        \"confirmations\": 6244,\n        \"err\": {},\n        \"confirmationStatus\": \"confirmed\"\n      },\n      {\n        \"slot\": 6640,\n        \"confirmations\": 7464,\n        \"err\": {},\n        \"confirmationStatus\": \"processed\"\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": 5637,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b28a19aa-c887-459c-b20e-c768345e8104",
+          "name": "getFeeForMessage",
+          "request": {
+            "name": "getFeeForMessage",
+            "description": {
+              "content": "Get the fee the network will charge for a particular Message.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getFeeForMessage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d6467db4-bae7-4390-ab85-74f398842ca6",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getFeeForMessage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getFeeForMessage\",\n  \"params\": [\n    \"AQABAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQAA\",\n    {\n      \"commitment\": \"confirmed\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 7514,\n  \"result\": {\n    \"context\": {\n      \"slot\": 8937\n    },\n    \"value\": 9555\n  },\n  \"error\": {\n    \"code\": 319,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2522464-8135-44f1-8f8c-5bedd70fbe29",
+          "name": "getLatestBlockhash",
+          "request": {
+            "name": "getLatestBlockhash",
+            "description": {
+              "content": "Returns the latest blockhash and last valid block height for a transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getLatestBlockhash"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b6f39a6a-2b06-43cb-8814-e4d82bd99ee8",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getLatestBlockhash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getLatestBlockhash\",\n  \"params\": [\n    {\n      \"commitment\": \"processed\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 4166,\n  \"result\": {\n    \"context\": {\n      \"slot\": 2205\n    },\n    \"value\": {\n      \"blockhash\": \"string\",\n      \"lastValidBlockHeight\": 528\n    }\n  },\n  \"error\": {\n    \"code\": 4423,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd851e59-c9e0-4361-8270-fb76b87361eb",
+          "name": "isBlockhashValid",
+          "request": {
+            "name": "isBlockhashValid",
+            "description": {
+              "content": "Returns whether a blockhash is still valid or has expired.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "isBlockhashValid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "716baa30-f0c3-4fc8-b791-58d5b45c0ceb",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "isBlockhashValid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"isBlockhashValid\",\n  \"params\": [\n    \"J7rBdtiSetEfpFike1CT9hXP3icWT9QKe8BKA7qJt6eZ\",\n    {\n      \"commitment\": \"processed\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2662,\n  \"result\": {\n    \"context\": {\n      \"slot\": 2842\n    },\n    \"value\": false\n  },\n  \"error\": {\n    \"code\": 3080,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d21ba9d9-819e-4cf0-98f5-88b27c5fb12c",
+          "name": "getRecentPrioritizationFees",
+          "request": {
+            "name": "getRecentPrioritizationFees",
+            "description": {
+              "content": "Returns a list of prioritization fees from recent blocks. Currently, a node's prioritization-fee cache stores data from up to 150 blocks.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getRecentPrioritizationFees"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c490bb8d-dbd7-41ec-bee7-78c50f469261",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getRecentPrioritizationFees"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getRecentPrioritizationFees\",\n  \"params\": [\n    [\n      \"CxELquR1gPP8wHe33gZ4QxqGB3sZ9RSwsJ2KshVewkFY\"\n    ]\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 6691,\n  \"result\": [\n    {\n      \"slot\": 4479,\n      \"prioritizationFee\": 9946\n    },\n    {\n      \"slot\": 2242,\n      \"prioritizationFee\": 3555\n    }\n  ],\n  \"error\": {\n    \"code\": 7925,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7f4eedd-a23b-4da4-9608-31c035fba81b",
+          "name": "getTransactionCount",
+          "request": {
+            "name": "getTransactionCount",
+            "description": {
+              "content": "Returns the current Transaction count from the ledger.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTransactionCount"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "01434720-902b-49ae-8c53-e207b32c85b7",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTransactionCount"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTransactionCount\",\n  \"params\": []\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 4960,\n  \"result\": 4072,\n  \"error\": {\n    \"code\": 2129,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed797879-011a-4f2e-b653-6fe73fd07431",
+          "name": "requestAirdrop",
+          "request": {
+            "name": "requestAirdrop",
+            "description": {
+              "content": "Requests an airdrop of lamports to a public key. Only available on Devnet and Testnet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "requestAirdrop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa63cdb0-9c6c-4c94-85ae-8a90d2797c7c",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "requestAirdrop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"requestAirdrop\",\n  \"params\": [\n    \"83astBRguLMdt2h5U1Tpdq5tjFoJ6noeGwaY3mDLVcri\",\n    1000000000\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 8707,\n  \"result\": \"string\",\n  \"error\": {\n    \"code\": 3308,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.mainnet.solana.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2432638e-8dfc-4fbe-a380-ecd2d9a1d553",
+    "name": "Solana JSON-RPC Accounts Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.\n\nContact Support:\n Name: Solana Developer Resources",
+      "type": "text/plain"
+    }
+  }
+}

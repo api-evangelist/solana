@@ -1,0 +1,487 @@
+{
+  "item": [
+    {
+      "id": "b70d4d3f-a2d6-49e2-8f03-a69d3259cb1e",
+      "name": "Tokens",
+      "description": {
+        "content": "Methods for querying SPL Token accounts, balances, and supply",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4f39f180-485b-446c-8683-3d7320edbecb",
+          "name": "getTokenAccountBalance",
+          "request": {
+            "name": "getTokenAccountBalance",
+            "description": {
+              "content": "Returns the token balance of an SPL Token account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTokenAccountBalance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "038d49e0-60a9-474c-b643-331de199dc4d",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTokenAccountBalance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTokenAccountBalance\",\n  \"params\": [\n    \"7fUAJdStEuGbc3sM84cKRL6yYaaSstyLSU4ve5oovLS7\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 9368,\n  \"result\": {\n    \"context\": {\n      \"slot\": 5980\n    },\n    \"value\": {\n      \"amount\": \"string\",\n      \"decimals\": 6895,\n      \"uiAmount\": 8373.826281921662,\n      \"uiAmountString\": \"string\"\n    }\n  },\n  \"error\": {\n    \"code\": 4277,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf75fca4-5c90-46ae-ba98-06733c25fd06",
+          "name": "getTokenAccountsByDelegate",
+          "request": {
+            "name": "getTokenAccountsByDelegate",
+            "description": {
+              "content": "Returns all SPL Token accounts by approved Delegate. Either a mint or programId filter is required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTokenAccountsByDelegate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "01fc236d-a035-4a1c-9de9-b9521805ac49",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTokenAccountsByDelegate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTokenAccountsByDelegate\",\n  \"params\": [\n    \"4Nd1mBQtrMJVYVfKf2PX99kkXoHWdrS84XnTXFGnhrHu\",\n    {\n      \"programId\": \"TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\"\n    },\n    {\n      \"encoding\": \"jsonParsed\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 7146,\n  \"result\": {\n    \"context\": {\n      \"slot\": 1268\n    },\n    \"value\": [\n      {\n        \"pubkey\": \"string\",\n        \"account\": {\n          \"lamports\": 6836,\n          \"owner\": \"string\",\n          \"data\": \"string\",\n          \"executable\": true,\n          \"rentEpoch\": 8526,\n          \"space\": 8089\n        }\n      },\n      {\n        \"pubkey\": \"string\",\n        \"account\": {\n          \"lamports\": 5729,\n          \"owner\": \"string\",\n          \"data\": \"string\",\n          \"executable\": true,\n          \"rentEpoch\": 7649,\n          \"space\": 9116\n        }\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": 5947,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57bf64a4-2e84-4e4f-a790-baded22751a0",
+          "name": "getTokenAccountsByOwner",
+          "request": {
+            "name": "getTokenAccountsByOwner",
+            "description": {
+              "content": "Returns all SPL Token accounts by token owner. Either a mint or programId filter is required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTokenAccountsByOwner"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc1d7e0b-ab00-4ca3-940c-0c9b06f8f8a4",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTokenAccountsByOwner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTokenAccountsByOwner\",\n  \"params\": [\n    \"4Qkev8aNZcqFNSRkXnKKPZo2hEMUzCjCJvzE3YHWoGg\",\n    {\n      \"programId\": \"TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\"\n    },\n    {\n      \"encoding\": \"jsonParsed\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 6815,\n  \"result\": {\n    \"context\": {\n      \"slot\": 2274\n    },\n    \"value\": [\n      {\n        \"pubkey\": \"string\",\n        \"account\": {\n          \"lamports\": 11,\n          \"owner\": \"string\",\n          \"data\": \"string\",\n          \"executable\": false,\n          \"rentEpoch\": 2490,\n          \"space\": 2272\n        }\n      },\n      {\n        \"pubkey\": \"string\",\n        \"account\": {\n          \"lamports\": 3946,\n          \"owner\": \"string\",\n          \"data\": \"string\",\n          \"executable\": true,\n          \"rentEpoch\": 7352,\n          \"space\": 8979\n        }\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": 9323,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "675c45b4-0c00-48e7-96d0-ac90dbec2ca4",
+          "name": "getTokenLargestAccounts",
+          "request": {
+            "name": "getTokenLargestAccounts",
+            "description": {
+              "content": "Returns the 20 largest accounts of a particular SPL Token type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTokenLargestAccounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ed41f1e-0324-40c3-85ab-1324c483684e",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTokenLargestAccounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTokenLargestAccounts\",\n  \"params\": [\n    \"3wyAj7Rt1TWVPZVteFJPLa26JmLvdb1CAKEFZm3NY75E\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2117,\n  \"result\": {\n    \"context\": {\n      \"slot\": 2088\n    },\n    \"value\": [\n      {\n        \"address\": \"string\",\n        \"amount\": \"string\",\n        \"decimals\": 2489,\n        \"uiAmount\": 3802.5599507263187,\n        \"uiAmountString\": \"string\"\n      },\n      {\n        \"address\": \"string\",\n        \"amount\": \"string\",\n        \"decimals\": 4688,\n        \"uiAmount\": 4203.474594086727,\n        \"uiAmountString\": \"string\"\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": 836,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3b1861a9-324d-43ba-b6bb-9be2b18cc53e",
+          "name": "getTokenSupply",
+          "request": {
+            "name": "getTokenSupply",
+            "description": {
+              "content": "Returns the total supply of an SPL Token mint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getTokenSupply"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8dfc708e-7f57-4d04-b6c5-78ad90646efe",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getTokenSupply"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getTokenSupply\",\n  \"params\": [\n    \"3wyAj7Rt1TWVPZVteFJPLa26JmLvdb1CAKEFZm3NY75E\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 9368,\n  \"result\": {\n    \"context\": {\n      \"slot\": 5980\n    },\n    \"value\": {\n      \"amount\": \"string\",\n      \"decimals\": 6895,\n      \"uiAmount\": 8373.826281921662,\n      \"uiAmountString\": \"string\"\n    }\n  },\n  \"error\": {\n    \"code\": 4277,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.mainnet.solana.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "96336a28-023d-4cbf-8e73-cbe7ebaff6b4",
+    "name": "Solana JSON-RPC Accounts Tokens API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.\n\nContact Support:\n Name: Solana Developer Resources",
+      "type": "text/plain"
+    }
+  }
+}

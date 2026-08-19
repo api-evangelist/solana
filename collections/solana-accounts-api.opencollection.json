@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solana JSON-RPC Accounts API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getAccountInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all information associated with the account of provided public key. The encoding parameter controls the format of the returned account data."
+        },
+        {
+          "info": {
+            "name": "getBalance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getBalance",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the lamport balance of the account of provided public key."
+        },
+        {
+          "info": {
+            "name": "getLargestAccounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getLargestAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours)."
+        },
+        {
+          "info": {
+            "name": "getMinimumBalanceForRentExemption",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getMinimumBalanceForRentExemption",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns minimum balance required to make account rent exempt."
+        },
+        {
+          "info": {
+            "name": "getMultipleAccounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getMultipleAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the account information for a list of public keys."
+        },
+        {
+          "info": {
+            "name": "getProgramAccounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getProgramAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all accounts owned by the provided program public key."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

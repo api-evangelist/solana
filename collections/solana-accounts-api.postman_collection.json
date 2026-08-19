@@ -1,0 +1,578 @@
+{
+  "item": [
+    {
+      "id": "0222c1cf-12dd-4d27-a8eb-856ce387b01c",
+      "name": "Accounts",
+      "description": {
+        "content": "Methods for querying account state, balances, and program ownership",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "80df3aea-5bda-41e0-afd7-8dec8ce22789",
+          "name": "getAccountInfo",
+          "request": {
+            "name": "getAccountInfo",
+            "description": {
+              "content": "Returns all information associated with the account of provided public key. The encoding parameter controls the format of the returned account data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74c3c3d6-1c11-448e-ac95-2be9e300fac9",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getAccountInfo\",\n  \"params\": [\n    \"vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg\",\n    {\n      \"encoding\": \"base58\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 3131,\n  \"result\": {\n    \"context\": {\n      \"slot\": 9252\n    },\n    \"value\": {\n      \"lamports\": 9703,\n      \"owner\": \"string\",\n      \"data\": \"string\",\n      \"executable\": true,\n      \"rentEpoch\": 9435,\n      \"space\": 5096\n    }\n  },\n  \"error\": {\n    \"code\": 1514,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6434576d-0d8b-4fa9-a5e5-daf4ee9cc3e9",
+          "name": "getBalance",
+          "request": {
+            "name": "getBalance",
+            "description": {
+              "content": "Returns the lamport balance of the account of provided public key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getBalance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f262d9dc-a73f-4663-aa58-1b3ecc0c0a16",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getBalance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getBalance\",\n  \"params\": [\n    \"83astBRguLMdt2h5U1Tpdq5tjFoJ6noeGwaY3mDLVcri\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 9408,\n  \"result\": {\n    \"context\": {\n      \"slot\": 619\n    },\n    \"value\": 2923\n  },\n  \"error\": {\n    \"code\": 3529,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e662dd52-c4cc-4fcf-8cff-9ea8de8950e6",
+          "name": "getLargestAccounts",
+          "request": {
+            "name": "getLargestAccounts",
+            "description": {
+              "content": "Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getLargestAccounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c942f8a0-08c7-47f3-adb1-ccc070407c92",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getLargestAccounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getLargestAccounts\",\n  \"params\": [\n    {\n      \"filter\": \"circulating\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 7374,\n  \"result\": {\n    \"context\": {\n      \"slot\": 3584\n    },\n    \"value\": [\n      {\n        \"address\": \"string\",\n        \"lamports\": 1300\n      },\n      {\n        \"address\": \"string\",\n        \"lamports\": 9236\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": 1500,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb979340-513a-48e4-9279-eb9bad05681e",
+          "name": "getMinimumBalanceForRentExemption",
+          "request": {
+            "name": "getMinimumBalanceForRentExemption",
+            "description": {
+              "content": "Returns minimum balance required to make account rent exempt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getMinimumBalanceForRentExemption"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "70696cfc-c32a-4dfb-9e96-7c50f738614d",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getMinimumBalanceForRentExemption"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getMinimumBalanceForRentExemption\",\n  \"params\": [\n    50\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1087,\n  \"result\": {\n    \"context\": {\n      \"slot\": 1366\n    },\n    \"value\": 4589\n  },\n  \"error\": {\n    \"code\": 7821,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a448721-1d79-4c6e-b899-67e91b706952",
+          "name": "getMultipleAccounts",
+          "request": {
+            "name": "getMultipleAccounts",
+            "description": {
+              "content": "Returns the account information for a list of public keys.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getMultipleAccounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bbb31e9f-343e-40bf-912c-095333e1e718",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getMultipleAccounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getMultipleAccounts\",\n  \"params\": [\n    [\n      \"vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg\",\n      \"4fYNw3dojWmQ4dXtSGE9epjRGy9pFSx62YypT7avPYvA\"\n    ],\n    {\n      \"encoding\": \"base58\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 3147,\n  \"result\": {\n    \"context\": {\n      \"slot\": 7600\n    },\n    \"value\": [\n      {\n        \"lamports\": 1700,\n        \"owner\": \"string\",\n        \"data\": \"string\",\n        \"executable\": true,\n        \"rentEpoch\": 4873,\n        \"space\": 3321\n      },\n      {\n        \"lamports\": 3296,\n        \"owner\": \"string\",\n        \"data\": \"string\",\n        \"executable\": true,\n        \"rentEpoch\": 896,\n        \"space\": 6830\n      }\n    ]\n  },\n  \"error\": {\n    \"code\": 3930,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0916ec62-4a8a-4792-a4b0-f2dee55f4570",
+          "name": "getProgramAccounts",
+          "request": {
+            "name": "getProgramAccounts",
+            "description": {
+              "content": "Returns all accounts owned by the provided program public key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getProgramAccounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"method\": \"<string>\",\n  \"params\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cc6b522c-22e2-4903-8031-bab6bc41291d",
+              "name": "Successful JSON-RPC response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getProgramAccounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"getProgramAccounts\",\n  \"params\": [\n    \"4Nd1mBQtrMJVYVfKf2PX99kkXoHWdrS84XnTXFGnhrHu\",\n    {\n      \"encoding\": \"jsonParsed\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 193,\n  \"result\": [\n    {\n      \"pubkey\": \"string\",\n      \"account\": {\n        \"lamports\": 2955,\n        \"owner\": \"string\",\n        \"data\": \"string\",\n        \"executable\": false,\n        \"rentEpoch\": 8618,\n        \"space\": 2582\n      }\n    },\n    {\n      \"pubkey\": \"string\",\n      \"account\": {\n        \"lamports\": 7268,\n        \"owner\": \"string\",\n        \"data\": \"string\",\n        \"executable\": false,\n        \"rentEpoch\": 6833,\n        \"space\": 1704\n      }\n    }\n  ],\n  \"error\": {\n    \"code\": 9660,\n    \"message\": \"string\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.mainnet.solana.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9dffba36-0be5-456c-a34d-0818fc45ba25",
+    "name": "Solana JSON-RPC Accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.\n\nContact Support:\n Name: Solana Developer Resources",
+      "type": "text/plain"
+    }
+  }
+}

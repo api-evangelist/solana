@@ -1,0 +1,243 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solana JSON-RPC Accounts Cluster API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cluster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getClusterNodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getClusterNodes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns information about all the nodes participating in the cluster."
+        },
+        {
+          "info": {
+            "name": "getEpochInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getEpochInfo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns information about the current epoch."
+        },
+        {
+          "info": {
+            "name": "getEpochSchedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getEpochSchedule",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns epoch schedule information from this cluster's genesis config."
+        },
+        {
+          "info": {
+            "name": "getGenesisHash",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getGenesisHash",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the genesis hash."
+        },
+        {
+          "info": {
+            "name": "getHealth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getHealth",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current health of the node. A healthy node is one that is within HEALTH_CHECK_SLOT_DISTANCE slots of the latest cluster confirmed slot."
+        },
+        {
+          "info": {
+            "name": "getHighestSnapshotSlot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getHighestSnapshotSlot",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the highest slot information that the node has snapshots for. This will find the highest full snapshot slot, and the highest incremental snapshot slot based on the full snapshot slot, if there is one."
+        },
+        {
+          "info": {
+            "name": "getIdentity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getIdentity",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the identity public key for the current node."
+        },
+        {
+          "info": {
+            "name": "getLeaderSchedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getLeaderSchedule",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the leader schedule for an epoch."
+        },
+        {
+          "info": {
+            "name": "getMaxRetransmitSlot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getMaxRetransmitSlot",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get the max slot seen from retransmit stage."
+        },
+        {
+          "info": {
+            "name": "getMaxShredInsertSlot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getMaxShredInsertSlot",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get the max slot seen from after shred insert."
+        },
+        {
+          "info": {
+            "name": "getSlot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getSlot",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the slot that has reached the given or default commitment level."
+        },
+        {
+          "info": {
+            "name": "getSlotLeader",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getSlotLeader",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current slot leader."
+        },
+        {
+          "info": {
+            "name": "getSlotLeaders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getSlotLeaders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the slot leaders for a given slot range."
+        },
+        {
+          "info": {
+            "name": "getVersion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getVersion",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current Solana version running on the node."
+        },
+        {
+          "info": {
+            "name": "getVoteAccounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getVoteAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the account info and associated stake for all the voting accounts in the current bank."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

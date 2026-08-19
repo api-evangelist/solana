@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solana JSON-RPC Accounts Transactions API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "sendTransaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/sendTransaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits a signed transaction to the cluster for processing. This method does not alter the transaction in any way; it relays the transaction created by clients to the node as-is."
+        },
+        {
+          "info": {
+            "name": "simulateTransaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/simulateTransaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Simulate sending a transaction. Returns simulated transaction results including logs and account state changes without broadcasting to the network."
+        },
+        {
+          "info": {
+            "name": "getTransaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTransaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns transaction details for a confirmed transaction."
+        },
+        {
+          "info": {
+            "name": "getSignaturesForAddress",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getSignaturesForAddress",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns confirmed signatures for transactions involving an address backwards in time from the provided signature or most recent confirmed block."
+        },
+        {
+          "info": {
+            "name": "getSignatureStatuses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getSignatureStatuses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the statuses of a list of signatures. Unless the searchTransactionHistory configuration parameter is included, this method only searches the recent status cache of signatures, which retains statuses for all active slots plus MAX_RECENT_BLOCKHASHES rooted slots."
+        },
+        {
+          "info": {
+            "name": "getFeeForMessage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getFeeForMessage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get the fee the network will charge for a particular Message."
+        },
+        {
+          "info": {
+            "name": "getLatestBlockhash",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getLatestBlockhash",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the latest blockhash and last valid block height for a transaction."
+        },
+        {
+          "info": {
+            "name": "isBlockhashValid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/isBlockhashValid",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns whether a blockhash is still valid or has expired."
+        },
+        {
+          "info": {
+            "name": "getRecentPrioritizationFees",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getRecentPrioritizationFees",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a list of prioritization fees from recent blocks. Currently, a node's prioritization-fee cache stores data from up to 150 blocks."
+        },
+        {
+          "info": {
+            "name": "getTransactionCount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getTransactionCount",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current Transaction count from the ledger."
+        },
+        {
+          "info": {
+            "name": "requestAirdrop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/requestAirdrop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Requests an airdrop of lamports to a public key. Only available on Devnet and Testnet."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solana JSON-RPC Accounts Economics API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Economics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getInflationGovernor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getInflationGovernor",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current inflation governor."
+        },
+        {
+          "info": {
+            "name": "getInflationRate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getInflationRate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the specific inflation values for the current epoch."
+        },
+        {
+          "info": {
+            "name": "getInflationReward",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getInflationReward",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the inflation / staking reward for a list of addresses for an epoch."
+        },
+        {
+          "info": {
+            "name": "getStakeMinimumDelegation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getStakeMinimumDelegation",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the stake minimum delegation, in lamports."
+        },
+        {
+          "info": {
+            "name": "getSupply",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mainnet.solana.com/getSupply",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns information about the current supply."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
