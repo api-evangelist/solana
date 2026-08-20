@@ -21,6 +21,13 @@ tags:
   - Cryptocurrency
   - Web3
   - DeFi
+  - Transaction
+  - Tokens
+tags_raw:
+  - Blockchain
+  - Cryptocurrency
+  - Web3
+  - DeFi
   - Transactions
   - Tokens
 description: >-
@@ -56,6 +63,11 @@ apis:
 - aid: solana:solana-rpc-transactions-api
   name: Solana RPC Transactions API
   tags:
+  - Transaction
+  - Signatures
+  - Blockhash
+  - Blockchain
+  tags_raw:
   - Transactions
   - Signatures
   - Blockhash
@@ -143,6 +155,12 @@ apis:
   name: Solana RPC WebSocket Subscriptions API
   tags:
   - WebSocket
+  - Subscription
+  - Real-Time
+  - Event
+  - Blockchain
+  tags_raw:
+  - WebSocket
   - Subscriptions
   - Real-time
   - Events
@@ -166,6 +184,8 @@ apis:
   humanURL: https://solana.com/docs/rpc/http/getaccountinfo
   baseURL: https://api.mainnet.solana.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -236,6 +256,8 @@ apis:
   humanURL: https://solana.com/docs/rpc/http/getaccountinfo
   baseURL: https://api.mainnet.solana.com
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
