@@ -14,8 +14,8 @@ info:
     can be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: solanaRpcApi
-  url: ../openapi/solana-rpc-api-openapi.yml
+- name: transactionsApi
+  url: ../openapi/solana-transactions-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: fee-estimation

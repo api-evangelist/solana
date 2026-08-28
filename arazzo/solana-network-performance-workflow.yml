@@ -14,8 +14,14 @@ info:
     be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: solanaRpcApi
-  url: ../openapi/solana-rpc-api-openapi.yml
+- name: blocksApi
+  url: ../openapi/solana-blocks-api-openapi.yml
+  type: openapi
+- name: clusterApi
+  url: ../openapi/solana-cluster-api-openapi.yml
+  type: openapi
+- name: transactionsApi
+  url: ../openapi/solana-transactions-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: network-performance

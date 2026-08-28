@@ -14,8 +14,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: solanaRpcApi
-  url: ../openapi/solana-rpc-api-openapi.yml
+- name: clusterApi
+  url: ../openapi/solana-cluster-api-openapi.yml
+  type: openapi
+- name: economicsApi
+  url: ../openapi/solana-economics-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: validator-rewards

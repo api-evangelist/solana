@@ -16,8 +16,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: solanaRpcApi
-  url: ../openapi/solana-rpc-api-openapi.yml
+- name: transactionsApi
+  url: ../openapi/solana-transactions-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: send-transaction-lifecycle

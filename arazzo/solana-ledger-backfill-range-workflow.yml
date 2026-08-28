@@ -15,8 +15,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: solanaRpcApi
-  url: ../openapi/solana-rpc-api-openapi.yml
+- name: blocksApi
+  url: ../openapi/solana-blocks-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: ledger-backfill-range
