@@ -2,6 +2,20 @@ aid: solana
 url: https://raw.githubusercontent.com/api-evangelist/solana/refs/heads/main/apis.yml
 name: Solana
 type: Index
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: open
@@ -267,6 +281,14 @@ apis:
   - type: APIReference
     url: https://solana.com/docs/rpc/http/getaccountinfo
 common:
+  - type: IssueTracker
+    url: https://github.com/anza-xyz/kit/issues
+  - type: Releases
+    url: https://github.com/anza-xyz/kit/releases
+  - type: SecurityPolicy
+    url: https://github.com/anza-xyz/kit/blob/main/SECURITY.md
+  - type: ContributionGuide
+    url: https://github.com/anza-xyz/kit/blob/main/CONTRIBUTING.md
   - type: License
     name: MIT
     url: https://github.com/anza-xyz/kit/blob/main/LICENSE
