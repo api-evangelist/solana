@@ -37,8 +37,8 @@ tags:
   - DeFi
   - Transaction
   - Tokens
-  - Solana
 tags_raw:
+  - Solana
   - Blockchain
   - Cryptocurrency
   - Web3
@@ -128,6 +128,12 @@ apis:
 - aid: solana:solana-rpc-cluster-api
   name: Solana RPC Cluster API
   tags:
+  - Cluster
+  - Validator
+  - Epoch
+  - Networks
+  - Blockchain
+  tags_raw:
   - Cluster
   - Validators
   - Epoch
