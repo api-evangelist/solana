@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Solana JSON-RPC Accounts Tokens API
+  title: Solana JSON-RPC Tokens API
   description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
   version: '2.0'
   contact:
@@ -182,7 +182,7 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/gettokensupply
 components:
   schemas:
-    TokenLargestAccountsResponse:
+    TokenAmountResponse:
       type: object
       properties:
         jsonrpc:
@@ -198,24 +198,7 @@ components:
             context:
               $ref: '#/components/schemas/RpcContext'
             value:
-              type: array
-              items:
-                type: object
-                properties:
-                  address:
-                    type: string
-                    description: Base58-encoded address of the token account
-                  amount:
-                    type: string
-                    description: Raw token account balance
-                  decimals:
-                    type: integer
-                    description: Number of decimal places configured for the token
-                  uiAmount:
-                    type: number
-                    nullable: true
-                  uiAmountString:
-                    type: string
+              $ref: '#/components/schemas/TokenAmount'
         error:
           $ref: '#/components/schemas/JsonRpcError'
     TokenAccountsResponse:
@@ -279,23 +262,7 @@ components:
             - type: object
             - type: array
               items: {}
-    TokenAmount:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: Raw amount of tokens as a string
-        decimals:
-          type: integer
-          description: Number of decimal places configured for the token
-        uiAmount:
-          type: number
-          nullable: true
-          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
-        uiAmountString:
-          type: string
-          description: Token amount as a string, using mint-prescribed decimals
-    TokenAmountResponse:
+    TokenLargestAccountsResponse:
       type: object
       properties:
         jsonrpc:
@@ -311,7 +278,25 @@ components:
             context:
               $ref: '#/components/schemas/RpcContext'
             value:
-              $ref: '#/components/schemas/TokenAmount'
+              type: array
+              items:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Base58-encoded address of the token account
+                  amount:
+                    type: string
+                    description: Raw token account balance
+                  decimals:
+                    type: integer
+                    description: Number of decimal places configured for the token
+                  uiAmount:
+                    type:
+                    - number
+                    - 'null'
+                  uiAmountString:
+                    type: string
         error:
           $ref: '#/components/schemas/JsonRpcError'
     AccountInfo:
@@ -342,6 +327,30 @@ components:
         space:
           type: integer
           description: The data size of the account
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    TokenAmount:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Raw amount of tokens as a string
+        decimals:
+          type: integer
+          description: Number of decimal places configured for the token
+        uiAmount:
+          type:
+          - number
+          - 'null'
+          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
+        uiAmountString:
+          type: string
+          description: Token amount as a string, using mint-prescribed decimals
     JsonRpcError:
       type: object
       properties:
@@ -353,13 +362,6 @@ components:
           description: Human-readable error message
         data:
           description: Additional error data
-    RpcContext:
-      type: object
-      properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http

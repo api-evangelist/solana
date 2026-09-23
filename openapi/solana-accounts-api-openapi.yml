@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Solana JSON-RPC Accounts API
   description: Solana exposes a JSON-RPC 2.0 API over HTTP and WebSocket for querying accounts, transactions, programs, token balances, blocks, and cluster state, as well as submitting and simulating transactions. Three public clusters are available — Mainnet (https://api.mainnet.solana.com), Devnet (https://api.devnet.solana.com), and Testnet (https://api.testnet.solana.com) — with dedicated API nodes for each environment. All requests use HTTP POST with a JSON-RPC 2.0 request body.
@@ -213,6 +213,27 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/getprogramaccounts
 components:
   schemas:
+    MultipleAccountsResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountInfo'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
     AccountInfoResponse:
       type: object
       properties:
@@ -229,38 +250,9 @@ components:
             context:
               $ref: '#/components/schemas/RpcContext'
             value:
-              nullable: true
               $ref: '#/components/schemas/AccountInfo'
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    LamportsResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            context:
-              $ref: '#/components/schemas/RpcContext'
-            value:
-              type: integer
-              format: int64
-              description: Lamport amount
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    RpcContext:
-      type: object
-      properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
     ProgramAccountsResponse:
       type: object
       properties:
@@ -283,34 +275,6 @@ components:
                 $ref: '#/components/schemas/AccountInfo'
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    AccountInfo:
-      type: object
-      properties:
-        lamports:
-          type: integer
-          format: int64
-          description: Number of lamports assigned to this account
-        owner:
-          type: string
-          description: Base58-encoded public key of the program that owns this account
-        data:
-          description: Data associated with the account (encoded or parsed)
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-          - type: object
-        executable:
-          type: boolean
-          description: Whether this account contains a program and is strictly read-only
-        rentEpoch:
-          type: integer
-          format: int64
-          description: The epoch at which this account will next owe rent
-        space:
-          type: integer
-          description: The data size of the account
     LargestAccountsResponse:
       type: object
       properties:
@@ -340,7 +304,7 @@ components:
                     description: Number of lamports in the account
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    BalanceResponse:
+    LamportsResponse:
       type: object
       properties:
         jsonrpc:
@@ -358,40 +322,7 @@ components:
             value:
               type: integer
               format: int64
-              description: Balance in lamports
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcError:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
-    MultipleAccountsResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            context:
-              $ref: '#/components/schemas/RpcContext'
-            value:
-              type: array
-              items:
-                nullable: true
-                $ref: '#/components/schemas/AccountInfo'
+              description: Lamport amount
         error:
           $ref: '#/components/schemas/JsonRpcError'
     JsonRpcRequest:
@@ -428,6 +359,73 @@ components:
             - type: object
             - type: array
               items: {}
+    AccountInfo:
+      type: object
+      properties:
+        lamports:
+          type: integer
+          format: int64
+          description: Number of lamports assigned to this account
+        owner:
+          type: string
+          description: Base58-encoded public key of the program that owns this account
+        data:
+          description: Data associated with the account (encoded or parsed)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: object
+        executable:
+          type: boolean
+          description: Whether this account contains a program and is strictly read-only
+        rentEpoch:
+          type: integer
+          format: int64
+          description: The epoch at which this account will next owe rent
+        space:
+          type: integer
+          description: The data size of the account
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    BalanceResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: integer
+              format: int64
+              description: Balance in lamports
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http
