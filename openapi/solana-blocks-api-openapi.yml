@@ -335,6 +335,95 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/minimumledgerslot
 components:
   schemas:
+    UnixTimestampResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Estimated production time as Unix timestamp (seconds since epoch)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    CountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: integer
+          format: int64
+          description: Numeric count or slot value
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    BlockProductionResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: object
+              properties:
+                byIdentity:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                  description: Dictionary of validator identities to [numLeaderSlots, numBlocksProduced]
+                range:
+                  type: object
+                  properties:
+                    firstSlot:
+                      type: integer
+                      format: int64
+                    lastSlot:
+                      type: integer
+                      format: int64
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    SlotsListResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: List of confirmed slot numbers
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
     BlockResponse:
       type: object
       properties:
@@ -402,95 +491,6 @@ components:
               format: int64
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    PerformanceSamplesResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: array
-          items:
-            type: object
-            properties:
-              slot:
-                type: integer
-                format: int64
-                description: Slot in which sample was taken at
-              numTransactions:
-                type: integer
-                format: int64
-                description: Number of transactions in sample
-              numNonVoteTransactions:
-                type: integer
-                format: int64
-                description: Number of non-vote transactions in sample
-              numSlots:
-                type: integer
-                format: int64
-                description: Number of slots in sample
-              samplePeriodSecs:
-                type: integer
-                description: Number of seconds in a sample window
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    BlockProductionResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            context:
-              $ref: '#/components/schemas/RpcContext'
-            value:
-              type: object
-              properties:
-                byIdentity:
-                  type: object
-                  additionalProperties:
-                    type: array
-                    items:
-                      type: integer
-                      format: int64
-                  description: Dictionary of validator identities to [numLeaderSlots, numBlocksProduced]
-                range:
-                  type: object
-                  properties:
-                    firstSlot:
-                      type: integer
-                      format: int64
-                    lastSlot:
-                      type: integer
-                      format: int64
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    CountResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: integer
-          format: int64
-          description: Numeric count or slot value
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
     JsonRpcRequest:
       type: object
       required:
@@ -552,7 +552,25 @@ components:
               description: Total active stake in the current epoch
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    SlotsListResponse:
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    PerformanceSamplesResponse:
       type: object
       properties:
         jsonrpc:
@@ -565,47 +583,29 @@ components:
         result:
           type: array
           items:
-            type: integer
-            format: int64
-          description: List of confirmed slot numbers
+            type: object
+            properties:
+              slot:
+                type: integer
+                format: int64
+                description: Slot in which sample was taken at
+              numTransactions:
+                type: integer
+                format: int64
+                description: Number of transactions in sample
+              numNonVoteTransactions:
+                type: integer
+                format: int64
+                description: Number of non-vote transactions in sample
+              numSlots:
+                type: integer
+                format: int64
+                description: Number of slots in sample
+              samplePeriodSecs:
+                type: integer
+                description: Number of seconds in a sample window
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    UnixTimestampResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          description: Estimated production time as Unix timestamp (seconds since epoch)
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    RpcContext:
-      type: object
-      properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
-    JsonRpcError:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http

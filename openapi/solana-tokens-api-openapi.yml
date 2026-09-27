@@ -201,6 +201,51 @@ components:
               $ref: '#/components/schemas/TokenAmount'
         error:
           $ref: '#/components/schemas/JsonRpcError'
+    TokenAmount:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Raw amount of tokens as a string
+        decimals:
+          type: integer
+          description: Number of decimal places configured for the token
+        uiAmount:
+          type:
+          - number
+          - 'null'
+          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
+        uiAmountString:
+          type: string
+          description: Token amount as a string, using mint-prescribed decimals
+    AccountInfo:
+      type: object
+      properties:
+        lamports:
+          type: integer
+          format: int64
+          description: Number of lamports assigned to this account
+        owner:
+          type: string
+          description: Base58-encoded public key of the program that owns this account
+        data:
+          description: Data associated with the account (encoded or parsed)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: object
+        executable:
+          type: boolean
+          description: Whether this account contains a program and is strictly read-only
+        rentEpoch:
+          type: integer
+          format: int64
+          description: The epoch at which this account will next owe rent
+        space:
+          type: integer
+          description: The data size of the account
     TokenAccountsResponse:
       type: object
       properties:
@@ -262,6 +307,24 @@ components:
             - type: object
             - type: array
               items: {}
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
     TokenLargestAccountsResponse:
       type: object
       properties:
@@ -299,69 +362,6 @@ components:
                     type: string
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    AccountInfo:
-      type: object
-      properties:
-        lamports:
-          type: integer
-          format: int64
-          description: Number of lamports assigned to this account
-        owner:
-          type: string
-          description: Base58-encoded public key of the program that owns this account
-        data:
-          description: Data associated with the account (encoded or parsed)
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-          - type: object
-        executable:
-          type: boolean
-          description: Whether this account contains a program and is strictly read-only
-        rentEpoch:
-          type: integer
-          format: int64
-          description: The epoch at which this account will next owe rent
-        space:
-          type: integer
-          description: The data size of the account
-    RpcContext:
-      type: object
-      properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
-    TokenAmount:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: Raw amount of tokens as a string
-        decimals:
-          type: integer
-          description: Number of decimal places configured for the token
-        uiAmount:
-          type:
-          - number
-          - 'null'
-          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
-        uiAmountString:
-          type: string
-          description: Token amount as a string, using mint-prescribed decimals
-    JsonRpcError:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http

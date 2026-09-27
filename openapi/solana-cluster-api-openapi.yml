@@ -476,29 +476,7 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/getvoteaccounts
 components:
   schemas:
-    LeaderScheduleResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: array
-            items:
-              type: integer
-              format: int64
-          description: Dictionary of validator identities to arrays of leader slot indices
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    EpochInfoResponse:
+    VoteAccountsResponse:
       type: object
       properties:
         jsonrpc:
@@ -511,53 +489,16 @@ components:
         result:
           type: object
           properties:
-            absoluteSlot:
-              type: integer
-              format: int64
-              description: Current slot
-            blockHeight:
-              type: integer
-              format: int64
-              description: Current block height
-            epoch:
-              type: integer
-              format: int64
-              description: Current epoch
-            slotIndex:
-              type: integer
-              format: int64
-              description: Current slot relative to the start of the current epoch
-            slotsInEpoch:
-              type: integer
-              format: int64
-              description: Number of slots in this epoch
-            transactionCount:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: Total number of transactions processed without error since genesis
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    VersionResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            solana-core:
-              type: string
-              description: Software version of solana-core
-            feature-set:
-              type: integer
-              description: Unique identifier of the current software's feature set
+            current:
+              type: array
+              description: List of current voting accounts
+              items:
+                $ref: '#/components/schemas/VoteAccount'
+            delinquent:
+              type: array
+              description: List of delinquent voting accounts
+              items:
+                $ref: '#/components/schemas/VoteAccount'
         error:
           $ref: '#/components/schemas/JsonRpcError'
     CountResponse:
@@ -574,6 +515,100 @@ components:
           type: integer
           format: int64
           description: Numeric count or slot value
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    IdentityResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            identity:
+              type: string
+              description: The identity public key of the current node (base58-encoded)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    EpochScheduleResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            slotsPerEpoch:
+              type: integer
+              format: int64
+              description: Maximum number of slots in each epoch
+            leaderScheduleSlotOffset:
+              type: integer
+              format: int64
+              description: Number of slots before beginning of an epoch to calculate a leader schedule
+            warmup:
+              type: boolean
+              description: Whether epochs start short and grow
+            firstNormalEpoch:
+              type: integer
+              format: int64
+              description: First normal-length epoch, log2(slotsPerEpoch) - log2(MINIMUM_SLOTS_PER_EPOCH)
+            firstNormalSlot:
+              type: integer
+              format: int64
+              description: MINIMUM_SLOTS_PER_EPOCH * (2^(firstNormalEpoch) - 1)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    StringArrayResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: string
+          description: Array of base58-encoded public keys
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    SnapshotSlotResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            full:
+              type: integer
+              format: int64
+              description: Highest full snapshot slot
+            incremental:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: Highest incremental snapshot slot based on full
         error:
           $ref: '#/components/schemas/JsonRpcError'
     ClusterNodesResponse:
@@ -626,7 +661,41 @@ components:
                 description: The shred version the node has been configured to use
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    IdentityResponse:
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+    VersionResponse:
       type: object
       properties:
         jsonrpc:
@@ -639,9 +708,79 @@ components:
         result:
           type: object
           properties:
-            identity:
+            solana-core:
               type: string
-              description: The identity public key of the current node (base58-encoded)
+              description: Software version of solana-core
+            feature-set:
+              type: integer
+              description: Unique identifier of the current software's feature set
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
+    EpochInfoResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            absoluteSlot:
+              type: integer
+              format: int64
+              description: Current slot
+            blockHeight:
+              type: integer
+              format: int64
+              description: Current block height
+            epoch:
+              type: integer
+              format: int64
+              description: Current epoch
+            slotIndex:
+              type: integer
+              format: int64
+              description: Current slot relative to the start of the current epoch
+            slotsInEpoch:
+              type: integer
+              format: int64
+              description: Number of slots in this epoch
+            transactionCount:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: Total number of transactions processed without error since genesis
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    StringResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: string
+          description: String result
         error:
           $ref: '#/components/schemas/JsonRpcError'
     VoteAccount:
@@ -681,105 +820,6 @@ components:
           - 'null'
           format: int64
           description: Current root slot for this vote account
-    SnapshotSlotResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            full:
-              type: integer
-              format: int64
-              description: Highest full snapshot slot
-            incremental:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: Highest incremental snapshot slot based on full
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcRequest:
-      type: object
-      required:
-      - jsonrpc
-      - id
-      - method
-      properties:
-        jsonrpc:
-          type: string
-          enum:
-          - '2.0'
-          description: JSON-RPC protocol version
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-          description: Client-provided identifier for the request
-          example: 1
-        method:
-          type: string
-          description: The JSON-RPC method name
-          example: getBalance
-        params:
-          type: array
-          description: Method-specific parameters
-          items:
-            oneOf:
-            - type: string
-            - type: integer
-            - type: boolean
-            - type: object
-            - type: array
-              items: {}
-    VoteAccountsResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            current:
-              type: array
-              description: List of current voting accounts
-              items:
-                $ref: '#/components/schemas/VoteAccount'
-            delinquent:
-              type: array
-              description: List of delinquent voting accounts
-              items:
-                $ref: '#/components/schemas/VoteAccount'
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    StringResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: string
-          description: String result
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
     HealthResponse:
       type: object
       properties:
@@ -808,7 +848,7 @@ components:
                 numSlotsBehind:
                   type: integer
                   format: int64
-    EpochScheduleResponse:
+    LeaderScheduleResponse:
       type: object
       properties:
         jsonrpc:
@@ -819,57 +859,17 @@ components:
           - type: integer
           - type: string
         result:
-          type: object
-          properties:
-            slotsPerEpoch:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
               type: integer
               format: int64
-              description: Maximum number of slots in each epoch
-            leaderScheduleSlotOffset:
-              type: integer
-              format: int64
-              description: Number of slots before beginning of an epoch to calculate a leader schedule
-            warmup:
-              type: boolean
-              description: Whether epochs start short and grow
-            firstNormalEpoch:
-              type: integer
-              format: int64
-              description: First normal-length epoch, log2(slotsPerEpoch) - log2(MINIMUM_SLOTS_PER_EPOCH)
-            firstNormalSlot:
-              type: integer
-              format: int64
-              description: MINIMUM_SLOTS_PER_EPOCH * (2^(firstNormalEpoch) - 1)
+          description: Dictionary of validator identities to arrays of leader slot indices
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    StringArrayResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: array
-          items:
-            type: string
-          description: Array of base58-encoded public keys
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcError:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http
