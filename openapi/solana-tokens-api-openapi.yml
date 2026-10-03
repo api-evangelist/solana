@@ -182,42 +182,6 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/gettokensupply
 components:
   schemas:
-    TokenAmountResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            context:
-              $ref: '#/components/schemas/RpcContext'
-            value:
-              $ref: '#/components/schemas/TokenAmount'
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    TokenAmount:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: Raw amount of tokens as a string
-        decimals:
-          type: integer
-          description: Number of decimal places configured for the token
-        uiAmount:
-          type:
-          - number
-          - 'null'
-          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
-        uiAmountString:
-          type: string
-          description: Token amount as a string, using mint-prescribed decimals
     AccountInfo:
       type: object
       properties:
@@ -307,24 +271,23 @@ components:
             - type: object
             - type: array
               items: {}
-    RpcContext:
+    TokenAmount:
       type: object
       properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
-    JsonRpcError:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code
-        message:
+        amount:
           type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
+          description: Raw amount of tokens as a string
+        decimals:
+          type: integer
+          description: Number of decimal places configured for the token
+        uiAmount:
+          type:
+          - number
+          - 'null'
+          description: Token amount as a float, using mint-prescribed decimals (DEPRECATED)
+        uiAmountString:
+          type: string
+          description: Token amount as a string, using mint-prescribed decimals
     TokenLargestAccountsResponse:
       type: object
       properties:
@@ -362,6 +325,43 @@ components:
                     type: string
         error:
           $ref: '#/components/schemas/JsonRpcError'
+    RpcContext:
+      type: object
+      properties:
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
+    TokenAmountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              $ref: '#/components/schemas/TokenAmount'
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http
