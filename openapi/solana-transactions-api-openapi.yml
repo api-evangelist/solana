@@ -375,7 +375,110 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/requestairdrop
 components:
   schemas:
-    SignatureStatusesResponse:
+    PrioritizationFeesResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              slot:
+                type: integer
+                format: int64
+                description: The slot in which the fee was observed
+              prioritizationFee:
+                type: integer
+                format: int64
+                description: The per-compute-unit fee paid by at least one successfully landed transaction
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+    CountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: integer
+          format: int64
+          description: Numeric count or slot value
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    AccountInfo:
+      type: object
+      properties:
+        lamports:
+          type: integer
+          format: int64
+          description: Number of lamports assigned to this account
+        owner:
+          type: string
+          description: Base58-encoded public key of the program that owns this account
+        data:
+          description: Data associated with the account (encoded or parsed)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: object
+        executable:
+          type: boolean
+          description: Whether this account contains a program and is strictly read-only
+        rentEpoch:
+          type: integer
+          format: int64
+          description: The epoch at which this account will next owe rent
+        space:
+          type: integer
+          description: The data size of the account
+    LatestBlockhashResponse:
       type: object
       properties:
         jsonrpc:
@@ -391,32 +494,43 @@ components:
             context:
               $ref: '#/components/schemas/RpcContext'
             value:
-              type: array
-              items:
-                type:
-                - object
-                - 'null'
-                properties:
-                  slot:
-                    type: integer
-                    format: int64
-                  confirmations:
-                    type:
-                    - integer
-                    - 'null'
-                    description: Number of blocks since signature confirmation, null if rooted
-                  err:
-                    description: Error if transaction failed
-                  confirmationStatus:
-                    type:
-                    - string
-                    - 'null'
-                    enum:
-                    - processed
-                    - confirmed
-                    - finalized
+              type: object
+              properties:
+                blockhash:
+                  type: string
+                  description: Base58-encoded hash of the block
+                lastValidBlockHeight:
+                  type: integer
+                  format: int64
+                  description: Last block height at which blockhash will be valid
         error:
           $ref: '#/components/schemas/JsonRpcError'
+    TransactionSignatureResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: string
+          description: Transaction signature (base58-encoded)
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
     SignaturesForAddressResponse:
       type: object
       properties:
@@ -459,29 +573,6 @@ components:
                 description: The transaction's cluster confirmation status
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    FeeForMessageResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: object
-          properties:
-            context:
-              $ref: '#/components/schemas/RpcContext'
-            value:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: Fee in lamports (null if blockhash has expired)
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
     SimulateTransactionResponse:
       type: object
       properties:
@@ -519,80 +610,6 @@ components:
                   type: integer
                   format: int64
                   description: Number of compute budget units consumed during processing
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcRequest:
-      type: object
-      required:
-      - jsonrpc
-      - id
-      - method
-      properties:
-        jsonrpc:
-          type: string
-          enum:
-          - '2.0'
-          description: JSON-RPC protocol version
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-          description: Client-provided identifier for the request
-          example: 1
-        method:
-          type: string
-          description: The JSON-RPC method name
-          example: getBalance
-        params:
-          type: array
-          description: Method-specific parameters
-          items:
-            oneOf:
-            - type: string
-            - type: integer
-            - type: boolean
-            - type: object
-            - type: array
-              items: {}
-    PrioritizationFeesResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: array
-          items:
-            type: object
-            properties:
-              slot:
-                type: integer
-                format: int64
-                description: The slot in which the fee was observed
-              prioritizationFee:
-                type: integer
-                format: int64
-                description: The per-compute-unit fee paid by at least one successfully landed transaction
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    TransactionSignatureResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: string
-          description: Transaction signature (base58-encoded)
         error:
           $ref: '#/components/schemas/JsonRpcError'
     TransactionDetailResponse:
@@ -670,35 +687,7 @@ components:
               type: boolean
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    AccountInfo:
-      type: object
-      properties:
-        lamports:
-          type: integer
-          format: int64
-          description: Number of lamports assigned to this account
-        owner:
-          type: string
-          description: Base58-encoded public key of the program that owns this account
-        data:
-          description: Data associated with the account (encoded or parsed)
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-          - type: object
-        executable:
-          type: boolean
-          description: Whether this account contains a program and is strictly read-only
-        rentEpoch:
-          type: integer
-          format: int64
-          description: The epoch at which this account will next owe rent
-        space:
-          type: integer
-          description: The data size of the account
-    LatestBlockhashResponse:
+    FeeForMessageResponse:
       type: object
       properties:
         jsonrpc:
@@ -714,25 +703,14 @@ components:
             context:
               $ref: '#/components/schemas/RpcContext'
             value:
-              type: object
-              properties:
-                blockhash:
-                  type: string
-                  description: Base58-encoded hash of the block
-                lastValidBlockHeight:
-                  type: integer
-                  format: int64
-                  description: Last block height at which blockhash will be valid
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: Fee in lamports (null if blockhash has expired)
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    RpcContext:
-      type: object
-      properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
-    CountResponse:
+    SignatureStatusesResponse:
       type: object
       properties:
         jsonrpc:
@@ -743,22 +721,44 @@ components:
           - type: integer
           - type: string
         result:
-          type: integer
-          format: int64
-          description: Numeric count or slot value
+          type: object
+          properties:
+            context:
+              $ref: '#/components/schemas/RpcContext'
+            value:
+              type: array
+              items:
+                type:
+                - object
+                - 'null'
+                properties:
+                  slot:
+                    type: integer
+                    format: int64
+                  confirmations:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Number of blocks since signature confirmation, null if rooted
+                  err:
+                    description: Error if transaction failed
+                  confirmationStatus:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - processed
+                    - confirmed
+                    - finalized
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcError:
+    RpcContext:
       type: object
       properties:
-        code:
+        slot:
           type: integer
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
+          format: int64
+          description: The slot at which the operation was evaluated
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http

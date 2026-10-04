@@ -335,6 +335,170 @@ paths:
       x-solana-docs: https://solana.com/docs/rpc/http/minimumledgerslot
 components:
   schemas:
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Client-provided identifier for the request
+          example: 1
+        method:
+          type: string
+          description: The JSON-RPC method name
+          example: getBalance
+        params:
+          type: array
+          description: Method-specific parameters
+          items:
+            oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
+            - type: object
+            - type: array
+              items: {}
+    CountResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: integer
+          format: int64
+          description: Numeric count or slot value
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    PerformanceSamplesResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              slot:
+                type: integer
+                format: int64
+                description: Slot in which sample was taken at
+              numTransactions:
+                type: integer
+                format: int64
+                description: Number of transactions in sample
+              numNonVoteTransactions:
+                type: integer
+                format: int64
+                description: Number of non-vote transactions in sample
+              numSlots:
+                type: integer
+                format: int64
+                description: Number of slots in sample
+              samplePeriodSecs:
+                type: integer
+                description: Number of seconds in a sample window
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    BlockResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type:
+          - object
+          - 'null'
+          properties:
+            blockhash:
+              type: string
+              description: Base58-encoded blockhash of this block
+            previousBlockhash:
+              type: string
+              description: Base58-encoded blockhash of the parent block
+            parentSlot:
+              type: integer
+              format: int64
+              description: The slot index of this block's parent
+            transactions:
+              type: array
+              items:
+                type: object
+            signatures:
+              type: array
+              items:
+                type: string
+            rewards:
+              type:
+              - array
+              - 'null'
+              items:
+                type: object
+                properties:
+                  pubkey:
+                    type: string
+                  lamports:
+                    type: integer
+                    format: int64
+                  postBalance:
+                    type: integer
+                    format: int64
+                  rewardType:
+                    type: string
+                    enum:
+                    - fee
+                    - rent
+                    - voting
+                    - staking
+            blockTime:
+              type:
+              - integer
+              - 'null'
+              format: int64
+            blockHeight:
+              type:
+              - integer
+              - 'null'
+              format: int64
+        error:
+          $ref: '#/components/schemas/JsonRpcError'
+    JsonRpcError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        data:
+          description: Additional error data
     BlockProductionResponse:
       type: object
       properties:
@@ -417,76 +581,13 @@ components:
               description: Total active stake in the current epoch
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcRequest:
-      type: object
-      required:
-      - jsonrpc
-      - id
-      - method
-      properties:
-        jsonrpc:
-          type: string
-          enum:
-          - '2.0'
-          description: JSON-RPC protocol version
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-          description: Client-provided identifier for the request
-          example: 1
-        method:
-          type: string
-          description: The JSON-RPC method name
-          example: getBalance
-        params:
-          type: array
-          description: Method-specific parameters
-          items:
-            oneOf:
-            - type: string
-            - type: integer
-            - type: boolean
-            - type: object
-            - type: array
-              items: {}
-    PerformanceSamplesResponse:
+    RpcContext:
       type: object
       properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: array
-          items:
-            type: object
-            properties:
-              slot:
-                type: integer
-                format: int64
-                description: Slot in which sample was taken at
-              numTransactions:
-                type: integer
-                format: int64
-                description: Number of transactions in sample
-              numNonVoteTransactions:
-                type: integer
-                format: int64
-                description: Number of non-vote transactions in sample
-              numSlots:
-                type: integer
-                format: int64
-                description: Number of slots in sample
-              samplePeriodSecs:
-                type: integer
-                description: Number of seconds in a sample window
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
+        slot:
+          type: integer
+          format: int64
+          description: The slot at which the operation was evaluated
     UnixTimestampResponse:
       type: object
       properties:
@@ -505,107 +606,6 @@ components:
           description: Estimated production time as Unix timestamp (seconds since epoch)
         error:
           $ref: '#/components/schemas/JsonRpcError'
-    BlockResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type:
-          - object
-          - 'null'
-          properties:
-            blockhash:
-              type: string
-              description: Base58-encoded blockhash of this block
-            previousBlockhash:
-              type: string
-              description: Base58-encoded blockhash of the parent block
-            parentSlot:
-              type: integer
-              format: int64
-              description: The slot index of this block's parent
-            transactions:
-              type: array
-              items:
-                type: object
-            signatures:
-              type: array
-              items:
-                type: string
-            rewards:
-              type:
-              - array
-              - 'null'
-              items:
-                type: object
-                properties:
-                  pubkey:
-                    type: string
-                  lamports:
-                    type: integer
-                    format: int64
-                  postBalance:
-                    type: integer
-                    format: int64
-                  rewardType:
-                    type: string
-                    enum:
-                    - fee
-                    - rent
-                    - voting
-                    - staking
-            blockTime:
-              type:
-              - integer
-              - 'null'
-              format: int64
-            blockHeight:
-              type:
-              - integer
-              - 'null'
-              format: int64
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    RpcContext:
-      type: object
-      properties:
-        slot:
-          type: integer
-          format: int64
-          description: The slot at which the operation was evaluated
-    CountResponse:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          example: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        result:
-          type: integer
-          format: int64
-          description: Numeric count or slot value
-        error:
-          $ref: '#/components/schemas/JsonRpcError'
-    JsonRpcError:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        data:
-          description: Additional error data
 externalDocs:
   description: Solana RPC HTTP Methods Documentation
   url: https://solana.com/docs/rpc/http
